@@ -12,6 +12,7 @@ public:
     ADawsWorldBuilder();
 protected:
     virtual void BeginPlay() override;
+    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 private:
     UPROPERTY()
     TObjectPtr<UStaticMesh> CubeMesh;
