@@ -5,6 +5,8 @@
 #include "Components/InputComponent.h"
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
+#include "DawsSaveSubsystem.h"
+#include "Engine/GameInstance.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/PlayerController.h"
@@ -48,6 +50,8 @@ void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
     PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ADawsPlayerCharacter::StopSprint);
     PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ADawsPlayerCharacter::FireWeapon);
     PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ADawsPlayerCharacter::ReloadWeapon);
+    PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &ADawsPlayerCharacter::SaveCheckpoint);
+    PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &ADawsPlayerCharacter::LoadCheckpoint);
 }
 void ADawsPlayerCharacter::MoveForward(float Value)
 {
@@ -82,4 +86,26 @@ void ADawsPlayerCharacter::FireWeapon()
 void ADawsPlayerCharacter::ReloadWeapon()
 {
     if (CombatComponent) CombatComponent->Reload();
+}
+
+void ADawsPlayerCharacter::SaveCheckpoint()
+{
+    if (!GetGameInstance()) return;
+    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
+        const float Health = HealthComponent ? HealthComponent->CurrentHealth : 100.0f;
+        Saves->SaveCheckpoint(1, TEXT("manual_checkpoint"), this, Health);
+    }
+}
+void ADawsPlayerCharacter::LoadCheckpoint()
+{
+    if (!GetGameInstance()) return;
+    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
+        int32 Chapter = 1;
+        FString Mission;
+        float SavedHealth = 100.0f;
+        if (Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth) && HealthComponent) {
+            HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 1.0f, HealthComponent->MaxHealth);
+            HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
+        }
+    }
 }
