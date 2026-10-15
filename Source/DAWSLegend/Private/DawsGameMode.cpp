@@ -118,7 +118,7 @@ void ADawsGameMode::SpawnCampaignWorldActors()
 
 
     struct FStoryNPCSetup { const TCHAR* Id; const TCHAR* Name; const TCHAR* Dialogue; FVector Location; FLinearColor Color; };
-    const FStoryNPCSetup StoryNPCs[10] = {
+    const FStoryNPCSetup StoryNPCs[13] = {
         { TEXT("hiba"), TEXT("Hiba"), TEXT("The radio reports missing medical cargo. Secure the plaza, then follow the supply trail."), FVector(-650,300,0), FLinearColor(0.06f,0.28f,0.46f) },
         { TEXT("bashir"), TEXT("Bashir"), TEXT("These crates were emptied before the convoy arrived. Someone knew the route in advance."), FVector(650,1900,0), FLinearColor(0.45f,0.24f,0.08f) },
         { TEXT("fawzi"), TEXT("Fawzi"), TEXT("The clinic needs these supplies. I will move the families while you keep the road clear."), FVector(-650,3300,0), FLinearColor(0.12f,0.40f,0.20f) },
@@ -128,7 +128,10 @@ void ADawsGameMode::SpawnCampaignWorldActors()
         { TEXT("technician"), TEXT("The Technician"), TEXT("The relay is jammed. Hold this street while I reconnect the transmitter."), FVector(-650,4700,0), FLinearColor(0.18f,0.32f,0.34f) },
         { TEXT("worker"), TEXT("The Worker"), TEXT("They locked us in after we refused to move the medical cargo."), FVector(650,7500,0), FLinearColor(0.30f,0.26f,0.18f) },
         { TEXT("tawfiq"), TEXT("Tawfiq"), TEXT("I am with you, brother. We will find who is stealing the medical supplies, but we do this together."), FVector(-220,-240,0), FLinearColor(0.92f,0.66f,0.12f) },
-        { TEXT("amjad"), TEXT("Amjad"), TEXT("I checked the side streets. Someone has been watching the convoy since before dawn. Keep your head clear."), FVector(-220,240,0), FLinearColor(0.045f,0.05f,0.06f) }
+        { TEXT("amjad"), TEXT("Amjad"), TEXT("I checked the side streets. Someone has been watching the convoy since before dawn. Keep your head clear."), FVector(-220,240,0), FLinearColor(0.045f,0.05f,0.06f) },
+        { TEXT("salwa"), TEXT("Salwa"), TEXT("The clinic seal is fake. I can prove the medicine was relabeled after leaving the depot."), FVector(650,3000,0), FLinearColor(0.18f,0.48f,0.42f) },
+        { TEXT("sami"), TEXT("Sami the Courier"), TEXT("I drove because they threatened my family. I will tell you what I know if you keep them safe."), FVector(-650,3900,0), FLinearColor(0.30f,0.34f,0.42f) },
+        { TEXT("muntasir"), TEXT("Muntasir"), TEXT("You have routes and rumors. I have the records. Without the missing page, you cannot prove a thing."), FVector(650,9800,0), FLinearColor(0.28f,0.22f,0.32f) }
     };
     for (const FStoryNPCSetup& Setup : StoryNPCs) {
         ADawsStoryNPC* NPC = GetWorld()->SpawnActor<ADawsStoryNPC>(Setup.Location, FRotator::ZeroRotator);
