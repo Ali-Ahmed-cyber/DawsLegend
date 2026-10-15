@@ -31,6 +31,8 @@ protected:
     void LookUp(float Value);
     void StartSprint();
     void StopSprint();
+    void StartJump();
+    void StopJump();
     void FireWeapon();
     void ReloadWeapon();
     void InteractWithWorld();
