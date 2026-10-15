@@ -13,6 +13,7 @@ void UDawsMissionSubsystem::StartCampaign()
 }
 bool UDawsMissionSubsystem::RestoreCampaignAtMission(const FString& MissionId)
 {
+    if (MissionId == TEXT("campaign_complete")) { bCampaignActive = false; CampaignMissionIndex = 15; CurrentMissionId = MissionId; CurrentMissionTitle = FText::FromString(TEXT("Dawn of the City — Campaign Complete")); CurrentObjectives.Reset(); return true; }
     static const TCHAR* Ids[] = {
         TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
         TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
