@@ -251,7 +251,7 @@ FText ADawsPlayerCharacter::GetTargetInteractionPrompt() const
     if (ADawsEnemyCharacter* Enemy = Cast<ADawsEnemyCharacter>(Target)) {
         const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
         if (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat")) return FText::FromString(TEXT("Combat is locked until a hostile objective is active"));
-        return FText::GetEmpty();
+        return FText::FromString(FString::Printf(TEXT("HOSTILE  |  %.0f%% HEALTH"), Enemy->GetHealthRatio() * 100.0f));
     }
     if (Target && Target->GetClass()->ImplementsInterface(UDawsInteractable::StaticClass())) return IDawsInteractable::Execute_GetInteractionPrompt(Target);
     return FText::GetEmpty();
