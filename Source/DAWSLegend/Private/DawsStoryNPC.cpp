@@ -66,7 +66,7 @@ ADawsStoryNPC::ADawsStoryNPC()
     HairVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HairVisual"));
     HairVisual->SetupAttachment(HeadVisual);
     if (Sphere.Succeeded()) HairVisual->SetStaticMesh(Sphere.Object);
-    HairVisual->SetRelativeLocation(FVector(-0.1f,0,0.18f));
+    HairVisual->SetRelativeLocation(FVector(-0.1f,0,36.0f));
     HairVisual->SetRelativeScale3D(FVector(0.95f,0.95f,0.32f));
     HairVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     LeftEyeVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftEyeVisual"));
