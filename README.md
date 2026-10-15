@@ -16,7 +16,7 @@
 - Eight original supporting characters plus Tawfiq and Amjad as persistent yellow-kit and black-kit companions with follow movement and contextual dialogue; campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
-## Main menu and controls
+## Local build and package (Windows + Unreal Engine 5.4)\n\nRun `Scripts/Build-DAWSLegend.ps1` in PowerShell to compile the Editor target. Pass `-EngineRoot` if Unreal is installed outside the default path. Add `-Package` to attempt a Windows Shipping package. The script reports the actual build/package exit code; a successful source audit is not a substitute for this Unreal build.\n\n## Main menu and controls
 - Enter: start a fresh campaign from the title screen (clears the previous checkpoint)
 - F2: continue from the latest saved checkpoint
 - W/A/S/D: move
