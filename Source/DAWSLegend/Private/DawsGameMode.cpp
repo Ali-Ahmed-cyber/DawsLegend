@@ -7,6 +7,7 @@
 #include "DawsEnemyCharacter.h"
 #include "DawsPickup.h"
 #include "DawsStoryNPC.h"
+#include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/GameInstance.h"
 #include "GameFramework/PlayerController.h"
@@ -94,5 +95,10 @@ void ADawsGameMode::StartPlay()
         ADawsStoryNPC* NPC = GetWorld()->SpawnActor<ADawsStoryNPC>(Setup.Location, FRotator::ZeroRotator);
         if (NPC) NPC->ConfigureNPC(FName(Setup.Id), FText::FromString(Setup.Name), FText::FromString(Setup.Dialogue), Setup.Color);
     }
+
+
+    const FVector VehicleLocations[2] = { FVector(650,1700,65), FVector(-650,6500,65) };
+    for (const FVector& VehicleLocation : VehicleLocations)
+        GetWorld()->SpawnActor<ADawsVehiclePawn>(VehicleLocation, FRotator::ZeroRotator);
 
 }
