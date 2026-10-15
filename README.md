@@ -13,7 +13,7 @@
 - Four enemy archetypes with different health, movement speed and damage; mission-gated combat; ranged pressure, close-range attacks, death handling, and checkpoint respawn.
 - Live objective waypoint distance and direction, health/ammo/vehicle durability bars, and a restartable campaign world.
 - Arcade driving with enter/exit interaction and a chase camera.
-- Five original interactive story characters with contextual dialogue subtitles, plus the campaign story bible and character roster.
+- Eight original interactive story characters with contextual dialogue subtitles, plus the campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
 ## Main menu and controls
