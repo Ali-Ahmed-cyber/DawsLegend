@@ -8,8 +8,8 @@ This checklist separates source systems already authored from the work that stil
 - [x] Procedural white-kit hero silhouette with clothing details, facial features, weapon attachment and limb animation; final likeness is deferred.
 - [x] Health and ammo systems, visual HUD bars, enemy health feedback, moving player/enemy shot tracers, hit-confirmation reticle, and final enforcer health bar.
 - [x] Four enemy archetypes with different health, speed and damage; mission-gated AI; hostile pursuit, ranged/melee attacks, death handling and ammo/health drops.
-- [x] Five-chapter, 15-mission sequential campaign with supply, evidence, combat, named-NPC and final confrontation objectives.
-- [x] Story dialogue subtitles and original NPCs; Tawfiq and Amjad follow the hero as companions, while the technician follows during the escort mission and must remain nearby to finish it.
+- [x] Six-act, 30-mission campaign design (runtime expansion is still required) with supply, evidence, combat, named-NPC and final confrontation objectives.
+- [x] Story dialogue subtitles and original NPCs; Tawfiq and Amjad follow the hero as companions, while the technician follows during the escort mission and must remain nearby to finish it. The 30-mission Sudanese campaign is authored in the story bible; runtime expansion and playtesting are still required.
 - [x] Runtime-generated city streets, buildings, cover, market stalls, street props, palm silhouettes, rooftop tanks, daylight and ambient fill.
 - [x] Mission waypoint distance/direction, interactive markers, contextual prompts and task-progress display.
 - [x] Arcade vehicles with enter/exit, driving, camera control, vehicle health and disabled state.
