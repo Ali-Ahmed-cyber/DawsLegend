@@ -12,6 +12,7 @@
 #include "Engine/GameInstance.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
+#include "EngineUtils.h"
 ADawsGameMode::ADawsGameMode()
 {
     DefaultPawnClass = ADawsPlayerCharacter::StaticClass();
@@ -21,7 +22,10 @@ ADawsGameMode::ADawsGameMode()
 void ADawsGameMode::StartPlay()
 {
     Super::StartPlay();
-    if (!GetWorld()) return;
+    SpawnCampaignWorldActors();
+}
+void ADawsGameMode::SpawnCampaignWorldActors()
+{if (!GetWorld()) return;
     GetWorld()->SpawnActor<ADawsWorldBuilder>(FVector::ZeroVector, FRotator::ZeroRotator);
     if (GetGameInstance()) {
         if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->StartCampaign();
@@ -104,4 +108,16 @@ void ADawsGameMode::StartPlay()
     for (const FVector& VehicleLocation : VehicleLocations)
         GetWorld()->SpawnActor<ADawsVehiclePawn>(VehicleLocation, FRotator::ZeroRotator);
 
+
+}
+void ADawsGameMode::RestartCampaignWorld()
+{
+    if (!GetWorld()) return;
+    for (TActorIterator<ADawsWorldBuilder> It(GetWorld()); It; ++It) It->Destroy();
+    for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->Destroy();
+    for (TActorIterator<ADawsEnemyCharacter> It(GetWorld()); It; ++It) It->Destroy();
+    for (TActorIterator<ADawsPickup> It(GetWorld()); It; ++It) It->Destroy();
+    for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) It->Destroy();
+    for (TActorIterator<ADawsVehiclePawn> It(GetWorld()); It; ++It) It->Destroy();
+    SpawnCampaignWorldActors();
 }
