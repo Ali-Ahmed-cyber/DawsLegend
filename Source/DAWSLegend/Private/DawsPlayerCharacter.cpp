@@ -124,8 +124,6 @@ void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
     PlayerInputComponent->BindAxis("MoveRight", this, &ADawsPlayerCharacter::MoveRight);
     PlayerInputComponent->BindAxis("Turn", this, &ADawsPlayerCharacter::TurnCamera);
     PlayerInputComponent->BindAxis("LookUp", this, &ADawsPlayerCharacter::LookUp);
-    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-    PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
     PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADawsPlayerCharacter::StartJump);
     PlayerInputComponent->BindAction("Jump", IE_Released, this, &ADawsPlayerCharacter::StopJump);
     PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ADawsPlayerCharacter::StartSprint);
@@ -192,7 +190,7 @@ void ADawsPlayerCharacter::FireWeapon()
     const bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params);
     ADawsEnemyCharacter* EnemyTarget = bHit ? Cast<ADawsEnemyCharacter>(Hit.GetActor()) : nullptr;
     const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
-    if (EnemyTarget && (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat"))) return;
+    if (EnemyTarget && (!Missions || (Missions->GetCurrentTaskType() != TEXT("defeat") && !(Missions->GetCurrentMissionId() == TEXT("chapter05_finale") && EnemyTarget->GetHealthRatio() > 0.0f)))) return;
     if (!CombatComponent->ConsumeShot()) return;
     RecoilAmount = 14.0f;
     if (!bHit) return;
@@ -257,7 +255,7 @@ FText ADawsPlayerCharacter::GetTargetInteractionPrompt() const
     AActor* Target = Hit.GetActor();
     if (ADawsEnemyCharacter* Enemy = Cast<ADawsEnemyCharacter>(Target)) {
         const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
-        if (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat")) return FText::FromString(TEXT("Combat is locked until a hostile objective is active"));
+        if (!Missions || (Missions->GetCurrentTaskType() != TEXT("defeat") && Missions->GetCurrentMissionId() != TEXT("chapter05_finale"))) return FText::FromString(TEXT("Combat is locked until a hostile objective is active"));
         return FText::FromString(FString::Printf(TEXT("HOSTILE  |  %.0f%% HEALTH"), Enemy->GetHealthRatio() * 100.0f));
     }
     if (Target && Target->GetClass()->ImplementsInterface(UDawsInteractable::StaticClass())) return IDawsInteractable::Execute_GetInteractionPrompt(Target);
