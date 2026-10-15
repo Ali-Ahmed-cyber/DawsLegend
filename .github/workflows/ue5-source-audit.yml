@@ -62,6 +62,7 @@ jobs:
           enemy_code = (source / "Private/DawsEnemyCharacter.cpp").read_text()
           assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
           assert "BackpackVisual" in player and "ChestCrestVisual" in player and "LeftBootVisual" in player
+          assert "LeftEyeVisual" in player and "NoseVisual" in player and "MouthVisual" in player
           assert "EDawsPickupType::Ammo" in enemy_code and "LootRoll" in enemy_code
           assert "SpawnActor<ADawsPickup>" in game_mode
           assert "SpawnActor<ADawsStoryNPC>" in game_mode
