@@ -20,6 +20,7 @@ public:
     virtual FText GetInteractionPrompt_Implementation() const override;
     virtual void Interact_Implementation(AActor* InteractingActor) override;
     void ApplyVehicleDamage(float Amount);
+    void SetCameraFOV(float NewFOV);
     float GetVehicleHealth() const { return VehicleHealth; }
     bool IsVehicleDisabled() const { return bDisabled; }
 protected:
