@@ -106,6 +106,15 @@ void ADawsHUD::DrawHUD()
                 }
             }
 
+            if (Missions->GetCurrentMissionId() == TEXT("chapter03_escort")) {
+                for (TActorIterator<ADawsStoryNPC> EscortIt(GetWorld()); EscortIt; ++EscortIt) {
+                    if (EscortIt->GetNPCId() != FName(TEXT("technician"))) continue;
+                    const float EscortDistance = FVector::Dist2D(CurrentPawn->GetActorLocation(), EscortIt->GetActorLocation()) / 100.0f;
+                    const FLinearColor EscortColor = EscortDistance <= 6.5f ? FLinearColor(0.20f,0.92f,0.48f) : FLinearColor(1.0f,0.70f,0.18f);
+                    DrawTextLine(FString::Printf(TEXT("TECHNICIAN DISTANCE  |  %.0f m"), EscortDistance), W*0.5f-145.0f, 62.0f, 0.78f, EscortColor);
+                    break;
+                }
+            }
             if (Missions->GetRequiredTaskProgress() > 0) {
                 const FString TaskLabel = Missions->GetCurrentTaskType() == TEXT("collect") ? TEXT("SUPPLIES") : (Missions->GetCurrentTaskType() == TEXT("evidence") ? TEXT("EVIDENCE") : (Missions->GetCurrentTaskType() == TEXT("talk") ? TEXT("TALK TO CONTACT") : TEXT("HOSTILES")));
                 DrawTextLine(FString::Printf(TEXT("%s: %d / %d"), *TaskLabel, Missions->GetTaskProgress(), Missions->GetRequiredTaskProgress()), 44, H-225, 0.72f, FLinearColor(0.95f,0.78f,0.18f));
