@@ -58,6 +58,9 @@ jobs:
           assert "StartGame" in controller and "PRESS ENTER TO BEGIN" in hud
           assert "AdjustSettingRight" in controller and "MouseSensitivity" in controller
           assert "bSubtitlesEnabled" in controller and "Camera FOV" in hud
+          pickup = (source / "Private/DawsPickup.cpp").read_text()
+          assert "RegisterTaskProgress" in mission and "CanCompleteCurrentMission" in trigger
+          assert "EDawsPickupType::Supplies" in pickup and "EDawsPickupType::Evidence" in pickup
           assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
           print("Source integrity passed. This is not an Unreal C++ compile or in-engine test.")
           PY
