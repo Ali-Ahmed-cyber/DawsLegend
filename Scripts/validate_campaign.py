@@ -58,6 +58,8 @@ restart_controller = controller[controller.index("void ADawsPlayerController::Re
 assert restart_controller.index("DeleteSave") < restart_controller.index("RestartCampaignWorld"), "Delete old save before rebuilding campaign pickups"
 world_builder = read("Source/DAWSLegend/Private/DawsWorldBuilder.cpp")
 assert "StallCenters" in world_builder and "AwningColors" in world_builder, "Market district dressing is missing"
+for landmark in ("Clinic district landmark", "Silent relay landmark", "Industrial yard", "River-side route"):
+    assert landmark in world_builder, f"Campaign district landmark missing: {landmark}"
 
 save_code = read("Source/DAWSLegend/Private/DawsSaveSubsystem.cpp")
 trigger_code = read("Source/DAWSLegend/Private/DawsMissionTrigger.cpp")
