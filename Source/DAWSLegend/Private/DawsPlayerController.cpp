@@ -24,6 +24,7 @@ void ADawsPlayerController::SetupInputComponent()
 }
 void ADawsPlayerController::TogglePause()
 {
+    if (!bHasStartedGame) { bDawsPaused = true; SetPause(true); return; }
     bDawsPaused = !bDawsPaused;
     SetPause(bDawsPaused);
     bShowMouseCursor = bDawsPaused;
