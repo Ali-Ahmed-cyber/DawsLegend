@@ -6,6 +6,7 @@
 #include "Engine/GameInstance.h"
 #include "Engine/StaticMesh.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "DawsPlayerCharacter.h"
 #include "DawsSaveSubsystem.h"
 #include "DawsHealthComponent.h"
@@ -26,6 +27,10 @@ ADawsMissionTrigger::ADawsMissionTrigger()
     MarkerVisual->SetRelativeScale3D(FVector(0.35f,0.35f,1.8f));
     static ConstructorHelpers::FObjectFinder<UStaticMesh> Cylinder(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
     if (Cylinder.Succeeded()) MarkerVisual->SetStaticMesh(Cylinder.Object);
+    if (UMaterialInstanceDynamic* MarkerMat = UMaterialInstanceDynamic::Create(MarkerVisual->GetMaterial(0), this)) {
+        MarkerMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.04f,0.85f,0.70f));
+        MarkerVisual->SetMaterial(0, MarkerMat);
+    }
 }
 void ADawsMissionTrigger::BeginPlay()
 {
