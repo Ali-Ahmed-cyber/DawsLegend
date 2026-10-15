@@ -76,6 +76,16 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
     LeftBootVisual = MakePart(TEXT("LeftBootVisual"), CubeMeshAsset.Object, FVector(13,-13,-10), FVector(0.22f,0.16f,0.12f), FLinearColor(0.035f,0.04f,0.045f));
     RightBootVisual = MakePart(TEXT("RightBootVisual"), CubeMeshAsset.Object, FVector(13,13,-10), FVector(0.22f,0.16f,0.12f), FLinearColor(0.035f,0.04f,0.045f));
 
+    NeckVisual->AttachToComponent(BodyVisual, FAttachmentTransformRules::KeepWorldTransform);
+    BackpackVisual->AttachToComponent(BodyVisual, FAttachmentTransformRules::KeepWorldTransform);
+    BeltVisual->AttachToComponent(BodyVisual, FAttachmentTransformRules::KeepWorldTransform);
+    ChestCrestVisual->AttachToComponent(BodyVisual, FAttachmentTransformRules::KeepWorldTransform);
+    HairVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
+    LeftShoulderStripe->AttachToComponent(LeftArmVisual, FAttachmentTransformRules::KeepWorldTransform);
+    RightShoulderStripe->AttachToComponent(RightArmVisual, FAttachmentTransformRules::KeepWorldTransform);
+    LeftBootVisual->AttachToComponent(LeftLegVisual, FAttachmentTransformRules::KeepWorldTransform);
+    RightBootVisual->AttachToComponent(RightLegVisual, FAttachmentTransformRules::KeepWorldTransform);
+
 }
 void ADawsPlayerCharacter::BeginPlay()
 {
