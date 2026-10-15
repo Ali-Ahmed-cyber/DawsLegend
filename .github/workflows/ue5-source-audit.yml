@@ -32,6 +32,8 @@ jobs:
           test -f Source/DAWSLegend/Public/DawsPickup.h
           test -f Source/DAWSLegend/Public/DawsMissionSubsystem.h
           test -f Story/CAMPAIGN_PRODUCTION_SCRIPT.md
+          grep -q 'Key=Gamepad_LeftY' Config/DefaultInput.ini
+          grep -q 'Key=Gamepad_RightX' Config/DefaultInput.ini
       - name: Ensure the UE5 branch has no old Godot project entry points
         run: |
           test ! -f project.godot
