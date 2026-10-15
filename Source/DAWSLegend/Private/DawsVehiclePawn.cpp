@@ -33,6 +33,20 @@ ADawsVehiclePawn::ADawsVehiclePawn()
     VehicleBody->SetRelativeLocation(FVector(0,0,8));
     VehicleBody->SetRelativeScale3D(FVector(1.65f,0.78f,0.42f));
     VehicleBody->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    HeadlightsVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HeadlightsVisual"));
+    HeadlightsVisual->SetupAttachment(VehicleCollision);
+    if (Cube.Succeeded()) HeadlightsVisual->SetStaticMesh(Cube.Object);
+    HeadlightsVisual->SetRelativeLocation(FVector(160,0,18));
+    HeadlightsVisual->SetRelativeScale3D(FVector(0.12f,0.50f,0.10f));
+    HeadlightsVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    if (UMaterialInstanceDynamic* LightMat = UMaterialInstanceDynamic::Create(HeadlightsVisual->GetMaterial(0), this)) { LightMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.92f,0.86f,0.58f)); HeadlightsVisual->SetMaterial(0, LightMat); }
+    TailLightsVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TailLightsVisual"));
+    TailLightsVisual->SetupAttachment(VehicleCollision);
+    if (Cube.Succeeded()) TailLightsVisual->SetStaticMesh(Cube.Object);
+    TailLightsVisual->SetRelativeLocation(FVector(-160,0,18));
+    TailLightsVisual->SetRelativeScale3D(FVector(0.12f,0.50f,0.10f));
+    TailLightsVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    if (UMaterialInstanceDynamic* TailMat = UMaterialInstanceDynamic::Create(TailLightsVisual->GetMaterial(0), this)) { TailMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.82f,0.08f,0.06f)); TailLightsVisual->SetMaterial(0, TailMat); }
     if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(VehicleBody->GetMaterial(0), this)) {
         Mat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.05f,0.18f,0.20f));
         VehicleBody->SetMaterial(0, Mat);
