@@ -148,7 +148,7 @@ void ADawsPlayerCharacter::FireWeapon()
             if (ADawsEnemyCharacter* Enemy = Cast<ADawsEnemyCharacter>(HitActor)) {
                 const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
                 if (Missions && Missions->GetCurrentTaskType() == TEXT("defeat")) {
-                    if (Enemy->HealthComponent) Enemy->HealthComponent->ApplyDamage(WeaponDamage);
+                    Enemy->ReceiveWeaponDamage(WeaponDamage);
                 }
             } else if (UDawsHealthComponent* TargetHealth = HitActor->FindComponentByClass<UDawsHealthComponent>()) {
                 TargetHealth->ApplyDamage(WeaponDamage);
