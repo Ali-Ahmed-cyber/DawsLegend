@@ -16,6 +16,12 @@
 - Fifteen original supporting characters plus Tawfiq and Amjad as persistent yellow-kit and black-kit companions with follow movement and contextual dialogue; campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
+## Story production documents
+- `Story/DAWS_LEGEND_STORY_BIBLE.md`: six-act, 30-mission plot and continuity rules.
+- `Story/CAMPAIGN_PRODUCTION_SCRIPT.md`: mission-by-mission story beats, dialogue intent and optional stories.
+- `Story/SIDE_MISSION_SCRIPT_PACK.md`: ten expanded Sudanese side-story scripts, rewards, continuity safeguards and implementation order. These side stories are design documents, not yet all playable runtime missions.
+- `Story/CHARACTER_ROSTER.md`: main-character identity rules and supporting cast.
+
 ## Local build and package (Windows + Unreal Engine 5.4)
 
 Run `Scripts/Build-DAWSLegend.ps1` in PowerShell to compile the Editor target. Pass `-EngineRoot` if Unreal is installed outside the default path. Add `-Package` to attempt a Windows Shipping package. The script reports the actual build/package exit code; a successful source audit is not a substitute for this Unreal build.
