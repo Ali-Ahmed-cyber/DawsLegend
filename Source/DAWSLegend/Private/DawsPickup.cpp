@@ -26,10 +26,16 @@ ADawsPickup::ADawsPickup()
     if (Sphere.Succeeded()) PickupVisual->SetStaticMesh(Sphere.Object);
     PickupVisual->SetRelativeScale3D(FVector(0.48f));
 }
-void ADawsPickup::ConfigurePickup(EDawsPickupType NewType, float NewAmount)
+void ADawsPickup::ConfigurePickup(EDawsPickupType NewType, float NewAmount, const FString& NewPickupId)
 {
     PickupType = NewType;
     PickupAmount = NewAmount;
+    PickupId = NewPickupId;
+    if ((PickupType == EDawsPickupType::Supplies || PickupType == EDawsPickupType::Evidence) && !PickupId.IsEmpty()) {
+        if (UGameInstance* GI = GetGameInstance()) {
+            if (UDawsSaveSubsystem* Saves = GI->GetSubsystem<UDawsSaveSubsystem>(); Saves && Saves->IsPickupCollected(PickupId)) { Destroy(); return; }
+        }
+    }
     FLinearColor Tint(1.0f,0.55f,0.08f);
     if (PickupType == EDawsPickupType::Health) Tint = FLinearColor(0.08f,0.95f,0.28f);
     else if (PickupType == EDawsPickupType::Supplies) Tint = FLinearColor(0.95f,0.78f,0.18f);
@@ -67,7 +73,7 @@ void ADawsPickup::HandleOverlap(UPrimitiveComponent*, AActor* OtherActor, UPrimi
             if (Missions->GetCurrentTaskType() == RequiredType) {
                 Missions->RegisterTaskProgress(RequiredType);
                 const float PlayerHealth = Player->HealthComponent ? Player->HealthComponent->CurrentHealth : 100.0f;
-                if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->SaveTaskProgress(Player, PlayerHealth);
+                if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->SaveTaskProgress(Player, PlayerHealth, PickupId);
                 bConsumed = true;
             }
         }
