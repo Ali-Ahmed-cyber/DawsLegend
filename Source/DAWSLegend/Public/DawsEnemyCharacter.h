@@ -12,6 +12,7 @@ public:
     ADawsEnemyCharacter();
     void ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget = false);
     void ReceiveWeaponDamage(float Amount);
+    float GetHealthRatio() const { return HealthComponent && HealthComponent->MaxHealth > 0.0f ? HealthComponent->CurrentHealth / HealthComponent->MaxHealth : 0.0f; }
 protected:
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaSeconds) override;
