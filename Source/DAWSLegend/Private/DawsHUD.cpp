@@ -6,6 +6,7 @@
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
 #include "DawsPlayerController.h"
+#include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/GameInstance.h"
 void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color)
@@ -74,7 +75,11 @@ void ADawsHUD::DrawHUD()
             }
         }
     }
-    if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
+    if (const ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(GetOwningPawn())) {
+        DrawTextLine(FString::Printf(TEXT("VEHICLE HEALTH  %.0f / 250"), Vehicle->GetVehicleHealth()), W-285, 34, 0.9f, FLinearColor(0.95f,0.78f,0.18f));
+        DrawTextLine(TEXT("W/S DRIVE   A/D STEER   E EXIT VEHICLE"), 44, H-72, 0.78f, FLinearColor::White);
+        if (Vehicle->IsVehicleDisabled()) DrawTextLine(TEXT("VEHICLE DISABLED — PRESS E TO EXIT"), W*0.5f-190.0f, H*0.42f, 1.0f, FLinearColor(1.0f,0.2f,0.12f));
+    } else if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
         if (Player->HealthComponent) {
             DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
             if (Player->HealthComponent->CurrentHealth <= 0.0f) DrawTextLine(TEXT("DOWN — RESPAWNING"), W*0.5f-125.0f, H*0.42f, 1.25f, FLinearColor(1.0f,0.18f,0.12f));
