@@ -77,7 +77,7 @@ jobs:
           assert "AAIController::StaticClass" in enemy_code and "AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned" in enemy_code
           assert "bFinalConfrontation" in enemy_code and "chapter05_finale" in player
           assert "IsSpecialTarget" in (source / "Public/DawsEnemyCharacter.h").read_text()
-          assert "Defeat the Broker enforcer" in story_npc and "IsSpecialTarget" in story_npc
+          assert "Defeat the Broker enforcer" in (source / "Private/DawsStoryNPC.cpp").read_text() and "IsSpecialTarget" in (source / "Private/DawsStoryNPC.cpp").read_text()
           assert "BindAction(\"Jump\", IE_Pressed, this, &ACharacter::Jump)" not in player
           assert "AttackRange" in enemy_code and "bPreferMelee" in enemy_code and "DawsEnemyAvoidance" in enemy_code
           assert "GetHealthRatio" in enemy_code and "HOSTILE" in player
