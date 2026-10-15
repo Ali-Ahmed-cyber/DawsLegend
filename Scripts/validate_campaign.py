@@ -44,6 +44,8 @@ assert "VInterpTo" in npc and "chapter03_escort" in npc, "Technician escort beha
 assert "ActiveMission == TEXT(\"chapter05_finale\")" in npc and "NPCId == FName(TEXT(\"tawfiq\"))" in npc, "Main companions need contextual campaign dialogue"
 assert "bIsMainCompanion" in npc and "SideOffset" in npc, "Tawfiq and Amjad should accompany the player during the campaign"
 assert "OBJECTIVE WAYPOINT" in hud, "Objective waypoint HUD must exist"
+pickup_visuals = read("Source/DAWSLegend/Private/DawsPickup.cpp")
+assert "AccentVisual" in pickup_visuals and "SecondaryAccentVisual" in pickup_visuals, "Readable pickup silhouettes are missing"
 enemy_cpp = read("Source/DAWSLegend/Private/DawsEnemyCharacter.cpp")
 npc_cpp = read("Source/DAWSLegend/Private/DawsStoryNPC.cpp")
 controller = read("Source/DAWSLegend/Private/DawsPlayerController.cpp")
