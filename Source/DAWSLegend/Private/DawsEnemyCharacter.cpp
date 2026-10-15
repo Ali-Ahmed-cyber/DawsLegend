@@ -6,6 +6,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
+#include "DrawDebugHelpers.h"
+#include "Engine/World.h"
 ADawsEnemyCharacter::ADawsEnemyCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -41,8 +43,18 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
     ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
     if (!Player || !HealthComponent || !HealthComponent->IsAlive()) return;
     const float Distance = FVector::Dist2D(GetActorLocation(), Player->GetActorLocation());
-    if (Distance > 170.0f && Distance < 1800.0f) AddMovementInput((Player->GetActorLocation() - GetActorLocation()).GetSafeNormal2D(), 0.8f);
-    else if (Distance <= 170.0f && AttackCooldown <= 0.0f) {
+    if (Distance > 1100.0f && Distance < 2400.0f) {
+        AddMovementInput((Player->GetActorLocation() - GetActorLocation()).GetSafeNormal2D(), 0.8f);
+    } else if (Distance > 170.0f && Distance <= 1100.0f && AttackCooldown <= 0.0f) {
+        FHitResult ShotHit;
+        FCollisionQueryParams ShotParams(SCENE_QUERY_STAT(DawsEnemyShot), true, this);
+        const FVector ShotStart = GetActorLocation() + FVector(0,0,65);
+        const FVector ShotEnd = Player->GetActorLocation() + FVector(0,0,45);
+        if (GetWorld()->LineTraceSingleByChannel(ShotHit, ShotStart, ShotEnd, ECC_Visibility, ShotParams) && ShotHit.GetActor() == Player) {
+            if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(8.0f);
+        }
+        AttackCooldown = 1.8f;
+    } else if (Distance <= 170.0f && AttackCooldown <= 0.0f) {
         if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(12.0f);
         AttackCooldown = 1.25f;
     }
