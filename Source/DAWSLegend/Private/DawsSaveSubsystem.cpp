@@ -10,6 +10,9 @@ bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& Missi
     if (!PlayerActor) return false;
     UDawsSaveGame* Save = Cast<UDawsSaveGame>(UGameplayStatics::CreateSaveGameObject(UDawsSaveGame::StaticClass()));
     if (!Save) return false;
+    if (UGameplayStatics::DoesSaveGameExist(SaveSlotName, UserIndex)) {
+        if (const UDawsSaveGame* Previous = Cast<UDawsSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, UserIndex))) Save->CollectedPickupIds = Previous->CollectedPickupIds;
+    }
     Save->StoryChapter = StoryChapter;
     Save->CurrentMissionId = MissionId;
     Save->PlayerLocation = PlayerActor->GetActorLocation();
@@ -32,8 +35,14 @@ bool UDawsSaveSubsystem::SaveTaskProgress(AActor* PlayerActor, float PlayerHealt
     if (!Missions) return false;
     const FString MissionId = Missions->GetCurrentMissionId();
     const int32 Chapter = MissionId.StartsWith(TEXT("chapter")) ? FCString::Atoi(*MissionId.Mid(7,2)) : 5;
-    if (!UGameplayStatics::DoesSaveGameExist(SaveSlotName, UserIndex))
-        return SaveCheckpoint(Chapter, MissionId, PlayerActor, PlayerHealth);
+    if (!UGameplayStatics::DoesSaveGameExist(SaveSlotName, UserIndex)) {
+        if (!SaveCheckpoint(Chapter, MissionId, PlayerActor, PlayerHealth)) return false;
+        if (!CollectedPickupId.IsEmpty() && CachedSave && !CachedSave->CollectedPickupIds.Contains(CollectedPickupId)) {
+            CachedSave->CollectedPickupIds.Add(CollectedPickupId);
+            return UGameplayStatics::SaveGameToSlot(CachedSave, SaveSlotName, UserIndex);
+        }
+        return true;
+    }
     UDawsSaveGame* Save = Cast<UDawsSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, UserIndex));
     if (!Save) return SaveCheckpoint(Chapter, MissionId, PlayerActor, PlayerHealth);
     Save->StoryChapter = Chapter;
