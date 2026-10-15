@@ -20,6 +20,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Mission")
     FText ObjectiveText = FText::FromString(TEXT("Reach the plaza and secure the area"));
     virtual FText GetInteractionPrompt_Implementation() const override;
+    void RefreshMissionMarker();
     virtual void Interact_Implementation(AActor* InteractingActor) override;
 protected:
     virtual void BeginPlay() override;
