@@ -55,7 +55,7 @@ bool UDawsSaveSubsystem::LoadCheckpoint(AActor* PlayerActor, int32& OutStoryChap
     CachedSave = Save;
     OutStoryChapter = Save->StoryChapter;
     OutMissionId = Save->CurrentMissionId;
-    OutPlayerHealth = Save->PlayerHealth;
+    OutPlayerHealth = FMath::Clamp(Save->PlayerHealth, 35.0f, 100.0f);
     OutTaskProgress = Save->CurrentTaskProgress;
     if (PlayerActor)
     {
