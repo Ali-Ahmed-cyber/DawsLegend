@@ -113,6 +113,7 @@ jobs:
           assert "StartGame" in controller and "ContinueGame" in controller and "F2 CONTINUE" in hud
           assert "RestartCampaign" in controller and "ResetForNewCampaign" in player
           assert "RestartCampaignWorld" in controller and "SpawnCampaignWorldActors" in (source / "Private/DawsGameMode.cpp").read_text()
+          assert "StopSprint();" in player[player.index("void ADawsPlayerCharacter::HandlePlayerDeath"):player.index("void ADawsPlayerCharacter::RespawnAtCheckpoint")] and "StopSprint();" in player[player.index("void ADawsPlayerCharacter::RespawnAtCheckpoint"):player.index("void ADawsPlayerCharacter::ResetForNewCampaign")]
           assert "StartNewCampaign" in controller and "DeleteSave" in controller
           assert "RestartCampaign(); return;" in controller
           assert player.count('GetCurrentMissionId() == TEXT("campaign_complete")') >= 4, "Campaign ending must lock player gameplay input"
