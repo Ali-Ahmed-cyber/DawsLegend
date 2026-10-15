@@ -45,7 +45,7 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
     static const TCHAR* DialogueText[] = {
         TEXT("Hiba (radio): The plaza is not safe. Get to the marker and keep your eyes open."),
         TEXT("Bashir: These crates were emptied before the convoy arrived. Someone knew the route."),
-        TEXT("Survivor: I heard them say the next shipment goes through the market after dark."),
+        TEXT("Bashir: A note from the convoy points to a night transfer through the market."),
         TEXT("Hiba (radio): Smoke is rising over the market. Check the burned store before they clean it up."),
         TEXT("Fawzi: The clinic needs those supplies. I will move the families while you hold the lane."),
         TEXT("Bashir: The courier has the transfer code. Stop him before he reaches the bridge."),
@@ -66,7 +66,7 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
         TEXT("reach"), TEXT("talk"), TEXT("defeat"),
         TEXT("evidence"), TEXT("defeat"), TEXT("talk")
     };
-    static const TCHAR* TaskTargets[] = { TEXT(""), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""), TEXT(""), TEXT("technician"), TEXT("technician"), TEXT(""), TEXT(""), TEXT("worker"), TEXT(""), TEXT(""), TEXT(""), TEXT("the_broker") };
+    static const TCHAR* TaskTargets[] = { TEXT(""), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""), TEXT(""), TEXT("technician"), TEXT(""), TEXT(""), TEXT(""), TEXT("worker"), TEXT(""), TEXT(""), TEXT(""), TEXT("the_broker") };
     static const int32 RequiredCounts[] = { 0,3,1,1,3,1,1,0,0,0,1,4,1,5,1 };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Speak to Bashir at the workshop"),
