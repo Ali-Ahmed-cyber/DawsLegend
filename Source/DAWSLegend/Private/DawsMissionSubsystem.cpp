@@ -56,7 +56,7 @@ namespace
         TEXT("reach"), TEXT("talk"), TEXT("defeat"), TEXT("evidence"), TEXT("talk"),
         TEXT("talk"), TEXT("reach"), TEXT("reach"), TEXT("evidence"), TEXT("reach"),
         TEXT("reach"), TEXT("defeat"), TEXT("talk"), TEXT("evidence"), TEXT("talk"),
-        TEXT("defeat"), TEXT("reach"), TEXT("defeat"), TEXT("defeat"), TEXT("talk")
+        TEXT("defeat"), TEXT("reach"), TEXT("defeat"), TEXT("talk"), TEXT("talk")
     };
     static const TCHAR* TaskTargets[] = {
         TEXT("hiba"), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""),
