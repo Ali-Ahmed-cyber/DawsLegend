@@ -42,6 +42,7 @@ assert 'GetCurrentTaskType() != TEXT("defeat")' in enemy, "Enemy AI must respect
 assert "ReceiveWeaponDamage" in player and "ReceiveWeaponDamage" in enemy, "Enemy weapon damage API must be connected"
 assert "VInterpTo" in npc and "chapter03_escort" in npc, "Technician escort behavior must exist"
 assert "ActiveMission == TEXT(\"chapter05_finale\")" in npc and "NPCId == FName(TEXT(\"tawfiq\"))" in npc, "Main companions need contextual campaign dialogue"
+assert "bIsMainCompanion" in npc and "SideOffset" in npc, "Tawfiq and Amjad should accompany the player during the campaign"
 assert "OBJECTIVE WAYPOINT" in hud, "Objective waypoint HUD must exist"
 enemy_cpp = read("Source/DAWSLegend/Private/DawsEnemyCharacter.cpp")
 npc_cpp = read("Source/DAWSLegend/Private/DawsStoryNPC.cpp")
