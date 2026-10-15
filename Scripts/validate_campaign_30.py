@@ -18,7 +18,7 @@ def array_lengths(text):
     return found
 
 mission = read("Source/DAWSLegend/Private/DawsMissionSubsystem.cpp")
-for name in ("Ids", "Titles", "DialogueText", "TaskTypes", "TaskTargets", "RequiredCounts", "ObjectivesText"):
+for name in ("MissionIds", "MissionTitles", "DialogueText", "TaskTypes", "TaskTargets", "RequiredCounts", "ObjectivesText"):
     lengths = array_lengths(mission).get(name, [])
     assert lengths and all(size == 30 for size in lengths), f"{name} campaign array must contain 30 entries: {lengths}"
 
@@ -32,7 +32,7 @@ def string_array(text, name):
     assert match, f"Could not find string array: {name}"
     return re.findall(r'TEXT\("([^"]+)"\)', match.group(1))
 
-mission_ids = string_array(mission, "Ids")
+mission_ids = string_array(mission, "MissionIds")
 trigger_ids = string_array(trigger, "MissionOrder")
 spawn_ids = string_array(game_mode, "MissionNames")
 assert mission_ids == trigger_ids == spawn_ids, "Mission IDs must match across campaign, markers and runtime spawning"
