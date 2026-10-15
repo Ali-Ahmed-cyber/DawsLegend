@@ -27,6 +27,17 @@ game_mode = read("Source/DAWSLegend/Private/DawsGameMode.cpp")
 assert any(size == 15 for size in array_lengths(trigger).get("MissionOrder", [])), "MissionOrder must contain 15 entries"
 assert any(size == 15 for size in array_lengths(game_mode).get("MissionNames", [])), "MissionNames must contain 15 entries"
 
+def string_array(text, name):
+    match = re.search(rf"(?:static\\s+)?const\\s+TCHAR\\*\\s+{name}\\[\\]\\s*=\\s*\\{{(.*?)\\}};", text, re.S)
+    assert match, f"Could not find string array: {name}"
+    return re.findall(r'TEXT\\("([^"]+)"\\)', match.group(1))
+
+mission_ids = string_array(mission, "Ids")
+trigger_ids = string_array(trigger, "MissionOrder")
+spawn_ids = string_array(game_mode, "MissionNames")
+assert mission_ids == trigger_ids == spawn_ids, "Mission IDs must match across campaign, markers and runtime spawning"
+
+
 for path in list(SOURCE.rglob("*.cpp")) + list(SOURCE.rglob("*.h")):
     text = path.read_text(encoding="utf-8")
     assert "\\n    for (" not in text, f"Escaped newline may disable code in {path}"
