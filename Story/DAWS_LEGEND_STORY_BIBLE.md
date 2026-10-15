@@ -48,7 +48,7 @@ Emergency supplies disappear while residents are redirected away from safe route
 ### Chapter 5 — Dawn of the City
 13. **Dawn of the City:** recover the final evidence.
 14. **Hold the Depot:** defeat the depot defenders.
-15. **The Final Broadcast:** confront the Broker and activate the final broadcast waypoint.
+15. **The Final Broadcast:** defeat the Broker’s enforcer, confront the Broker, and activate the final broadcast waypoint.
 
 ## Production principles
 - The current runtime objective order is the source of truth for mission IDs, task types and completion conditions.
