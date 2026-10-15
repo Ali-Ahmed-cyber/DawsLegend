@@ -173,7 +173,6 @@ void ADawsPlayerCharacter::LoadCheckpoint()
         float SavedHealth = 100.0f;
         if (Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth)) {
             if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RestoreCampaignAtMission(Mission);
-                for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
             for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
             if (!HealthComponent) return;
             HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 1.0f, HealthComponent->MaxHealth);
@@ -224,6 +223,7 @@ void ADawsPlayerCharacter::RespawnAtCheckpoint()
             bLoadedCheckpoint = Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth);
             if (bLoadedCheckpoint) {
                 if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RestoreCampaignAtMission(Mission);
+                for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
                 if (HealthComponent) HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 35.0f, HealthComponent->MaxHealth);
             }
         }
