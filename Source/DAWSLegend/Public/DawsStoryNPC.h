@@ -36,6 +36,12 @@ private:
     TObjectPtr<UStaticMeshComponent> RightLegVisual;
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<UStaticMeshComponent> HairVisual;
+    UPROPERTY(VisibleAnywhere)
+    TObjectPtr<UStaticMeshComponent> LeftEyeVisual;
+    UPROPERTY(VisibleAnywhere)
+    TObjectPtr<UStaticMeshComponent> RightEyeVisual;
+    UPROPERTY(VisibleAnywhere)
+    TObjectPtr<UStaticMeshComponent> NoseVisual;
     UPROPERTY(EditAnywhere, Category="Dialogue")
     FName NPCId = TEXT("hiba");
     UPROPERTY(EditAnywhere, Category="Dialogue")
