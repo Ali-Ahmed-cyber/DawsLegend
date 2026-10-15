@@ -3,6 +3,7 @@
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
+#include "DawsSaveGame.h"
 ADawsPlayerController::ADawsPlayerController()
 {
     bShowMouseCursor = false;
@@ -10,6 +11,8 @@ ADawsPlayerController::ADawsPlayerController()
 void ADawsPlayerController::BeginPlay()
 {
     Super::BeginPlay();
+    LoadOptions();
+    ApplyCameraFOV();
     FInputModeGameOnly Mode;
     SetInputMode(Mode);
     bDawsPaused = true;
@@ -32,6 +35,24 @@ void ADawsPlayerController::SetupInputComponent()
     LeftBinding.bExecuteWhenPaused = true;
     FInputActionBinding& RightBinding = InputComponent->BindAction("UIRight", IE_Pressed, this, &ADawsPlayerController::AdjustSettingRight);
     RightBinding.bExecuteWhenPaused = true;
+}
+void ADawsPlayerController::LoadOptions()
+{
+    if (!UGameplayStatics::DoesSaveGameExist(TEXT("DAWSLegend_Options"), 0)) return;
+    if (UDawsSaveGame* Options = Cast<UDawsSaveGame>(UGameplayStatics::LoadGameFromSlot(TEXT("DAWSLegend_Options"), 0))) {
+        MouseSensitivity = FMath::Clamp(Options->MouseSensitivity, 0.3f, 2.5f);
+        CameraFOV = FMath::Clamp(Options->CameraFOV, 75.0f, 110.0f);
+        bSubtitlesEnabled = Options->bSubtitlesEnabled;
+    }
+}
+void ADawsPlayerController::SaveOptions()
+{
+    UDawsSaveGame* Options = Cast<UDawsSaveGame>(UGameplayStatics::CreateSaveGameObject(UDawsSaveGame::StaticClass()));
+    if (!Options) return;
+    Options->MouseSensitivity = MouseSensitivity;
+    Options->CameraFOV = CameraFOV;
+    Options->bSubtitlesEnabled = bSubtitlesEnabled;
+    UGameplayStatics::SaveGameToSlot(Options, TEXT("DAWSLegend_Options"), 0);
 }
 void ADawsPlayerController::TogglePause()
 {
@@ -91,6 +112,7 @@ void ADawsPlayerController::AdjustSettingLeft()
     if (SelectedSetting == 0) MouseSensitivity = FMath::Clamp(MouseSensitivity - 0.1f, 0.3f, 2.5f);
     else if (SelectedSetting == 1) { CameraFOV = FMath::Clamp(CameraFOV - 5.0f, 75.0f, 110.0f); ApplyCameraFOV(); }
     else bSubtitlesEnabled = !bSubtitlesEnabled;
+    SaveOptions();
 }
 void ADawsPlayerController::AdjustSettingRight()
 {
@@ -98,6 +120,7 @@ void ADawsPlayerController::AdjustSettingRight()
     if (SelectedSetting == 0) MouseSensitivity = FMath::Clamp(MouseSensitivity + 0.1f, 0.3f, 2.5f);
     else if (SelectedSetting == 1) { CameraFOV = FMath::Clamp(CameraFOV + 5.0f, 75.0f, 110.0f); ApplyCameraFOV(); }
     else bSubtitlesEnabled = !bSubtitlesEnabled;
+    SaveOptions();
 }
 void ADawsPlayerController::ApplyCameraFOV()
 {
