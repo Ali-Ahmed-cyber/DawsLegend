@@ -243,12 +243,14 @@ void ADawsPlayerCharacter::InteractWithWorld()
 
 void ADawsPlayerCharacter::HandlePlayerDeath()
 {
+    StopAim();
     GetCharacterMovement()->DisableMovement();
     if (APlayerController* PC = Cast<APlayerController>(Controller)) DisableInput(PC);
     if (GetWorld()) GetWorld()->GetTimerManager().SetTimer(RespawnTimer, this, &ADawsPlayerCharacter::RespawnAtCheckpoint, 3.0f, false);
 }
 void ADawsPlayerCharacter::RespawnAtCheckpoint()
 {
+    StopAim();
     bool bLoadedCheckpoint = false;
     if (GetGameInstance()) {
         if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
@@ -275,6 +277,7 @@ void ADawsPlayerCharacter::RespawnAtCheckpoint()
 
 void ADawsPlayerCharacter::ResetForNewCampaign()
 {
+    StopAim();
     if (GetWorld()) GetWorld()->GetTimerManager().ClearTimer(RespawnTimer);
     SetActorLocation(InitialSpawnLocation, false, nullptr, ETeleportType::TeleportPhysics);
     SetActorRotation(FRotator::ZeroRotator);
