@@ -31,6 +31,10 @@ private:
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<UStaticMeshComponent> VehicleBody;
     UPROPERTY(VisibleAnywhere)
+    TObjectPtr<UStaticMeshComponent> HeadlightsVisual;
+    UPROPERTY(VisibleAnywhere)
+    TObjectPtr<UStaticMeshComponent> TailLightsVisual;
+    UPROPERTY(VisibleAnywhere)
     TArray<TObjectPtr<UStaticMeshComponent>> WheelVisuals;
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<USpringArmComponent> CameraBoom;
