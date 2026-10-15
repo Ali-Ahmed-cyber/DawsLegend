@@ -11,6 +11,20 @@ void UDawsMissionSubsystem::StartCampaign()
     bCampaignActive = true;
     StartCampaignMission(CampaignMissionIndex);
 }
+bool UDawsMissionSubsystem::RestoreCampaignAtMission(const FString& MissionId)
+{
+    static const TCHAR* Ids[] = {
+        TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
+        TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
+        TEXT("chapter03_relay"), TEXT("chapter03_escort"), TEXT("chapter03_broadcast"),
+        TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
+        TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
+    };
+    for (int32 Index = 0; Index < UE_ARRAY_COUNT(Ids); ++Index) {
+        if (MissionId == Ids[Index]) { bCampaignActive = true; StartCampaignMission(Index); return true; }
+    }
+    return false;
+}
 void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
 {
     static const TCHAR* Ids[] = {
