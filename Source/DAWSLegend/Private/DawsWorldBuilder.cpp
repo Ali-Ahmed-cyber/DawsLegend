@@ -3,6 +3,7 @@
 #include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Engine/StaticMeshActor.h"
 #include "Engine/DirectionalLight.h"
 #include "Engine/PointLight.h"
 #include "Components/DirectionalLightComponent.h"
@@ -12,29 +13,26 @@ ADawsWorldBuilder::ADawsWorldBuilder()
 {
     PrimaryActorTick.bCanEverTick = false;
     SetActorHiddenInGame(true);
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Engine/BasicShapes/Cube.Cube"));
+    if (Cube.Succeeded()) CubeMesh = Cube.Object;
 }
 void ADawsWorldBuilder::BeginPlay()
 {
     Super::BeginPlay();
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Engine/BasicShapes/Cube.Cube"));
-    if (Cube.Succeeded()) CubeMesh = Cube.Object;
     BuildEnvironment();
 }
 AActor* ADawsWorldBuilder::AddBlock(FVector Location, FVector Scale, FLinearColor Tint, bool bCollision)
 {
     if (!GetWorld() || !CubeMesh) return nullptr;
-    AActor* Block = GetWorld()->SpawnActor<AActor>(AActor::StaticClass(), Location, FRotator::ZeroRotator);
+    AStaticMeshActor* Block = GetWorld()->SpawnActor<AStaticMeshActor>(Location, FRotator::ZeroRotator);
     if (!Block) return nullptr;
-    UStaticMeshComponent* Mesh = NewObject<UStaticMeshComponent>(Block, TEXT("GeneratedMesh"));
-    Block->SetRootComponent(Mesh);
+    UStaticMeshComponent* Mesh = Block->GetStaticMeshComponent();
     Mesh->SetStaticMesh(CubeMesh);
-    Mesh->SetWorldScale3D(Scale);
+    Block->SetActorScale3D(Scale);
     Mesh->SetCollisionEnabled(bCollision ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
     Mesh->SetMobility(EComponentMobility::Static);
     UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(Mesh->GetMaterial(0), Block);
     if (Mat) { Mat->SetVectorParameterValue(TEXT("Color"), Tint); Mesh->SetMaterial(0, Mat); }
-    Block->AddInstanceComponent(Mesh);
-    Mesh->RegisterComponent();
     return Block;
 }
 void ADawsWorldBuilder::BuildEnvironment()
