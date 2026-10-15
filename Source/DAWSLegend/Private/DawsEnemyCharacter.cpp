@@ -9,6 +9,7 @@
 #include "DawsPlayerCharacter.h"
 #include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
+#include "DawsPickup.h"
 #include "Engine/GameInstance.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
@@ -100,6 +101,13 @@ void ADawsEnemyCharacter::HandleDeath()
 {
     if (GetGameInstance()) {
         if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RegisterTaskProgress(TEXT("defeat"));
+    }
+    if (GetWorld()) {
+        const int32 LootRoll = FMath::RandRange(0, 99);
+        if (LootRoll < 25 || (LootRoll >= 25 && LootRoll < 35)) {
+            ADawsPickup* Loot = GetWorld()->SpawnActor<ADawsPickup>(GetActorLocation() + FVector(0,0,20), FRotator::ZeroRotator);
+            if (Loot) Loot->ConfigurePickup(LootRoll < 25 ? EDawsPickupType::Ammo : EDawsPickupType::Health, LootRoll < 25 ? 18.0f : 20.0f);
+        }
     }
     SetActorEnableCollision(false);
     SetLifeSpan(0.2f);
