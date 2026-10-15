@@ -125,8 +125,12 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
         }
         const float FollowDistance = FVector::Dist2D(GetActorLocation(), DesiredLocation);
         if (FollowDistance > 95.0f) Swing = FMath::Sin(VisualAnimationTime * 8.5f) * 17.0f;
-        const FVector SmoothedLocation = FMath::VInterpTo(GetActorLocation(), DesiredLocation, DeltaSeconds, bIsMainCompanion ? 3.4f : 2.8f);
-        SetActorLocation(SmoothedLocation, true);
+        if (FollowDistance > 1600.0f) {
+            SetActorLocation(DesiredLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        } else {
+            const FVector SmoothedLocation = FMath::VInterpTo(GetActorLocation(), DesiredLocation, DeltaSeconds, bIsMainCompanion ? 3.4f : 2.8f);
+            SetActorLocation(SmoothedLocation, true);
+        }
         const FRotator DesiredRotation = bIsMainCompanion ? PlayerPawn->GetActorRotation() : (PlayerPawn->GetActorLocation() - GetActorLocation()).Rotation();
         SetActorRotation(FMath::RInterpTo(GetActorRotation(), DesiredRotation, DeltaSeconds, 4.0f));
     }
