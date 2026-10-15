@@ -36,6 +36,8 @@ public:
     FText GetCurrentMissionTitle() const { return CurrentMissionTitle; }
     UFUNCTION(BlueprintPure, Category="Dialogue")
     FText GetCurrentDialogue() const { return CurrentDialogue; }
+    UFUNCTION(BlueprintPure, Category="Campaign")
+    int32 GetCampaignMissionNumber() const { return FMath::Clamp(CampaignMissionIndex + 1, 1, 15); }
     UFUNCTION(BlueprintPure, Category="Missions")
     TArray<FDawsMissionObjective> GetObjectives() const { return CurrentObjectives; }
     UFUNCTION(BlueprintPure, Category="Missions")
