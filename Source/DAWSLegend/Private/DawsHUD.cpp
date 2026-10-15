@@ -51,7 +51,7 @@ void ADawsHUD::DrawHUD()
     }
     DrawTextLine(TEXT("DAWS LEGEND"), 42, 32, 1.25f, FLinearColor(0.15f,0.95f,0.78f));
     DrawTextLine(TEXT("STORY CAMPAIGN  |  CHAPTER 01"), 44, 68, 0.78f, FLinearColor::White);
-    DrawTextLine(TEXT("WASD MOVE   SHIFT SPRINT   SPACE JUMP   E INTERACT"), 44, H-72, 0.78f, FLinearColor::White);
+    if (!Cast<ADawsVehiclePawn>(GetOwningPawn())) DrawTextLine(TEXT("WASD MOVE   SHIFT SPRINT   SPACE JUMP   E INTERACT"), 44, H-72, 0.78f, FLinearColor::White);
     if (GetWorld() && GetWorld()->GetGameInstance()) {
         if (const UDawsMissionSubsystem* Missions = GetWorld()->GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
             DrawTextLine(FString::Printf(TEXT("MISSION %02d / 15  |  %s"), Missions->GetCampaignMissionNumber(), *Missions->GetCurrentMissionTitle().ToString()), 44, H-145, 0.84f, FLinearColor(1.0f,0.72f,0.25f));
