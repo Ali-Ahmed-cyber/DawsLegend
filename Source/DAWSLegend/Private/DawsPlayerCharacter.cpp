@@ -273,5 +273,5 @@ void ADawsPlayerCharacter::ResetForNewCampaign()
         CombatComponent->ReserveAmmo = 72;
         CombatComponent->OnAmmoChanged.Broadcast(CombatComponent->MagazineAmmo, CombatComponent->ReserveAmmo);
     }
-    EnableInput(Cast<APlayerController>(Controller));
+    if (APlayerController* PC = Cast<APlayerController>(Controller)) EnableInput(PC);
 }
