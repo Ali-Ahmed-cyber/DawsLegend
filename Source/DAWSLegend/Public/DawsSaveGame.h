@@ -22,4 +22,10 @@ public:
     float PlayerHealth = 100.0f;
     UPROPERTY(BlueprintReadWrite, Category="Settings")
     float MasterVolume = 1.0f;
+    UPROPERTY(BlueprintReadWrite, Category="Settings")
+    float MouseSensitivity = 1.0f;
+    UPROPERTY(BlueprintReadWrite, Category="Settings")
+    float CameraFOV = 90.0f;
+    UPROPERTY(BlueprintReadWrite, Category="Settings")
+    bool bSubtitlesEnabled = true;
 };
