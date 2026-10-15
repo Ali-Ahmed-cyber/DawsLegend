@@ -20,6 +20,8 @@ public:
     FRotator PlayerRotation = FRotator::ZeroRotator;
     UPROPERTY(BlueprintReadWrite, Category="Player")
     float PlayerHealth = 100.0f;
+    UPROPERTY(BlueprintReadWrite, Category="Progress")
+    int32 CurrentTaskProgress = 0;
     UPROPERTY(BlueprintReadWrite, Category="Settings")
     float MasterVolume = 1.0f;
     UPROPERTY(BlueprintReadWrite, Category="Settings")
