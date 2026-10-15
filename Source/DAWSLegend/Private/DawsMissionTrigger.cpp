@@ -60,6 +60,7 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
     if (!Cast<ADawsPlayerCharacter>(InteractingActor) || !GetGameInstance()) return;
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
+        if (!Missions->CanCompleteCurrentMission()) return;
         Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"));
         bMissionCompleted = true;
         SetActorEnableCollision(false);
