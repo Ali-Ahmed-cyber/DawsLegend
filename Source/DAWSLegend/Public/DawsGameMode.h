@@ -9,4 +9,7 @@ class DAWSLEGEND_API ADawsGameMode : public AGameModeBase
 public:
     ADawsGameMode();
     virtual void StartPlay() override;
+    void RestartCampaignWorld();
+private:
+    void SpawnCampaignWorldActors();
 };
