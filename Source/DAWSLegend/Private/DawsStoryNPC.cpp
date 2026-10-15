@@ -110,7 +110,7 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
         if (bIsMainCompanion && Missions && ActiveMission != TEXT("campaign_complete")) {
             PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
             bShouldFollow = PlayerPawn != nullptr;
-        } else if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter03_escort")) {
+        } else if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter04_escort")) {
             PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
             bShouldFollow = PlayerPawn != nullptr;
         }
@@ -172,7 +172,7 @@ FText ADawsStoryNPC::GetInteractionPrompt_Implementation() const
 {
     if (NPCId == FName(TEXT("the_broker")) && GetGameInstance()) {
         const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
-        if (Missions && Missions->GetCurrentMissionId() == TEXT("chapter05_finale")) {
+        if (Missions && Missions->GetCurrentMissionId() == TEXT("chapter06_dawn")) {
             for (TActorIterator<ADawsEnemyCharacter> It(GetWorld()); It; ++It)
                 if (It->IsSpecialTarget() && It->GetHealthRatio() > 0.0f)
                     return FText::FromString(TEXT("Defeat the Broker enforcer before confronting him"));
@@ -184,7 +184,7 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
 {
     if (!Cast<ADawsPlayerCharacter>(InteractingActor) || !GetGameInstance()) return;
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
-        if (NPCId == FName(TEXT("the_broker")) && Missions->GetCurrentMissionId() == TEXT("chapter05_finale")) {
+        if (NPCId == FName(TEXT("the_broker")) && Missions->GetCurrentMissionId() == TEXT("chapter06_dawn")) {
             for (TActorIterator<ADawsEnemyCharacter> It(GetWorld()); It; ++It) {
                 if (It->IsSpecialTarget() && It->GetHealthRatio() > 0.0f) {
                     Missions->SetCurrentDialogue(FText::FromString(TEXT("The Broker: You cannot reach me while my enforcer stands. Take him down first.")));
@@ -194,13 +194,13 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
         }
         FText SpokenLine = DialogueLine;
         const FString ActiveMission = Missions->GetCurrentMissionId();
-        if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter03_escort")) {
+        if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter04_escort")) {
             SpokenLine = FText::FromString(TEXT("Stay close. We have to reach the broadcast station before the signal window closes."));
         } else if (NPCId == FName(TEXT("tawfiq"))) {
             if (ActiveMission == TEXT("chapter01_plaza")) SpokenLine = FText::FromString(TEXT("I'm right here with you. Let's secure the plaza first, then follow the supply trail."));
             else if (ActiveMission == TEXT("chapter01_supply")) SpokenLine = FText::FromString(TEXT("Check the ground around the convoy route. Three supply bundles are missing."));
             else if (ActiveMission == TEXT("chapter02_clinic")) SpokenLine = FText::FromString(TEXT("I'll watch the side street. Don't let the guards push you away from the clinic."));
-            else if (ActiveMission == TEXT("chapter03_escort")) SpokenLine = FText::FromString(TEXT("I'll cover the rear. Keep the technician close and move toward the broadcast marker."));
+            else if (ActiveMission == TEXT("chapter04_escort")) SpokenLine = FText::FromString(TEXT("I'll cover the rear. Keep the technician close and move toward the broadcast marker."));
             else if (ActiveMission == TEXT("chapter04_escape")) SpokenLine = FText::FromString(TEXT("The river road is exposed. Use the truck if the route gets too hot."));
             else if (ActiveMission == TEXT("chapter05_depot")) SpokenLine = FText::FromString(TEXT("This is the last stronghold. Stay mobile and use the cover around the depot."));
             else SpokenLine = FText::FromString(TEXT("We started this together. Keep checking the evidence and don't trust the Broker's promises."));
@@ -210,7 +210,7 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
             else if (ActiveMission == TEXT("chapter02_market")) SpokenLine = FText::FromString(TEXT("The burned store is our best lead. Search for evidence before it disappears."));
             else if (ActiveMission == TEXT("chapter03_relay")) SpokenLine = FText::FromString(TEXT("The relay is quiet. Find the technician and get the signal moving again."));
             else if (ActiveMission == TEXT("chapter04_workers")) SpokenLine = FText::FromString(TEXT("Listen to the workers. Their account could connect the yard to the missing cargo."));
-            else if (ActiveMission == TEXT("chapter05_finale")) SpokenLine = FText::FromString(TEXT("Make the Broker answer for this. Then get the verified evidence to Hiba."));
+            else if (ActiveMission == TEXT("chapter06_dawn")) SpokenLine = FText::FromString(TEXT("Make the Broker answer for this. Then get the verified evidence to Hiba."));
             else SpokenLine = FText::FromString(TEXT("Keep your eyes open. The route changes, but the clues are all connected."));
         }
         Missions->SetCurrentDialogue(SpokenLine);
