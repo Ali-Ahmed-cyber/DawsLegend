@@ -156,7 +156,7 @@ void ADawsHUD::DrawHUD()
             const float AmmoRatio = Player->CombatComponent->MagazineCapacity > 0 ? FMath::Clamp(static_cast<float>(Player->CombatComponent->MagazineAmmo)/Player->CombatComponent->MagazineCapacity,0.0f,1.0f) : 0.0f;
             Canvas->K2_DrawLine(FVector2D(W-245,92), FVector2D(W-35,92), 6.0f, FLinearColor(0.12f,0.12f,0.12f));
             Canvas->K2_DrawLine(FVector2D(W-245,92), FVector2D(W-245+210.0f*AmmoRatio,92), 4.0f, FLinearColor(0.95f,0.78f,0.18f));
-            if (Player->CombatComponent->ReserveAmmo <= 0 && Player->CombatComponent->MagazineAmmo <= 3) DrawTextLine(TEXT("LOW AMMO — FIND AMMUNITION"), W-285, 116, 0.68f, FLinearColor(1.0f,0.65f,0.12f));
+            if (Player->CombatComponent->ReserveAmmo <= 0 && Player->CombatComponent->MagazineAmmo <= 3) DrawTextLine(TEXT("LOW AMMO — FIND AMMUNITION"), W-285, 140, 0.68f, FLinearColor(1.0f,0.65f,0.12f));
         }
     }
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
