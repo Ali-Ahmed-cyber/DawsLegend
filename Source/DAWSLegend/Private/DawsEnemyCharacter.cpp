@@ -82,6 +82,7 @@ void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
 {
     EnemyId = NewEnemyId;
     bIsSpecialTarget = bSpecialTarget;
+    SetActorScale3D(bSpecialTarget ? FVector(1.22f) : FVector(1.0f));
     FLinearColor BodyColor(0.42f,0.08f,0.07f);
     float MaxHealth = 100.0f;
     RangedDamage = 8.0f;
@@ -98,6 +99,7 @@ void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
     if (LeftArmVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(LeftArmVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); LeftArmVisual->SetMaterial(0, Mat); }
     if (RightArmVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(RightArmVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); RightArmVisual->SetMaterial(0, Mat); }
     if (HelmetVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(HelmetVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), bSpecialTarget ? FLinearColor(0.05f,0.04f,0.06f) : BodyColor*0.55f); HelmetVisual->SetMaterial(0, Mat); }
+    if (WeaponVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(WeaponVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), bSpecialTarget ? FLinearColor(0.30f,0.025f,0.035f) : FLinearColor(0.035f,0.04f,0.045f)); WeaponVisual->SetMaterial(0, Mat); }
     if (HeadVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(HeadVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), bSpecialTarget ? FLinearColor(0.08f,0.05f,0.08f) : FLinearColor(0.18f,0.12f,0.10f)); HeadVisual->SetMaterial(0, Mat); }
 }
 void ADawsEnemyCharacter::BeginPlay()
