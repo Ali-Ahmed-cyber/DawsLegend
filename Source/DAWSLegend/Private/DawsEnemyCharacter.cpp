@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
+#include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/GameInstance.h"
 #include "DrawDebugHelpers.h"
@@ -45,22 +46,30 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     AttackCooldown -= DeltaSeconds;
-    ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
-    if (!Player || !HealthComponent || !HealthComponent->IsAlive()) return;
-    const float Distance = FVector::Dist2D(GetActorLocation(), Player->GetActorLocation());
+    APawn* TargetPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+    if (!TargetPawn || !HealthComponent || !HealthComponent->IsAlive()) return;
+    const float Distance = FVector::Dist2D(GetActorLocation(), TargetPawn->GetActorLocation());
     if (Distance > 1100.0f && Distance < 2400.0f) {
-        AddMovementInput((Player->GetActorLocation() - GetActorLocation()).GetSafeNormal2D(), 0.8f);
+        AddMovementInput((TargetPawn->GetActorLocation() - GetActorLocation()).GetSafeNormal2D(), 0.8f);
     } else if (Distance > 170.0f && Distance <= 1100.0f && AttackCooldown <= 0.0f) {
         FHitResult ShotHit;
         FCollisionQueryParams ShotParams(SCENE_QUERY_STAT(DawsEnemyShot), true, this);
         const FVector ShotStart = GetActorLocation() + FVector(0,0,65);
-        const FVector ShotEnd = Player->GetActorLocation() + FVector(0,0,45);
-        if (GetWorld()->LineTraceSingleByChannel(ShotHit, ShotStart, ShotEnd, ECC_Visibility, ShotParams) && ShotHit.GetActor() == Player) {
-            if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(8.0f);
+        const FVector ShotEnd = TargetPawn->GetActorLocation() + FVector(0,0,45);
+        if (GetWorld()->LineTraceSingleByChannel(ShotHit, ShotStart, ShotEnd, ECC_Visibility, ShotParams) && ShotHit.GetActor() == TargetPawn) {
+            if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(TargetPawn)) {
+                if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(8.0f);
+            } else if (ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(TargetPawn)) {
+                Vehicle->ApplyVehicleDamage(14.0f);
+            }
         }
         AttackCooldown = 1.8f;
     } else if (Distance <= 170.0f && AttackCooldown <= 0.0f) {
-        if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(12.0f);
+        if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(TargetPawn)) {
+            if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(12.0f);
+        } else if (ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(TargetPawn)) {
+            Vehicle->ApplyVehicleDamage(20.0f);
+        }
         AttackCooldown = 1.25f;
     }
 }
