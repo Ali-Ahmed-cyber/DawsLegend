@@ -9,12 +9,13 @@
 - Third-person camera, movement, jump, sprint, weapon trace fire, magazine and reload logic.
 - Player and enemy health components with damage/death events.
 - Runtime-generated city-street environment with road, building blocks, cover and mission beacons.
-- A 15-step sequential campaign across five chapters, interactive mission markers, dialogue subtitles, mission objective state, and save/load checkpoints.
+- A title screen and start flow; a 15-step sequential campaign across five chapters; interactive mission markers; story dialogue subtitles; mission objective state; and save/load checkpoints.
 - Enemy pursuit, ranged pressure, close-range attacks, death handling, and checkpoint respawn.
 - Story bible, secondary character roster and production notes.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
-## Controls
+## Main menu and controls
+- Enter: start the campaign from the title screen
 - W/A/S/D: move
 - Mouse: camera
 - Space: jump
