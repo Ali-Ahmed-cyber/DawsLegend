@@ -18,6 +18,15 @@ void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, 
     Item.EnableShadow(FLinearColor::Black);
     Canvas->DrawItem(Item);
 }
+void ADawsHUD::DrawOptionsPanel(float W, float H, const ADawsPlayerController* DawsPC)
+{
+    if (!DawsPC) return;
+    DrawTextLine(TEXT("OPTIONS"), W*0.5f-85.0f, H*0.27f, 1.7f, FLinearColor(0.15f,0.95f,0.78f));
+    DrawTextLine(FString::Printf(TEXT("%s Mouse sensitivity: %.1f"), DawsPC->GetSelectedSetting()==0 ? TEXT(">") : TEXT(" "), DawsPC->GetMouseSensitivity()), W*0.5f-180.0f, H*0.40f, 0.95f, FLinearColor::White);
+    DrawTextLine(FString::Printf(TEXT("%s Camera FOV: %.0f"), DawsPC->GetSelectedSetting()==1 ? TEXT(">") : TEXT(" "), DawsPC->GetCameraFOV()), W*0.5f-180.0f, H*0.47f, 0.95f, FLinearColor::White);
+    DrawTextLine(FString::Printf(TEXT("%s Subtitles: %s"), DawsPC->GetSelectedSetting()==2 ? TEXT(">") : TEXT(" "), DawsPC->AreSubtitlesEnabled() ? TEXT("ON") : TEXT("OFF")), W*0.5f-180.0f, H*0.54f, 0.95f, FLinearColor::White);
+    DrawTextLine(TEXT("UP/DOWN SELECT   LEFT/RIGHT CHANGE   F1 CLOSE   ESC RESUME"), W*0.5f-255.0f, H*0.68f, 0.75f, FLinearColor::White);
+}
 void ADawsHUD::DrawHUD()
 {
     Super::DrawHUD();
@@ -26,10 +35,11 @@ void ADawsHUD::DrawHUD()
     if (APlayerController* PC = GetOwningPlayerController()) {
         if (ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(PC)) {
             if (!DawsPC->HasStartedGame()) {
+                if (DawsPC->IsSettingsMenuOpen()) { DrawOptionsPanel(W, H, DawsPC); return; }
                 DrawTextLine(TEXT("DAWS LEGEND"), W*0.5f-170.0f, H*0.26f, 2.0f, FLinearColor(0.15f,0.95f,0.78f));
                 DrawTextLine(TEXT("THE FIRST SIGNAL"), W*0.5f-145.0f, H*0.37f, 1.15f, FLinearColor(1.0f,0.72f,0.25f));
                 DrawTextLine(TEXT("A story of loyalty, courage and a city in crisis"), W*0.5f-245.0f, H*0.46f, 0.9f, FLinearColor::White);
-                DrawTextLine(TEXT("ENTER NEW GAME   |   F2 CONTINUE"), W*0.5f-175.0f, H*0.60f, 1.0f, FLinearColor(0.15f,0.95f,0.78f));
+                DrawTextLine(TEXT("ENTER NEW GAME   |   F2 CONTINUE   |   F1 OPTIONS"), W*0.5f-225.0f, H*0.60f, 0.95f, FLinearColor(0.15f,0.95f,0.78f));
                 DrawTextLine(TEXT("WASD MOVE   MOUSE LOOK   SHIFT SPRINT   SPACE JUMP"), W*0.5f-245.0f, H*0.70f, 0.78f, FLinearColor::White);
                 DrawTextLine(TEXT("LEFT CLICK FIRE   R RELOAD   E INTERACT   F5 SAVE   F9 LOAD"), W*0.5f-260.0f, H*0.75f, 0.72f, FLinearColor::White);
                 DrawTextLine(TEXT("GAMEPAD START: NEW GAME   Y: CONTINUE"), W*0.5f-200.0f, H*0.80f, 0.72f, FLinearColor::White);
@@ -38,11 +48,7 @@ void ADawsHUD::DrawHUD()
         }
         if (PC->IsPaused()) {
             if (ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(PC); DawsPC && DawsPC->IsSettingsMenuOpen()) {
-                DrawTextLine(TEXT("OPTIONS"), W*0.5f-85.0f, H*0.27f, 1.7f, FLinearColor(0.15f,0.95f,0.78f));
-                DrawTextLine(FString::Printf(TEXT("%s Mouse sensitivity: %.1f"), DawsPC->GetSelectedSetting()==0 ? TEXT(">") : TEXT(" "), DawsPC->GetMouseSensitivity()), W*0.5f-180.0f, H*0.40f, 0.95f, FLinearColor::White);
-                DrawTextLine(FString::Printf(TEXT("%s Camera FOV: %.0f"), DawsPC->GetSelectedSetting()==1 ? TEXT(">") : TEXT(" "), DawsPC->GetCameraFOV()), W*0.5f-180.0f, H*0.47f, 0.95f, FLinearColor::White);
-                DrawTextLine(FString::Printf(TEXT("%s Subtitles: %s"), DawsPC->GetSelectedSetting()==2 ? TEXT(">") : TEXT(" "), DawsPC->AreSubtitlesEnabled() ? TEXT("ON") : TEXT("OFF")), W*0.5f-180.0f, H*0.54f, 0.95f, FLinearColor::White);
-                DrawTextLine(TEXT("UP/DOWN SELECT   LEFT/RIGHT CHANGE   F1 CLOSE   ESC RESUME"), W*0.5f-255.0f, H*0.68f, 0.75f, FLinearColor::White);
+                DrawOptionsPanel(W, H, DawsPC);
                 return;
             }
             DrawTextLine(TEXT("PAUSED"), W*0.5f-70.0f, H*0.38f, 1.8f, FLinearColor(0.15f,0.95f,0.78f));
