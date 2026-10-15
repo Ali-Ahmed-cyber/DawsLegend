@@ -5,6 +5,7 @@
 #include "DawsPlayerCharacter.h"
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
+#include "DawsPlayerController.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/GameInstance.h"
 void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color)
@@ -22,6 +23,17 @@ void ADawsHUD::DrawHUD()
     if (!Canvas) return;
     const float W = Canvas->SizeX, H = Canvas->SizeY;
     if (APlayerController* PC = GetOwningPlayerController()) {
+        if (ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(PC)) {
+            if (!DawsPC->HasStartedGame()) {
+                DrawTextLine(TEXT("DAWS LEGEND"), W*0.5f-170.0f, H*0.26f, 2.0f, FLinearColor(0.15f,0.95f,0.78f));
+                DrawTextLine(TEXT("THE FIRST SIGNAL"), W*0.5f-145.0f, H*0.37f, 1.15f, FLinearColor(1.0f,0.72f,0.25f));
+                DrawTextLine(TEXT("A story of loyalty, courage and a city in crisis"), W*0.5f-245.0f, H*0.46f, 0.9f, FLinearColor::White);
+                DrawTextLine(TEXT("PRESS ENTER TO BEGIN"), W*0.5f-150.0f, H*0.60f, 1.0f, FLinearColor(0.15f,0.95f,0.78f));
+                DrawTextLine(TEXT("WASD MOVE   MOUSE LOOK   SHIFT SPRINT   SPACE JUMP"), W*0.5f-245.0f, H*0.70f, 0.78f, FLinearColor::White);
+                DrawTextLine(TEXT("LEFT CLICK FIRE   R RELOAD   E INTERACT   F5 SAVE   F9 LOAD"), W*0.5f-260.0f, H*0.75f, 0.72f, FLinearColor::White);
+                return;
+            }
+        }
         if (PC->IsPaused()) {
             DrawTextLine(TEXT("PAUSED"), W*0.5f-70.0f, H*0.38f, 1.8f, FLinearColor(0.15f,0.95f,0.78f));
             DrawTextLine(TEXT("Press ESC to resume"), W*0.5f-100.0f, H*0.46f, 1.0f, FLinearColor::White);
