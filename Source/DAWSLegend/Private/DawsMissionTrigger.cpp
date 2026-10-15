@@ -7,6 +7,7 @@
 #include "Engine/StaticMesh.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialInstanceDynamic.h"
+#include "EngineUtils.h"
 #include "DawsPlayerCharacter.h"
 #include "DawsSaveSubsystem.h"
 #include "DawsHealthComponent.h"
@@ -36,6 +37,19 @@ void ADawsMissionTrigger::BeginPlay()
 {
     Super::BeginPlay();
 }
+void ADawsMissionTrigger::RefreshMissionMarker()
+{
+    bool bActive = false;
+    if (GetGameInstance()) {
+        if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>())
+            bActive = Missions->GetCurrentMissionId() == MissionId.ToString();
+    }
+    MarkerVisual->SetVisibility(true);
+    if (UMaterialInstanceDynamic* MarkerMat = UMaterialInstanceDynamic::Create(MarkerVisual->GetMaterial(0), this)) {
+        MarkerMat->SetVectorParameterValue(TEXT("Color"), bActive ? FLinearColor(0.04f,0.95f,0.70f) : FLinearColor(0.18f,0.22f,0.23f));
+        MarkerVisual->SetMaterial(0, MarkerMat);
+    }
+}
 FText ADawsMissionTrigger::GetInteractionPrompt_Implementation() const
 {
     return FText::Format(NSLOCTEXT("DAWS", "MissionPrompt", "Press E: {0}"), ObjectiveText);
@@ -46,6 +60,7 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
         Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"));
+        for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
         if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
             const FString ActiveMission = Missions->GetCurrentMissionId();
             const int32 Chapter = ActiveMission.StartsWith(TEXT("chapter")) ? FCString::Atoi(*ActiveMission.Mid(7,2)) : 5;
