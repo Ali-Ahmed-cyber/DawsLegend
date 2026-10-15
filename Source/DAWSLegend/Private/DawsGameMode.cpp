@@ -88,7 +88,7 @@ void ADawsGameMode::SpawnCampaignWorldActors()
     };
     for (int32 Index = 0; Index < 9; ++Index) {
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(TaskPickupLocations[Index], FRotator::ZeroRotator);
-        if (Pickup) Pickup->ConfigurePickup(TaskPickupTypes[Index], 1.0f);
+        if (Pickup) Pickup->ConfigurePickup(TaskPickupTypes[Index], 1.0f, FString::Printf(TEXT("task_pickup_%02d"), Index + 1));
     }
 
 
