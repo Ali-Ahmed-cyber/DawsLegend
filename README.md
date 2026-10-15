@@ -9,8 +9,8 @@
 - Third-person camera, movement, jump, sprint, weapon trace fire, magazine and reload logic.
 - Player and enemy health components with damage/death events.
 - Runtime-generated city-street environment with road, building blocks, cover and mission beacons.
-- Three mission trigger areas, mission objective state, and a save/load subsystem.
-- Enemy pursuit and close-range attack behavior.
+- A 15-step sequential campaign across five chapters, interactive mission markers, dialogue subtitles, mission objective state, and save/load checkpoints.
+- Enemy pursuit, ranged pressure, close-range attacks, death handling, and checkpoint respawn.
 - Story bible, secondary character roster and production notes.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
@@ -21,6 +21,10 @@
 - Left Shift: sprint
 - Left mouse: fire
 - R: reload
+- E: interact with the active mission marker
+- F5: save checkpoint
+- F9: load checkpoint
+- Esc: pause/resume
 
 ## Final character-photo rule
 - DINRITO: user photo wearing the white Real Madrid shirt.
