@@ -16,7 +16,7 @@
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
 ## Main menu and controls
-- Enter: start a new campaign from the title screen
+- Enter: start a fresh campaign from the title screen (clears the previous checkpoint)
 - F2: continue from the latest saved checkpoint
 - W/A/S/D: move
 - Mouse: camera
