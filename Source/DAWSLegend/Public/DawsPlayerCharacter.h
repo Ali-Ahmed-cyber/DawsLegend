@@ -30,6 +30,10 @@ protected:
     void InteractWithWorld();
     void SaveCheckpoint();
     void LoadCheckpoint();
+    UFUNCTION() void HandlePlayerDeath();
+    void RespawnAtCheckpoint();
+    FTimerHandle RespawnTimer;
+    FVector InitialSpawnLocation = FVector::ZeroVector;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
     TObjectPtr<USpringArmComponent> CameraBoom;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
