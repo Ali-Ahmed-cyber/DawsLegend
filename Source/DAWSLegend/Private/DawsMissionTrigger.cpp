@@ -8,9 +8,11 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "EngineUtils.h"
+#include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
 #include "DawsSaveSubsystem.h"
 #include "DawsHealthComponent.h"
+#include "DawsStoryNPC.h"
 ADawsMissionTrigger::ADawsMissionTrigger()
 {
     PrimaryActorTick.bCanEverTick = false;
@@ -71,12 +73,22 @@ void ADawsMissionTrigger::RefreshMissionMarker()
         MarkerVisual->SetMaterial(0, MarkerMat);
     }
 }
+bool ADawsMissionTrigger::IsEscortReady(const AActor* Player) const
+{
+    if (MissionId != FName(TEXT("chapter03_escort"))) return true;
+    if (!Player || !GetWorld()) return false;
+    for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) {
+        if (It->GetNPCId() == FName(TEXT("technician"))) return FVector::Dist2D(Player->GetActorLocation(), It->GetActorLocation()) <= 650.0f;
+    }
+    return false;
+}
 FText ADawsMissionTrigger::GetInteractionPrompt_Implementation() const
 {
     if (!GetGameInstance()) return FText::GetEmpty();
     if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return FText::GetEmpty();
         if (!Missions->CanCompleteCurrentMission()) return FText::Format(NSLOCTEXT("DAWS", "TaskIncompletePrompt", "Task progress: {0} / {1}"), FText::AsNumber(Missions->GetTaskProgress()), FText::AsNumber(Missions->GetRequiredTaskProgress()));
+        if (!IsEscortReady(UGameplayStatics::GetPlayerPawn(this, 0))) return FText::FromString(TEXT("Wait for the technician to catch up"));
         const TArray<FDawsMissionObjective> Objectives = Missions->GetObjectives();
         const FText PromptText = Objectives.Num() > 0 ? Objectives[0].Description : ObjectiveText;
         return FText::Format(NSLOCTEXT("DAWS", "MissionPrompt", "Press E: {0}"), PromptText);
@@ -86,6 +98,7 @@ FText ADawsMissionTrigger::GetInteractionPrompt_Implementation() const
 void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
 {
     if (!Cast<ADawsPlayerCharacter>(InteractingActor) || !GetGameInstance()) return;
+    if (!IsEscortReady(InteractingActor)) return;
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
         if (!Missions->CanCompleteCurrentMission()) return;
