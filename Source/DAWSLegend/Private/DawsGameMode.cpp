@@ -79,7 +79,7 @@ void ADawsGameMode::SpawnCampaignWorldActors()
         FVector(450,7350,100), FVector(-450,8050,100), FVector(500,8750,100), FVector(-500,9450,100),
         FVector(0,1050,100), FVector(0,3850,100), FVector(0,6650,100), FVector(0,8750,100),
         FVector(350,3000,100), FVector(-350,3400,100), FVector(350,7900,100), FVector(-350,8300,100),
-        FVector(350,9200,100), FVector(-350,9600,100), FVector(350,10000,100), FVector(-350,9800,100)
+        FVector(350,9200,100), FVector(-350,9600,100), FVector(350,10000,100), FVector(-350,12150,100)
     };
     for (int32 EnemyIndex = 0; EnemyIndex < UE_ARRAY_COUNT(EnemyPositions); ++EnemyIndex) {
         ADawsEnemyCharacter* Enemy = GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPositions[EnemyIndex], FRotator::ZeroRotator);
@@ -123,15 +123,15 @@ void ADawsGameMode::SpawnCampaignWorldActors()
         { TEXT("bashir"), TEXT("Bashir"), TEXT("These crates were emptied before the convoy arrived. Someone knew the route in advance."), FVector(650,1900,0), FLinearColor(0.45f,0.24f,0.08f) },
         { TEXT("fawzi"), TEXT("Fawzi"), TEXT("The clinic needs these supplies. I will move the families while you keep the road clear."), FVector(-650,3300,0), FLinearColor(0.12f,0.40f,0.20f) },
         { TEXT("captain_nadir"), TEXT("Captain Nadir"), TEXT("Keep the evidence intact. Rumours will not hold up when the Broker denies everything."), FVector(650,5400,0), FLinearColor(0.22f,0.24f,0.28f) },
-        { TEXT("the_broker"), TEXT("The Broker"), TEXT("You think one ledger can stop me? The whole route belongs to people you have never met."), FVector(-650,10100,0), FLinearColor(0.35f,0.08f,0.12f) },
+        { TEXT("the_broker"), TEXT("The Broker"), TEXT("You think one ledger can stop me? The whole route belongs to people you have never met."), FVector(-650,12450,0), FLinearColor(0.35f,0.08f,0.12f) },
         { TEXT("survivor"), TEXT("The Survivor"), TEXT("I heard the convoy leader say the next shipment goes through the market after dark."), FVector(-650,1900,0), FLinearColor(0.40f,0.30f,0.18f) },
-        { TEXT("technician"), TEXT("The Technician"), TEXT("The relay is jammed. Hold this street while I reconnect the transmitter."), FVector(-650,4700,0), FLinearColor(0.18f,0.32f,0.34f) },
+        { TEXT("technician"), TEXT("The Technician"), TEXT("The relay is jammed. Hold this street while I reconnect the transmitter."), FVector(-650,6650,0), FLinearColor(0.18f,0.32f,0.34f) },
         { TEXT("worker"), TEXT("The Worker"), TEXT("They locked us in after we refused to move the medical cargo."), FVector(650,7500,0), FLinearColor(0.30f,0.26f,0.18f) },
         { TEXT("tawfiq"), TEXT("Tawfiq"), TEXT("I am with you, brother. We will find who is stealing the medical supplies, but we do this together."), FVector(-220,-240,0), FLinearColor(0.92f,0.66f,0.12f) },
         { TEXT("amjad"), TEXT("Amjad"), TEXT("I checked the side streets. Someone has been watching the convoy since before dawn. Keep your head clear."), FVector(-220,240,0), FLinearColor(0.045f,0.05f,0.06f) },
         { TEXT("salwa"), TEXT("Salwa"), TEXT("The clinic seal is fake. I can prove the medicine was relabeled after leaving the depot."), FVector(650,3000,0), FLinearColor(0.18f,0.48f,0.42f) },
         { TEXT("sami"), TEXT("Sami the Courier"), TEXT("I drove because they threatened my family. I will tell you what I know if you keep them safe."), FVector(-650,3900,0), FLinearColor(0.30f,0.34f,0.42f) },
-        { TEXT("muntasir"), TEXT("Muntasir"), TEXT("You have routes and rumors. I have the records. Without the missing page, you cannot prove a thing."), FVector(650,9800,0), FLinearColor(0.28f,0.22f,0.32f) }
+        { TEXT("muntasir"), TEXT("Muntasir"), TEXT("You have routes and rumors. I have the records. Without the missing page, you cannot prove a thing."), FVector(650,11900,0), FLinearColor(0.28f,0.22f,0.32f) }
     };
     for (const FStoryNPCSetup& Setup : StoryNPCs) {
         ADawsStoryNPC* NPC = GetWorld()->SpawnActor<ADawsStoryNPC>(Setup.Location, FRotator::ZeroRotator);
