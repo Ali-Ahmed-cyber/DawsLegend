@@ -94,6 +94,8 @@ jobs:
           assert "HitMarkerTime" in player and "IsHitMarkerVisible" in hud and "bHitConfirmed" in hud
           assert "InteractWithWorld" in player and "FireWeapon" in player
           assert "SetStatusMessage" in player and "CHECKPOINT SAVED" in player and "MISSION COMPLETE" in (source / "Private/DawsMissionTrigger.cpp").read_text()
+          assert "bCheckpointSaved = Saves->SaveCheckpoint" in (source / "Private/DawsMissionTrigger.cpp").read_text()
+          assert "MISSION COMPLETE — SAVE FAILED" in (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert "BindAction(\"Jump\", IE_Pressed" in player and "StartJump" in player
           assert "BindAction(\"Aim\", IE_Pressed" in player and "IsAiming" in hud
           assert "RecoilAmount" in player and "ConsumeShot()) return" in player
