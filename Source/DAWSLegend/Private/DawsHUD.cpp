@@ -154,6 +154,15 @@ void ADawsHUD::DrawHUD()
     const ADawsPlayerCharacter* AimPlayer = Cast<ADawsPlayerCharacter>(GetOwningPawn());
     const float ReticleSize = AimPlayer && AimPlayer->IsAiming() ? 4.0f : 8.0f;
     const float ReticleThickness = AimPlayer && AimPlayer->IsAiming() ? 2.0f : 1.5f;
-    Canvas->K2_DrawLine(FVector2D(W*0.5f-ReticleSize,H*0.5f), FVector2D(W*0.5f+ReticleSize,H*0.5f), ReticleThickness, FLinearColor::White);
-    Canvas->K2_DrawLine(FVector2D(W*0.5f,H*0.5f-ReticleSize), FVector2D(W*0.5f,H*0.5f+ReticleSize), ReticleThickness, FLinearColor::White);
+    const bool bHitConfirmed = AimPlayer && AimPlayer->IsHitMarkerVisible();
+    const FLinearColor ReticleColor = bHitConfirmed ? FLinearColor(1.0f,0.22f,0.12f) : FLinearColor::White;
+    Canvas->K2_DrawLine(FVector2D(W*0.5f-ReticleSize,H*0.5f), FVector2D(W*0.5f+ReticleSize,H*0.5f), ReticleThickness, ReticleColor);
+    Canvas->K2_DrawLine(FVector2D(W*0.5f,H*0.5f-ReticleSize), FVector2D(W*0.5f,H*0.5f+ReticleSize), ReticleThickness, ReticleColor);
+    if (bHitConfirmed) {
+        const float Mark = ReticleSize + 5.0f;
+        Canvas->K2_DrawLine(FVector2D(W*0.5f-Mark,H*0.5f-Mark), FVector2D(W*0.5f-Mark+5.0f,H*0.5f-Mark+5.0f), 2.0f, ReticleColor);
+        Canvas->K2_DrawLine(FVector2D(W*0.5f+Mark,H*0.5f-Mark), FVector2D(W*0.5f+Mark-5.0f,H*0.5f-Mark+5.0f), 2.0f, ReticleColor);
+        Canvas->K2_DrawLine(FVector2D(W*0.5f-Mark,H*0.5f+Mark), FVector2D(W*0.5f-Mark+5.0f,H*0.5f+Mark-5.0f), 2.0f, ReticleColor);
+        Canvas->K2_DrawLine(FVector2D(W*0.5f+Mark,H*0.5f+Mark), FVector2D(W*0.5f+Mark-5.0f,H*0.5f+Mark-5.0f), 2.0f, ReticleColor);
+    }
 }
