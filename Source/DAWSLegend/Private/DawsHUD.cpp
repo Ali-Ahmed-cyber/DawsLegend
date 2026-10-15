@@ -8,6 +8,7 @@
 #include "DawsPlayerController.h"
 #include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
+#include "DawsSaveSubsystem.h"
 #include "DawsMissionTrigger.h"
 #include "EngineUtils.h"
 #include "Engine/GameInstance.h"
@@ -41,7 +42,11 @@ void ADawsHUD::DrawHUD()
                 DrawTextLine(TEXT("DAWS LEGEND"), W*0.5f-170.0f, H*0.26f, 2.0f, FLinearColor(0.15f,0.95f,0.78f));
                 DrawTextLine(TEXT("THE FIRST SIGNAL"), W*0.5f-145.0f, H*0.37f, 1.15f, FLinearColor(1.0f,0.72f,0.25f));
                 DrawTextLine(TEXT("A story of loyalty, courage and a city in crisis"), W*0.5f-245.0f, H*0.46f, 0.9f, FLinearColor::White);
-                DrawTextLine(TEXT("ENTER NEW GAME   |   F2 CONTINUE   |   F1 OPTIONS"), W*0.5f-225.0f, H*0.60f, 0.95f, FLinearColor(0.15f,0.95f,0.78f));
+                bool bHasSavedGame = false;
+                if (GetWorld() && GetWorld()->GetGameInstance()) {
+                    if (const UDawsSaveSubsystem* Saves = GetWorld()->GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) bHasSavedGame = Saves->HasSave();
+                }
+                DrawTextLine(bHasSavedGame ? TEXT("ENTER NEW GAME   |   F2 CONTINUE   |   F1 OPTIONS") : TEXT("ENTER NEW GAME   |   NO SAVE YET   |   F1 OPTIONS"), W*0.5f-225.0f, H*0.60f, 0.95f, FLinearColor(0.15f,0.95f,0.78f));
                 DrawTextLine(TEXT("WASD MOVE   MOUSE LOOK   SHIFT SPRINT   SPACE JUMP"), W*0.5f-245.0f, H*0.70f, 0.78f, FLinearColor::White);
                 DrawTextLine(TEXT("LEFT CLICK FIRE   R RELOAD   E INTERACT   F5 SAVE   F9 LOAD"), W*0.5f-260.0f, H*0.75f, 0.72f, FLinearColor::White);
                 DrawTextLine(TEXT("GAMEPAD START: NEW GAME   Y: CONTINUE"), W*0.5f-200.0f, H*0.80f, 0.72f, FLinearColor::White);
