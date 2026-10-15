@@ -81,6 +81,10 @@ void ADawsHUD::DrawHUD()
         }
         if (Player->CombatComponent) DrawTextLine(FString::Printf(TEXT("AMMO  %d / %d"), Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo), W-245, 68, 0.9f, FLinearColor::White);
     }
+    if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
+        const FText Prompt = Player->GetTargetInteractionPrompt();
+        if (!Prompt.IsEmpty()) DrawTextLine(Prompt.ToString(), W*0.5f-180.0f, H*0.58f, 0.82f, FLinearColor(0.95f,0.85f,0.32f));
+    }
     // Subtle centre reticle.
     Canvas->K2_DrawLine(FVector2D(W*0.5f-8,H*0.5f), FVector2D(W*0.5f+8,H*0.5f), 1.5f, FLinearColor::White);
     Canvas->K2_DrawLine(FVector2D(W*0.5f,H*0.5f-8), FVector2D(W*0.5f,H*0.5f+8), 1.5f, FLinearColor::White);
