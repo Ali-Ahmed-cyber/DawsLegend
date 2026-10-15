@@ -83,12 +83,12 @@ void ADawsVehiclePawn::SetThrottle(float Value) { ThrottleInput = FMath::Clamp(V
 void ADawsVehiclePawn::SetSteering(float Value) { SteeringInput = FMath::Clamp(Value, -1.0f, 1.0f); }
 FText ADawsVehiclePawn::GetInteractionPrompt_Implementation() const
 {
-    return FText::FromString(TEXT("Press E to drive vehicle"));
+    return FText::FromString(bDisabled ? TEXT("Vehicle disabled") : TEXT("Press E to drive vehicle"));
 }
 void ADawsVehiclePawn::Interact_Implementation(AActor* InteractingActor)
 {
     ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(InteractingActor);
-    if (!Player || DriverCharacter) return;
+    if (!Player || DriverCharacter || bDisabled) return;
     APlayerController* PC = Cast<APlayerController>(Player->GetController());
     if (!PC) return;
     DriverCharacter = Player;
