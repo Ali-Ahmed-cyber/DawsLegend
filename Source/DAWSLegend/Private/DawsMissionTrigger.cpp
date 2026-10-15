@@ -102,7 +102,8 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
         if (!Missions->CanCompleteCurrentMission()) return;
-        Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"));
+        if (!Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"))) return;
+        bool bCheckpointSaved = false;
         bMissionCompleted = true;
         SetActorEnableCollision(false);
         MarkerVisual->SetVisibility(false);
@@ -123,9 +124,13 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
                     }
                 }
             }
-            Saves->SaveCheckpoint(Chapter, ActiveMission, InteractingActor, Health, NextCheckpointLocation, bHasNextCheckpoint);
+            bCheckpointSaved = Saves->SaveCheckpoint(Chapter, ActiveMission, InteractingActor, Health, NextCheckpointLocation, bHasNextCheckpoint);
         }
-        if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(InteractingActor))
-            Player->SetStatusMessage(Missions->GetCurrentMissionId() == TEXT("campaign_complete") ? TEXT("CAMPAIGN COMPLETE") : TEXT("MISSION COMPLETE — CHECKPOINT SAVED"), 3.5f);
+        if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(InteractingActor)) {
+            if (Missions->GetCurrentMissionId() == TEXT("campaign_complete"))
+                Player->SetStatusMessage(bCheckpointSaved ? TEXT("CAMPAIGN COMPLETE") : TEXT("CAMPAIGN COMPLETE — SAVE FAILED"), 3.5f);
+            else
+                Player->SetStatusMessage(bCheckpointSaved ? TEXT("MISSION COMPLETE — CHECKPOINT SAVED") : TEXT("MISSION COMPLETE — SAVE FAILED"), 3.5f);
+        }
     }
 }
