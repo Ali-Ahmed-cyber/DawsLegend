@@ -12,6 +12,7 @@ class DAWSLEGEND_API ADawsStoryNPC : public AActor, public IDawsInteractable
 public:
     ADawsStoryNPC();
     void ConfigureNPC(FName NewId, const FText& NewName, const FText& NewDialogue, FLinearColor NewClothingColor);
+    void ResetForNewCampaign() { bHasTalked = false; }
     virtual FText GetInteractionPrompt_Implementation() const override;
     virtual void Interact_Implementation(AActor* InteractingActor) override;
     virtual void Tick(float DeltaSeconds) override;
