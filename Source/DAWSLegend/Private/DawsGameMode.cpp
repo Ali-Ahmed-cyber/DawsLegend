@@ -39,15 +39,21 @@ void ADawsGameMode::StartPlay()
             Trigger->ObjectiveText = FText::FromString(FString::Printf(TEXT("Continue campaign mission %d of 15"), Index+1));
         }
     }
-    const FVector EnemyPositions[6] = { FVector(-450,450,100), FVector(450,-450,100), FVector(-650,-350,100), FVector(650,350,100), FVector(0,-750,100), FVector(750,750,100) };
+    const FVector EnemyPositions[20] = {
+        FVector(-450,450,100), FVector(450,-450,100), FVector(-650,-350,100), FVector(650,350,100),
+        FVector(450,1800,100), FVector(-450,2450,100), FVector(500,3150,100), FVector(-500,3850,100),
+        FVector(450,4550,100), FVector(-450,5250,100), FVector(500,5950,100), FVector(-500,6650,100),
+        FVector(450,7350,100), FVector(-450,8050,100), FVector(500,8750,100), FVector(-500,9450,100),
+        FVector(0,1050,100), FVector(0,3850,100), FVector(0,6650,100), FVector(0,8750,100)
+    };
     for (const FVector& EnemyPosition : EnemyPositions)
         GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPosition, FRotator::ZeroRotator);
-    const FVector HealthLocations[3] = { FVector(-900,300,75), FVector(300,900,75), FVector(1200,-200,75) };
+    const FVector HealthLocations[8] = { FVector(-900,300,75), FVector(300,900,75), FVector(1200,-200,75), FVector(-900,2600,75), FVector(900,4000,75), FVector(-900,5400,75), FVector(900,6900,75), FVector(-900,8300,75) };
     for (const FVector& Location : HealthLocations) {
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
         if (Pickup) { Pickup->PickupType = EDawsPickupType::Health; Pickup->PickupAmount = 35.0f; }
     }
-    const FVector AmmoLocations[3] = { FVector(600,600,75), FVector(-600,-600,75), FVector(1200,600,75) };
+    const FVector AmmoLocations[8] = { FVector(600,600,75), FVector(-600,-600,75), FVector(1200,600,75), FVector(600,2100,75), FVector(-600,3500,75), FVector(600,4900,75), FVector(-600,6300,75), FVector(600,9100,75) };
     for (const FVector& Location : AmmoLocations) {
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
         if (Pickup) { Pickup->PickupType = EDawsPickupType::Ammo; Pickup->PickupAmount = 24.0f; }
