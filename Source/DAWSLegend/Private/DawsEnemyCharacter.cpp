@@ -96,6 +96,12 @@ void ADawsEnemyCharacter::BeginPlay()
 void ADawsEnemyCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    VisualAnimationTime += DeltaSeconds;
+    const float Swing = GetVelocity().Size2D() > 15.0f ? FMath::Sin(VisualAnimationTime * 9.0f) * 20.0f : FMath::Sin(VisualAnimationTime * 1.7f) * 2.0f;
+    if (LeftArmVisual) LeftArmVisual->SetRelativeRotation(FRotator(Swing,0,0));
+    if (RightArmVisual) RightArmVisual->SetRelativeRotation(FRotator(-Swing,0,0));
+    if (LeftLegVisual) LeftLegVisual->SetRelativeRotation(FRotator(-Swing*0.8f,0,0));
+    if (RightLegVisual) RightLegVisual->SetRelativeRotation(FRotator(Swing*0.8f,0,0));
     AttackCooldown -= DeltaSeconds;
     if (!GetGameInstance()) return;
     const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
