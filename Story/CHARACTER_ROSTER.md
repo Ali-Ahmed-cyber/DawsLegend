@@ -17,6 +17,18 @@ The three reference photos are intentionally not embedded yet. The hero uses the
 - **The Worker:** explains why the medical cargo was intercepted.
 - **The Broker:** antagonist coordinating the supply theft network.
 
+## Extended fictional supporting cast
+- **Mariam:** tea-stall owner and trusted neighborhood observer.
+- **Sami:** courier pressured into driving a suspicious shipment; later becomes a key witness.
+- **Salwa:** clinic nurse who recognizes altered medical seals.
+- **Idris:** minibus driver who knows the city's route network.
+- **Muntasir:** logistics manager who alters cargo manifests.
+- **Abu Sahl:** fixer linked to intimidation and false road closures.
+- **The Needle:** radio technician who leaks investigation details.
+- **The Technician:** relay specialist whose testimony is needed for the broadcast.
+- **The Worker:** depot employee who refused to falsify cargo counts.
+- **The Survivor:** convoy witness whose safety matters more than extracting a statement.
+
 ## Identity constraints
 - Tawfiq's runtime stand-in uses yellow clothing.
 - Amjad's runtime stand-in uses black clothing.
