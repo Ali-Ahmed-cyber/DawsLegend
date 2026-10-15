@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TimerManager.h"
 #include "DawsPlayerCharacter.generated.h"
 class UDawsHealthComponent;
 class UDawsCombatComponent;
