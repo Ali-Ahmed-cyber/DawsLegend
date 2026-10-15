@@ -22,6 +22,8 @@ class DAWSLEGEND_API UDawsMissionSubsystem : public UGameInstanceSubsystem
 public:
     UFUNCTION(BlueprintCallable, Category="Missions")
     void StartMission(FString MissionId, FText MissionTitle, const TArray<FDawsMissionObjective>& Objectives);
+    UFUNCTION(BlueprintCallable, Category="Campaign")
+    void StartCampaign();
     UFUNCTION(BlueprintCallable, Category="Missions")
     bool CompleteObjective(FString ObjectiveId);
     UFUNCTION(BlueprintCallable, Category="Missions")
@@ -35,6 +37,9 @@ public:
     UFUNCTION(BlueprintPure, Category="Missions")
     bool IsMissionComplete() const;
 private:
+    void StartCampaignMission(int32 MissionIndex);
+    int32 CampaignMissionIndex = 0;
+    bool bCampaignActive = false;
     UPROPERTY()
     FString CurrentMissionId;
     UPROPERTY()
