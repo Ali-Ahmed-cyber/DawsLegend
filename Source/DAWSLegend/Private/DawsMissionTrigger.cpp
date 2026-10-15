@@ -39,6 +39,7 @@ void ADawsMissionTrigger::BeginPlay()
 }
 void ADawsMissionTrigger::RefreshMissionMarker()
 {
+    if (bMissionCompleted) { MarkerVisual->SetVisibility(false); SetActorEnableCollision(false); return; }
     bool bActive = false;
     if (GetGameInstance()) {
         if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>())
@@ -60,6 +61,9 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
         Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"));
+        bMissionCompleted = true;
+        SetActorEnableCollision(false);
+        MarkerVisual->SetVisibility(false);
         for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
         if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
             const FString ActiveMission = Missions->GetCurrentMissionId();
@@ -68,7 +72,5 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
             const float Health = (Player && Player->HealthComponent) ? Player->HealthComponent->CurrentHealth : 100.0f;
             Saves->SaveCheckpoint(Chapter, ActiveMission, InteractingActor, Health);
         }
-        SetActorEnableCollision(false);
-        MarkerVisual->SetVisibility(false);
     }
 }
