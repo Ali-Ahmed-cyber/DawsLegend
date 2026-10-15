@@ -10,6 +10,7 @@
 #include "Components/InputComponent.h"
 #include "DawsPlayerCharacter.h"
 #include "GameFramework/PlayerController.h"
+#include "DawsPlayerController.h"
 ADawsVehiclePawn::ADawsVehiclePawn()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -77,7 +78,19 @@ void ADawsVehiclePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
     Super::SetupPlayerInputComponent(PlayerInputComponent);
     PlayerInputComponent->BindAxis("MoveForward", this, &ADawsVehiclePawn::SetThrottle);
     PlayerInputComponent->BindAxis("MoveRight", this, &ADawsVehiclePawn::SetSteering);
+    PlayerInputComponent->BindAxis("Turn", this, &ADawsVehiclePawn::TurnCamera);
+    PlayerInputComponent->BindAxis("LookUp", this, &ADawsVehiclePawn::LookUpCamera);
     PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ADawsVehiclePawn::ExitVehicle);
+}
+void ADawsVehiclePawn::TurnCamera(float Value)
+{
+    const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(GetController());
+    AddControllerYawInput(Value * (DawsPC ? DawsPC->GetMouseSensitivity() : 1.0f));
+}
+void ADawsVehiclePawn::LookUpCamera(float Value)
+{
+    const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(GetController());
+    AddControllerPitchInput(Value * (DawsPC ? DawsPC->GetMouseSensitivity() : 1.0f));
 }
 void ADawsVehiclePawn::SetThrottle(float Value) { ThrottleInput = FMath::Clamp(Value, -1.0f, 1.0f); }
 void ADawsVehiclePawn::SetSteering(float Value) { SteeringInput = FMath::Clamp(Value, -1.0f, 1.0f); }
