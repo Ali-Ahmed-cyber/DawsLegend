@@ -112,6 +112,11 @@ void ADawsVehiclePawn::ExitVehicle()
     PC->Possess(Player);
 }
 
+void ADawsVehiclePawn::SetCameraFOV(float NewFOV)
+{
+    if (FollowCamera) FollowCamera->SetFieldOfView(FMath::Clamp(NewFOV, 75.0f, 110.0f));
+    if (DriverCharacter) DriverCharacter->SetCameraFOV(NewFOV);
+}
 void ADawsVehiclePawn::ApplyVehicleDamage(float Amount)
 {
     if (Amount <= 0.0f || bDisabled) return;
