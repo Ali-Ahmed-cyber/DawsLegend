@@ -174,5 +174,6 @@ void ADawsPlayerController::StartNewCampaign()
     if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
     for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
+    for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) It->ResetForNewCampaign();
     StartGame();
 }
