@@ -148,6 +148,7 @@ void ADawsHUD::DrawHUD()
             Canvas->K2_DrawLine(FVector2D(W-245,58), FVector2D(W-35,58), 8.0f, FLinearColor(0.12f,0.12f,0.12f));
             const FLinearColor HealthBarColor = HealthRatio < 0.25f ? FLinearColor(0.95f,0.12f,0.10f) : (HealthRatio < 0.5f ? FLinearColor(0.98f,0.62f,0.12f) : FLinearColor(0.20f,0.90f,0.42f));
             Canvas->K2_DrawLine(FVector2D(W-245,58), FVector2D(W-245+210.0f*HealthRatio,58), 5.0f, HealthBarColor);
+            if (HealthRatio < 0.25f && Player->HealthComponent->CurrentHealth > 0.0f) DrawTextLine(TEXT("CRITICAL HEALTH — FIND MEDICAL SUPPLIES"), W-380, 116, 0.68f, FLinearColor(1.0f,0.16f,0.12f));
             if (Player->HealthComponent->CurrentHealth <= 0.0f) DrawTextLine(TEXT("DOWN — RESPAWNING"), W*0.5f-125.0f, H*0.42f, 1.25f, FLinearColor(1.0f,0.18f,0.12f));
         }
         if (Player->CombatComponent) {
@@ -155,6 +156,7 @@ void ADawsHUD::DrawHUD()
             const float AmmoRatio = Player->CombatComponent->MagazineCapacity > 0 ? FMath::Clamp(static_cast<float>(Player->CombatComponent->MagazineAmmo)/Player->CombatComponent->MagazineCapacity,0.0f,1.0f) : 0.0f;
             Canvas->K2_DrawLine(FVector2D(W-245,92), FVector2D(W-35,92), 6.0f, FLinearColor(0.12f,0.12f,0.12f));
             Canvas->K2_DrawLine(FVector2D(W-245,92), FVector2D(W-245+210.0f*AmmoRatio,92), 4.0f, FLinearColor(0.95f,0.78f,0.18f));
+            if (Player->CombatComponent->ReserveAmmo <= 0 && Player->CombatComponent->MagazineAmmo <= 3) DrawTextLine(TEXT("LOW AMMO — FIND AMMUNITION"), W-285, 116, 0.68f, FLinearColor(1.0f,0.65f,0.12f));
         }
     }
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
