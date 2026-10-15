@@ -9,7 +9,7 @@
 - Third-person camera, movement, jump, sprint, weapon trace fire, magazine and reload logic.
 - Player and enemy health components with damage/death events.
 - Runtime-generated city environment with an extended road, building blocks, cover, streetlights, market stalls, palm trees, rooftop tanks and mission beacons.
-- A title screen and start flow; a 15-step sequential campaign across five chapters; mission-specific supply/evidence/hostile-count tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; and persistent options.
+- A title screen and start flow; a 15-step sequential campaign across five chapters; mission-specific supply/evidence/hostile-count and named-NPC conversation tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; and persistent options.
 - Enemy pursuit, ranged pressure, close-range attacks, death handling, and checkpoint respawn.
 - Arcade driving with enter/exit interaction and a chase camera.
 - Five original interactive story characters with contextual dialogue subtitles, plus the campaign story bible and character roster.
