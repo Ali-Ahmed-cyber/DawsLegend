@@ -54,6 +54,8 @@ jobs:
           trigger = (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert mission.count('TEXT("chapter') >= 30, "Campaign mission IDs are incomplete"
           assert "RestoreCampaignAtMission" in mission and "StartCampaignMission" in mission
+          world_builder = (source / "Private/DawsWorldBuilder.cpp").read_text()
+          assert "AddPrimitive" in world_builder and "Street furniture" in world_builder
           assert "SpawnActor<ADawsEnemyCharacter>" in game_mode
           assert "SpawnActor<ADawsPickup>" in game_mode
           assert "SpawnActor<ADawsStoryNPC>" in game_mode
