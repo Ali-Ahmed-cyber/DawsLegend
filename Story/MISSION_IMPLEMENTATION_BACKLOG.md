@@ -13,7 +13,7 @@ This checklist separates source systems already authored from the work that stil
 - [x] Runtime-generated city streets, buildings, cover, market stalls, street props, palm silhouettes, rooftop tanks, daylight and ambient fill.
 - [x] Mission waypoint distance/direction, interactive markers, contextual prompts and task-progress display.
 - [x] Arcade vehicles with enter/exit, driving, camera control, vehicle health and disabled state.
-- [x] Local save/load checkpoints, task-progress autosaves that preserve the safe checkpoint position, ammo persistence and death respawn.
+- [x] Local save/load checkpoints, task-progress autosaves that preserve the safe checkpoint position, stable IDs for collected mission pickups, ammo persistence and death respawn.
 - [x] Title screen, fresh-campaign start, continue when a save exists, pause/options, persistent sensitivity/FOV/subtitle settings, gamepad mappings and campaign restart.
 - [x] Low-to-mid scalability defaults and automated source/campaign consistency checks.
 
