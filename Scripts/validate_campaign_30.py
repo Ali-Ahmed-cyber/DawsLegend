@@ -52,7 +52,7 @@ assert 'BindAction("Jump", IE_Pressed' in player and "StartJump" in player, "Jum
 assert 'GetCurrentTaskType() != TEXT("defeat")' in enemy, "Enemy AI must respect combat mission gating"
 assert "AAIController::StaticClass" in enemy and "AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned" in enemy, "Spawned enemies must possess AI controllers to move"
 assert "ReceiveWeaponDamage" in player and "ReceiveWeaponDamage" in enemy, "Enemy weapon damage API must be connected"
-assert "VInterpTo" in npc and "chapter03_escort" in npc, "Technician escort behavior must exist"
+assert "VInterpTo" in npc and "chapter04_escort" in npc, "Technician escort behavior must exist"
 assert "ActiveMission == TEXT(\"chapter06_dawn\")" in npc and "NPCId == FName(TEXT(\"tawfiq\"))" in npc, "Main companions need contextual campaign dialogue"
 assert "bIsMainCompanion" in npc and "SideOffset" in npc, "Tawfiq and Amjad should accompany the player during the campaign"
 assert "OBJECTIVE WAYPOINT" in hud, "Objective waypoint HUD must exist"
