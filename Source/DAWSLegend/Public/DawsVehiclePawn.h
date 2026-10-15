@@ -22,6 +22,7 @@ public:
     void ApplyVehicleDamage(float Amount);
     void SetCameraFOV(float NewFOV);
     float GetVehicleHealth() const { return VehicleHealth; }
+    float GetSpeedKPH() const { return GetVelocity().Size2D() * 0.036f; }
     bool IsVehicleDisabled() const { return bDisabled; }
 protected:
     virtual void BeginPlay() override;
