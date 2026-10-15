@@ -92,7 +92,7 @@ void ADawsGameMode::StartPlay()
         { TEXT("the_broker"), TEXT("The Broker"), TEXT("You think one ledger can stop me? The whole route belongs to people you have never met."), FVector(-650,10100,0), FLinearColor(0.35f,0.08f,0.12f) },
         { TEXT("survivor"), TEXT("The Survivor"), TEXT("I heard the convoy leader say the next shipment goes through the market after dark."), FVector(650,1900,0), FLinearColor(0.40f,0.30f,0.18f) },
         { TEXT("technician"), TEXT("The Technician"), TEXT("The relay is jammed. Hold this street while I reconnect the transmitter."), FVector(-650,4700,0), FLinearColor(0.18f,0.32f,0.34f) },
-        { TEXT("worker"), TEXT("The Worker"), TEXT("They locked us in after we refused to move the medical cargo."), FVector(650,8200,0), FLinearColor(0.30f,0.26f,0.18f) }
+        { TEXT("worker"), TEXT("The Worker"), TEXT("They locked us in after we refused to move the medical cargo."), FVector(650,7500,0), FLinearColor(0.30f,0.26f,0.18f) }
     };
     for (const FStoryNPCSetup& Setup : StoryNPCs) {
         ADawsStoryNPC* NPC = GetWorld()->SpawnActor<ADawsStoryNPC>(Setup.Location, FRotator::ZeroRotator);
