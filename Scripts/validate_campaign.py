@@ -9,7 +9,7 @@ def read(relative):
 
 def array_lengths(text):
     found = {}
-    pattern = re.compile(r"static const (?:TCHAR\*|int32)\s+(\w+)\[(?:\d*)\]\s*=\s*\{(.*?)\};", re.S)
+    pattern = re.compile(r"(?:static\s+)?const\s+(?:TCHAR\*|int32)\s+(\w+)\[(?:\d*)\]\s*=\s*\{(.*?)\};", re.S)
     for name, body in pattern.findall(text):
         if "TEXT(" in body:
             found.setdefault(name, []).append(len(re.findall(r"TEXT\(", body)))
