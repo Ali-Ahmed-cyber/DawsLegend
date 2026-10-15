@@ -306,6 +306,7 @@ void ADawsPlayerCharacter::RespawnAtCheckpoint()
     if (HealthComponent) HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
     GetCharacterMovement()->SetMovementMode(MOVE_Walking);
     if (APlayerController* PC = Cast<APlayerController>(Controller)) EnableInput(PC);
+    SetStatusMessage(bLoadedCheckpoint ? TEXT("RESPAWNED AT CHECKPOINT") : TEXT("RESPAWNED AT START"));
 }
 
 void ADawsPlayerCharacter::ResetForNewCampaign()
@@ -326,4 +327,5 @@ void ADawsPlayerCharacter::ResetForNewCampaign()
         CombatComponent->OnAmmoChanged.Broadcast(CombatComponent->MagazineAmmo, CombatComponent->ReserveAmmo);
     }
     if (APlayerController* PC = Cast<APlayerController>(Controller)) EnableInput(PC);
+    SetStatusMessage(TEXT("NEW CAMPAIGN STARTED"));
 }
