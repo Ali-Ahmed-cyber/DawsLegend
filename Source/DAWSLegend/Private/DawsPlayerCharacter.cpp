@@ -138,22 +138,24 @@ void ADawsPlayerCharacter::StartSprint() { GetCharacterMovement()->MaxWalkSpeed 
 void ADawsPlayerCharacter::StopSprint() { GetCharacterMovement()->MaxWalkSpeed = WalkSpeed; }
 void ADawsPlayerCharacter::FireWeapon()
 {
-    if (!CombatComponent || !CombatComponent->ConsumeShot() || !FollowCamera) return;
+    if (!CombatComponent || !FollowCamera || !GetWorld()) return;
     const FVector Start = FollowCamera->GetComponentLocation();
     const FVector End = Start + FollowCamera->GetForwardVector() * WeaponRange;
     FHitResult Hit;
     FCollisionQueryParams Params(SCENE_QUERY_STAT(DawsWeaponTrace), true, this);
-    if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params)) {
-        if (AActor* HitActor = Hit.GetActor()) {
-            if (ADawsEnemyCharacter* Enemy = Cast<ADawsEnemyCharacter>(HitActor)) {
-                const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
-                if (Missions && Missions->GetCurrentTaskType() == TEXT("defeat")) {
-                    Enemy->ReceiveWeaponDamage(WeaponDamage);
-                }
-            } else if (UDawsHealthComponent* TargetHealth = HitActor->FindComponentByClass<UDawsHealthComponent>()) {
-                TargetHealth->ApplyDamage(WeaponDamage);
-            }
-        }
+    const bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params);
+    ADawsEnemyCharacter* EnemyTarget = bHit ? Cast<ADawsEnemyCharacter>(Hit.GetActor()) : nullptr;
+    const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
+    if (EnemyTarget && (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat"))) return;
+    if (!CombatComponent->ConsumeShot()) return;
+    if (!bHit) return;
+    if (EnemyTarget) {
+        EnemyTarget->ReceiveWeaponDamage(WeaponDamage);
+        return;
+    }
+    if (AActor* HitActor = Hit.GetActor()) {
+        if (UDawsHealthComponent* TargetHealth = HitActor->FindComponentByClass<UDawsHealthComponent>())
+            TargetHealth->ApplyDamage(WeaponDamage);
     }
 }
 void ADawsPlayerCharacter::ReloadWeapon()
@@ -202,6 +204,11 @@ FText ADawsPlayerCharacter::GetTargetInteractionPrompt() const
     FCollisionQueryParams Params(SCENE_QUERY_STAT(DawsPromptTrace), true, this);
     if (!GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params)) return FText::GetEmpty();
     AActor* Target = Hit.GetActor();
+    if (ADawsEnemyCharacter* Enemy = Cast<ADawsEnemyCharacter>(Target)) {
+        const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
+        if (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat")) return FText::FromString(TEXT("Combat is locked until a hostile objective is active"));
+        return FText::GetEmpty();
+    }
     if (Target && Target->GetClass()->ImplementsInterface(UDawsInteractable::StaticClass())) return IDawsInteractable::Execute_GetInteractionPrompt(Target);
     return FText::GetEmpty();
 }
