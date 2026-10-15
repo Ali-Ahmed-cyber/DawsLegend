@@ -66,7 +66,10 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
 {
     if (!Cast<ADawsPlayerCharacter>(InteractingActor) || !GetGameInstance()) return;
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
-        Missions->SetCurrentDialogue(DialogueLine);
+        FText SpokenLine = DialogueLine;
+        if (NPCId == FName(TEXT("technician")) && Missions->GetCurrentMissionId() == TEXT("chapter03_escort"))
+            SpokenLine = FText::FromString(TEXT("Stay close. We have to reach the broadcast station before the signal window closes."));
+        Missions->SetCurrentDialogue(SpokenLine);
         Missions->RegisterNPCInteraction(NPCId.ToString());
         bHasTalked = true;
     }
