@@ -19,6 +19,11 @@ private:
     UPROPERTY(VisibleAnywhere, Category="Systems") UDawsHealthComponent* HealthComponent;
     UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* BodyVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* HeadVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* LeftArmVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* RightArmVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* LeftLegVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* RightLegVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* HelmetVisual;
     FName EnemyId = TEXT("grunt");
     float AttackCooldown = 0.0f;
     float RangedDamage = 8.0f;
