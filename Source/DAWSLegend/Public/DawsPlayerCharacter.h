@@ -14,6 +14,7 @@ class DAWSLEGEND_API ADawsPlayerCharacter : public ACharacter
     GENERATED_BODY()
 public:
     ADawsPlayerCharacter();
+    void SetCameraFOV(float NewFOV);
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
     UDawsHealthComponent* HealthComponent;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
@@ -31,7 +32,6 @@ protected:
     void FireWeapon();
     void ReloadWeapon();
     void InteractWithWorld();
-    void SetCameraFOV(float NewFOV);
     void SaveCheckpoint();
     void LoadCheckpoint();
     UFUNCTION() void HandlePlayerDeath();
