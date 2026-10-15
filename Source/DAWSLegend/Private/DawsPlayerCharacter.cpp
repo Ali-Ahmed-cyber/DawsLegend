@@ -16,6 +16,7 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/PlayerController.h"
+#include "DawsPlayerController.h"
 #include "TimerManager.h"
 ADawsPlayerCharacter::ADawsPlayerCharacter()
 {
@@ -112,8 +113,20 @@ void ADawsPlayerCharacter::MoveRight(float Value)
     const FRotator YawRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
     AddMovementInput(FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y), Value);
 }
-void ADawsPlayerCharacter::TurnCamera(float Value) { AddControllerYawInput(Value); }
-void ADawsPlayerCharacter::LookUp(float Value) { AddControllerPitchInput(Value); }
+void ADawsPlayerCharacter::TurnCamera(float Value)
+{
+    const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(Controller);
+    AddControllerYawInput(Value * (DawsPC ? DawsPC->GetMouseSensitivity() : 1.0f));
+}
+void ADawsPlayerCharacter::LookUp(float Value)
+{
+    const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(Controller);
+    AddControllerPitchInput(Value * (DawsPC ? DawsPC->GetMouseSensitivity() : 1.0f));
+}
+void ADawsPlayerCharacter::SetCameraFOV(float NewFOV)
+{
+    if (FollowCamera) FollowCamera->SetFieldOfView(FMath::Clamp(NewFOV, 75.0f, 110.0f));
+}
 void ADawsPlayerCharacter::StartSprint() { GetCharacterMovement()->MaxWalkSpeed = SprintSpeed; }
 void ADawsPlayerCharacter::StopSprint() { GetCharacterMovement()->MaxWalkSpeed = WalkSpeed; }
 void ADawsPlayerCharacter::FireWeapon()
