@@ -20,6 +20,7 @@ public:
     UDawsCombatComponent* CombatComponent;
 protected:
     virtual void BeginPlay() override;
+    virtual void Tick(float DeltaSeconds) override;
     virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
     void MoveForward(float Value);
     void MoveRight(float Value);
@@ -36,6 +37,7 @@ protected:
     void RespawnAtCheckpoint();
     FTimerHandle RespawnTimer;
     FVector InitialSpawnLocation = FVector::ZeroVector;
+    float VisualAnimationTime = 0.0f;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
     TObjectPtr<USpringArmComponent> CameraBoom;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
