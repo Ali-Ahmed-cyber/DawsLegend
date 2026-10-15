@@ -167,9 +167,9 @@ void ADawsPlayerController::RestartCampaign()
     if (!GetGameInstance()) return;
     UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
     if (!Missions || Missions->GetCurrentMissionId() != TEXT("campaign_complete")) return;
+    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
     if (ADawsGameMode* Mode = Cast<ADawsGameMode>(UGameplayStatics::GetGameMode(this))) Mode->RestartCampaignWorld();
     else Missions->StartCampaign();
-    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
     bHasStartedGame = true;
     bSettingsMenuOpen = false;
@@ -183,10 +183,16 @@ void ADawsPlayerController::RestartCampaign()
 void ADawsPlayerController::StartNewCampaign()
 {
     if (bHasStartedGame || !GetGameInstance()) return;
-    if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->StartCampaign();
-    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
+    bool bHadSave = false;
+    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) { bHadSave = Saves->HasSave(); Saves->DeleteSave(); }
+    if (bHadSave) {
+        if (ADawsGameMode* Mode = Cast<ADawsGameMode>(UGameplayStatics::GetGameMode(this))) Mode->RestartCampaignWorld();
+        else if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->StartCampaign();
+    } else {
+        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->StartCampaign();
+        for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
+        for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) It->ResetForNewCampaign();
+    }
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
-    for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
-    for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) It->ResetForNewCampaign();
     StartGame();
 }
