@@ -34,6 +34,10 @@ private:
     FString PickupId;
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<UStaticMeshComponent> PickupVisual;
+    UPROPERTY(VisibleAnywhere)
+    TObjectPtr<UStaticMeshComponent> AccentVisual;
+    UPROPERTY(VisibleAnywhere)
+    TObjectPtr<UStaticMeshComponent> SecondaryAccentVisual;
     UFUNCTION()
     void HandleOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                        UPrimitiveComponent* OtherComp, int32 OtherBodyIndex,
