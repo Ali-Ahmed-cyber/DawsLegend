@@ -69,7 +69,9 @@ jobs:
           assert "AdjustSettingRight" in controller and "MouseSensitivity" in controller
           assert "bSubtitlesEnabled" in controller and "Camera FOV" in hud
           pickup = (source / "Private/DawsPickup.cpp").read_text()
+          story_npc = (source / "Private/DawsStoryNPC.cpp").read_text()
           assert "RegisterTaskProgress" in mission and "CanCompleteCurrentMission" in trigger
+          assert "RegisterNPCInteraction" in mission and "RegisterNPCInteraction" in story_npc
           assert "SetCurrentDialogue" in (source / "Public/DawsMissionSubsystem.h").read_text()
           save_data = (source / "Public/DawsSaveGame.h").read_text()
           save_code = (source / "Private/DawsSaveSubsystem.cpp").read_text()
