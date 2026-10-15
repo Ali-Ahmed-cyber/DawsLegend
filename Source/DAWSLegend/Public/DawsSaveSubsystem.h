@@ -11,7 +11,7 @@ class DAWSLEGEND_API UDawsSaveSubsystem : public UGameInstanceSubsystem
     GENERATED_BODY()
 public:
     UFUNCTION(BlueprintCallable, Category="Save")
-    bool SaveCheckpoint(int32 StoryChapter, const FString& MissionId, AActor* PlayerActor, float PlayerHealth);
+    bool SaveCheckpoint(int32 StoryChapter, const FString& MissionId, AActor* PlayerActor, float PlayerHealth, const FVector& OverrideLocation = FVector::ZeroVector, bool bUseOverrideLocation = false);
     UFUNCTION(BlueprintCallable, Category="Save")
     bool SaveTaskProgress(AActor* PlayerActor, float PlayerHealth, const FString& CollectedPickupId = FString());
     UFUNCTION(BlueprintPure, Category="Save")
