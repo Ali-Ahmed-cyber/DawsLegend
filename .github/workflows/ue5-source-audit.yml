@@ -106,6 +106,7 @@ jobs:
           assert "SaveTaskProgress" in save_code and "SaveTaskProgress" in (source / "Private/DawsPickup.cpp").read_text() and "SaveTaskProgress" in (source / "Private/DawsEnemyCharacter.cpp").read_text()
           assert "bUseOverrideLocation ? OverrideLocation" in save_code
           assert "NextCheckpointLocation" in (source / "Private/DawsMissionTrigger.cpp").read_text()
+          assert "NextCheckpointLocation" in (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert "CollectedPickupIds" in save_code and "IsPickupCollected" in (source / "Private/DawsPickup.cpp").read_text()
           assert "task_pickup_%02d" in (source / "Private/DawsGameMode.cpp").read_text()
           assert "RestoreTaskProgress" in player
