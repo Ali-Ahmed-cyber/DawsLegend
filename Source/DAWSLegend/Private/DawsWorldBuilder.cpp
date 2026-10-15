@@ -104,6 +104,34 @@ void ADawsWorldBuilder::BuildEnvironment()
         AddBlock(FVector(650,Y+650.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));
     }
 
+    // Market lane: tea counters, fabric awnings, stools and stacked produce crates.
+    const FVector StallCenters[4] = {
+        FVector(-760,2250,0), FVector(760,2500,0),
+        FVector(-760,2850,0), FVector(760,3150,0)
+    };
+    const FLinearColor AwningColors[4] = {
+        FLinearColor(0.08f,0.42f,0.39f), FLinearColor(0.74f,0.22f,0.14f),
+        FLinearColor(0.88f,0.68f,0.22f), FLinearColor(0.12f,0.25f,0.42f)
+    };
+    for (int32 Stall = 0; Stall < UE_ARRAY_COUNT(StallCenters); ++Stall) {
+        const FVector Center = StallCenters[Stall];
+        AddBlock(Center + FVector(0,0,72), FVector(1.45f,0.65f,0.12f), FLinearColor(0.29f,0.18f,0.11f));
+        AddBlock(Center + FVector(0,0,205), FVector(1.6f,0.82f,0.10f), AwningColors[Stall], false);
+        for (int32 Post : {-1,1})
+            AddPrimitive(CylinderMesh, Center + FVector(Post*135.0f,0,140), FVector(0.055f,0.055f,1.4f), FLinearColor(0.18f,0.15f,0.12f), false);
+        AddBlock(Center + FVector(-80,45,112), FVector(0.28f,0.28f,0.32f), FLinearColor(0.56f,0.31f,0.12f));
+        AddBlock(Center + FVector(45,50,112), FVector(0.28f,0.28f,0.32f), FLinearColor(0.28f,0.42f,0.18f));
+        AddBlock(Center + FVector(145,-55,48), FVector(0.42f,0.42f,0.36f), FLinearColor(0.34f,0.23f,0.14f));
+        AddPrimitive(CylinderMesh, Center + FVector(-135,-105,42), FVector(0.12f,0.12f,0.42f), FLinearColor(0.12f,0.14f,0.15f), true);
+    }
+    // A small shaded tea corner and public seating along the market wall.
+    AddBlock(FVector(980,3650,175), FVector(2.1f,1.6f,0.10f), FLinearColor(0.13f,0.34f,0.29f), false);
+    for (int32 Seat = 0; Seat < 3; ++Seat) {
+        const FVector Bench(880.0f + Seat*150.0f, 3550.0f, 42.0f);
+        AddBlock(Bench, FVector(0.52f,0.12f,0.10f), FLinearColor(0.38f,0.25f,0.14f));
+        AddPrimitive(CylinderMesh, Bench+FVector(-38,0,-20), FVector(0.055f,0.055f,0.22f), FLinearColor(0.18f,0.17f,0.15f), true);
+        AddPrimitive(CylinderMesh, Bench+FVector(38,0,-20), FVector(0.055f,0.055f,0.22f), FLinearColor(0.18f,0.17f,0.15f), true);
+    }
     // Final depot district: warehouses, cargo containers and a broadcast mast.
     AddBlock(FVector(-1280,9520,245), FVector(6.5f,6.0f,4.8f), FLinearColor(0.48f,0.37f,0.25f));
     AddBlock(FVector(1280,9960,275), FVector(6.8f,6.5f,5.4f), FLinearColor(0.38f,0.42f,0.40f));
