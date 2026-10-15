@@ -34,7 +34,7 @@
 - Esc: pause/resume
 - F1: options (mouse sensitivity, camera field of view, subtitles, low/medium/high graphics)
 - Arrow keys: navigate and change options
-- Gamepad: left stick move/steer, right stick camera, left trigger aim, right trigger fire, face buttons interact/jump/reload, left shoulder sprint
+- Gamepad: left stick move/steer, right stick camera, left trigger aim, right trigger fire, face buttons interact/jump/reload, Y continues or restarts when relevant, left shoulder sprint
 
 ## Final character-photo rule
 - DINRITO: user photo wearing the white Real Madrid shirt.
