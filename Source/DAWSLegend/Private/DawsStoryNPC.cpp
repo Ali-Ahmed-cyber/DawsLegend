@@ -132,13 +132,13 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
                 SetActorLocation(ClinicSupportLocation, false, nullptr, ETeleportType::TeleportPhysics);
         }
         if (ActiveMission == TEXT("chapter06_witness_run")) {
-            if (NPCId == FName(TEXT("sami"))) SetActorLocation(FVector(-650,11050,0), false, nullptr, ETeleportType::TeleportPhysics);
-            else if (NPCId == FName(TEXT("survivor"))) SetActorLocation(FVector(-650,11250,0), false, nullptr, ETeleportType::TeleportPhysics);
-            else if (NPCId == FName(TEXT("captain_nadir"))) SetActorLocation(FVector(650,11160,0), false, nullptr, ETeleportType::TeleportPhysics);
+            if (NPCId == FName(TEXT("sami")) && FVector::DistSquared2D(GetActorLocation(), FVector(-650,11050,0)) > 2500.0f) SetActorLocation(FVector(-650,11050,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("survivor")) && FVector::DistSquared2D(GetActorLocation(), FVector(-650,11250,0)) > 2500.0f) SetActorLocation(FVector(-650,11250,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("captain_nadir")) && FVector::DistSquared2D(GetActorLocation(), FVector(650,11160,0)) > 2500.0f) SetActorLocation(FVector(650,11160,0), false, nullptr, ETeleportType::TeleportPhysics);
         } else {
-            if (NPCId == FName(TEXT("sami"))) SetActorLocation(FVector(-650,3900,0), false, nullptr, ETeleportType::TeleportPhysics);
-            else if (NPCId == FName(TEXT("survivor"))) SetActorLocation(FVector(-650,1900,0), false, nullptr, ETeleportType::TeleportPhysics);
-            else if (NPCId == FName(TEXT("captain_nadir"))) SetActorLocation(FVector(650,5400,0), false, nullptr, ETeleportType::TeleportPhysics);
+            if (NPCId == FName(TEXT("sami")) && FVector::DistSquared2D(GetActorLocation(), FVector(-650,3900,0)) > 2500.0f) SetActorLocation(FVector(-650,3900,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("survivor")) && FVector::DistSquared2D(GetActorLocation(), FVector(-650,1900,0)) > 2500.0f) SetActorLocation(FVector(-650,1900,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("captain_nadir")) && FVector::DistSquared2D(GetActorLocation(), FVector(650,5400,0)) > 2500.0f) SetActorLocation(FVector(650,5400,0), false, nullptr, ETeleportType::TeleportPhysics);
         }
         bIsMainCompanion = NPCId == FName(TEXT("tawfiq")) || NPCId == FName(TEXT("amjad"));
         if (bIsMainCompanion && Missions && ActiveMission != TEXT("campaign_complete")) {
