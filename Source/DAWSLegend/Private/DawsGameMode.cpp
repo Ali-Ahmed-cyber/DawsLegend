@@ -33,7 +33,8 @@ void ADawsGameMode::StartPlay()
     };
     const float MissionY[15] = { 500,1200,1900,2600,3300,4000,4700,5400,6100,6800,7500,8200,8900,9600,10300 };
     for (int32 Index = 0; Index < 15; ++Index) {
-        ADawsMissionTrigger* Trigger = GetWorld()->SpawnActor<ADawsMissionTrigger>(FVector(0, MissionY[Index], 90), FRotator::ZeroRotator);
+        const FVector MarkerLocation = Index == 0 ? FVector(500,0,90) : FVector(0, MissionY[Index], 90);
+        ADawsMissionTrigger* Trigger = GetWorld()->SpawnActor<ADawsMissionTrigger>(MarkerLocation, FRotator::ZeroRotator);
         if (Trigger) {
             Trigger->MissionId = FName(MissionNames[Index]);
             Trigger->ObjectiveText = FText::FromString(FString::Printf(TEXT("Continue campaign mission %d of 15"), Index+1));
