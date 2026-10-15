@@ -22,6 +22,10 @@ public:
     float PlayerHealth = 100.0f;
     UPROPERTY(BlueprintReadWrite, Category="Progress")
     int32 CurrentTaskProgress = 0;
+    UPROPERTY(BlueprintReadWrite, Category="Player")
+    int32 MagazineAmmo = 12;
+    UPROPERTY(BlueprintReadWrite, Category="Player")
+    int32 ReserveAmmo = 72;
     UPROPERTY(BlueprintReadWrite, Category="Settings")
     float MasterVolume = 1.0f;
     UPROPERTY(BlueprintReadWrite, Category="Settings")
