@@ -5,6 +5,8 @@
 #include "DawsHUD.h"
 #include "DawsEnemyCharacter.h"
 #include "DawsPickup.h"
+#include "DawsMissionSubsystem.h"
+#include "Engine/GameInstance.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 ADawsGameMode::ADawsGameMode()
@@ -18,6 +20,16 @@ void ADawsGameMode::StartPlay()
     Super::StartPlay();
     if (!GetWorld()) return;
     GetWorld()->SpawnActor<ADawsWorldBuilder>(FVector::ZeroVector, FRotator::ZeroRotator);
+    if (GetGameInstance()) {
+        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+            TArray<FDawsMissionObjective> InitialObjectives;
+            FDawsMissionObjective InitialObjective;
+            InitialObjective.Id = TEXT("chapter01_plaza_reach");
+            InitialObjective.Description = FText::FromString(TEXT("Reach the plaza and secure the area"));
+            InitialObjectives.Add(InitialObjective);
+            Missions->StartMission(TEXT("chapter01_plaza"), FText::FromString(TEXT("The First Signal")), InitialObjectives);
+        }
+    }
     const FVector MissionPositions[3] = { FVector(0,850,90), FVector(850,0,90), FVector(-850,0,90) };
     const TCHAR* MissionNames[3] = { TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue") };
     const TCHAR* MissionDescriptions[3] = {
