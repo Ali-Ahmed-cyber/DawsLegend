@@ -8,4 +8,5 @@ class DAWSLEGEND_API ADawsGameMode : public AGameModeBase
     GENERATED_BODY()
 public:
     ADawsGameMode();
+    virtual void StartPlay() override;
 };
