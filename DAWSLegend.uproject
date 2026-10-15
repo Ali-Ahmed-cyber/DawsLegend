@@ -1,0 +1,8 @@
+{
+  "FileVersion": 3,
+  "EngineAssociation": "5.4",
+  "Category": "Games",
+  "Description": "DAWS LEGEND - open-world story action game",
+  "Modules": [{"Name": "DAWSLegend", "Type": "Runtime", "LoadingPhase": "Default"}],
+  "Plugins": [{"Name": "EnhancedInput", "Enabled": true}]
+}
