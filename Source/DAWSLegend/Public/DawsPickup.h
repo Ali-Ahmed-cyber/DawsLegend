@@ -26,6 +26,7 @@ public:
     const FString& GetPickupId() const { return PickupId; }
 protected:
     virtual void BeginPlay() override;
+    virtual void Tick(float DeltaSeconds) override;
 private:
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<USphereComponent> PickupCollision;
