@@ -13,7 +13,7 @@
 - Four enemy archetypes with different health, movement speed and damage; mission-gated combat; ranged pressure, close-range attacks, moving player/enemy shot tracers, hit-marker feedback, death handling, and checkpoint respawn.
 - Live objective waypoint distance/direction, named district labels, health/ammo/vehicle durability bars, and a restartable campaign world.
 - Arcade driving with enter/exit interaction, speed-based wheel rotation and a chase camera.
-- Eleven original supporting characters plus Tawfiq and Amjad as persistent yellow-kit and black-kit companions with follow movement and contextual dialogue; campaign story bible and character roster.
+- Fifteen original supporting characters plus Tawfiq and Amjad as persistent yellow-kit and black-kit companions with follow movement and contextual dialogue; campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
 ## Local build and package (Windows + Unreal Engine 5.4)
