@@ -133,12 +133,17 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
         FCollisionQueryParams ShotParams(SCENE_QUERY_STAT(DawsEnemyShot), true, this);
         const FVector ShotStart = GetActorLocation() + FVector(0,0,65);
         const FVector ShotEnd = TargetPawn->GetActorLocation() + FVector(0,0,45);
-        if (GetWorld()->LineTraceSingleByChannel(ShotHit, ShotStart, ShotEnd, ECC_Visibility, ShotParams) && ShotHit.GetActor() == TargetPawn) {
+        const bool bClearShot = GetWorld()->LineTraceSingleByChannel(ShotHit, ShotStart, ShotEnd, ECC_Visibility, ShotParams) && ShotHit.GetActor() == TargetPawn;
+        if (bClearShot) {
             if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(TargetPawn)) {
                 if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(RangedDamage);
             } else if (ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(TargetPawn)) {
                 Vehicle->ApplyVehicleDamage(RangedDamage * 1.5f);
             }
+        } else {
+            FVector FlankDirection = FVector::CrossProduct(FVector::UpVector, (TargetPawn->GetActorLocation() - GetActorLocation()).GetSafeNormal2D()).GetSafeNormal();
+            if ((GetUniqueID() % 2) == 0) FlankDirection *= -1.0f;
+            AddMovementInput(FlankDirection, 0.5f);
         }
         AttackCooldown = 1.8f;
     } else if (Distance <= 170.0f && AttackCooldown <= 0.0f) {
