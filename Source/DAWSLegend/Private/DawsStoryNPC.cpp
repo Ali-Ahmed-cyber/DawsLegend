@@ -73,16 +73,33 @@ ADawsStoryNPC::ADawsStoryNPC()
 void ADawsStoryNPC::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
-    if (!bHasTalked || NPCId != FName(TEXT("technician")) || !GetGameInstance()) return;
-    const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
-    if (!Missions || Missions->GetCurrentMissionId() != TEXT("chapter03_escort")) return;
-    APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
-    if (!PlayerPawn) return;
-    const FVector DesiredLocation = PlayerPawn->GetActorLocation() - PlayerPawn->GetActorForwardVector() * 190.0f;
-    const FVector SmoothedLocation = FMath::VInterpTo(GetActorLocation(), DesiredLocation, DeltaSeconds, 2.8f);
-    SetActorLocation(SmoothedLocation, true);
-    const FVector ToPlayer = PlayerPawn->GetActorLocation() - GetActorLocation();
-    if (!ToPlayer.IsNearlyZero()) SetActorRotation(FMath::RInterpTo(GetActorRotation(), ToPlayer.Rotation(), DeltaSeconds, 4.0f));
+    VisualAnimationTime += DeltaSeconds;
+    const float IdleBob = FMath::Abs(FMath::Sin(VisualAnimationTime * 2.0f)) * 1.4f;
+    if (BodyVisual) BodyVisual->SetRelativeLocation(FVector(0,0,48.0f + IdleBob));
+    if (HeadVisual) HeadVisual->SetRelativeLocation(FVector(0,0,91.0f + IdleBob));
+    bool bEscorting = false;
+    APawn* PlayerPawn = nullptr;
+    if (bHasTalked && NPCId == FName(TEXT("technician")) && GetGameInstance()) {
+        const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
+        if (Missions && Missions->GetCurrentMissionId() == TEXT("chapter03_escort")) {
+            PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+            bEscorting = PlayerPawn != nullptr;
+        }
+    }
+    float Swing = FMath::Sin(VisualAnimationTime * 1.8f) * 2.0f;
+    if (bEscorting && PlayerPawn) {
+        const FVector DesiredLocation = PlayerPawn->GetActorLocation() - PlayerPawn->GetActorForwardVector() * 190.0f;
+        const float FollowDistance = FVector::Dist2D(GetActorLocation(), DesiredLocation);
+        if (FollowDistance > 95.0f) Swing = FMath::Sin(VisualAnimationTime * 8.5f) * 17.0f;
+        const FVector SmoothedLocation = FMath::VInterpTo(GetActorLocation(), DesiredLocation, DeltaSeconds, 2.8f);
+        SetActorLocation(SmoothedLocation, true);
+        const FVector ToPlayer = PlayerPawn->GetActorLocation() - GetActorLocation();
+        if (!ToPlayer.IsNearlyZero()) SetActorRotation(FMath::RInterpTo(GetActorRotation(), ToPlayer.Rotation(), DeltaSeconds, 4.0f));
+    }
+    if (LeftArmVisual) LeftArmVisual->SetRelativeRotation(FRotator(Swing,0,0));
+    if (RightArmVisual) RightArmVisual->SetRelativeRotation(FRotator(-Swing,0,0));
+    if (LeftLegVisual) LeftLegVisual->SetRelativeRotation(FRotator(-Swing*0.8f,0,0));
+    if (RightLegVisual) RightLegVisual->SetRelativeRotation(FRotator(Swing*0.8f,0,0));
 }
 void ADawsStoryNPC::ConfigureNPC(FName NewId, const FText& NewName, const FText& NewDialogue, FLinearColor NewClothingColor)
 {
