@@ -69,6 +69,10 @@ ADawsEnemyCharacter::ADawsEnemyCharacter()
     HelmetVisual->SetRelativeScale3D(FVector(0.34f,0.34f,0.12f));
     HelmetVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
+float ADawsEnemyCharacter::GetHealthRatio() const
+{
+    return HealthComponent && HealthComponent->MaxHealth > 0.0f ? HealthComponent->CurrentHealth / HealthComponent->MaxHealth : 0.0f;
+}
 void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
 {
     EnemyId = NewEnemyId;
