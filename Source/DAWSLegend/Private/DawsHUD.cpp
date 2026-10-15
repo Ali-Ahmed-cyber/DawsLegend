@@ -64,6 +64,10 @@ void ADawsHUD::DrawHUD()
         }
     }
     DrawTextLine(TEXT("DAWS LEGEND"), 42, 32, 1.25f, FLinearColor(0.15f,0.95f,0.78f));
+    if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
+        const FString Status = Player->GetStatusMessage();
+        if (!Status.IsEmpty()) DrawTextLine(Status, W*0.5f-145.0f, 118.0f, 0.95f, FLinearColor(0.15f,0.95f,0.78f));
+    }
     if (GetWorld() && GetWorld()->GetGameInstance()) {
         if (const UDawsMissionSubsystem* Missions = GetWorld()->GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>())
             DrawTextLine(FString::Printf(TEXT("STORY CAMPAIGN  |  CHAPTER %02d"), Missions->GetCurrentChapterNumber()), 44, 68, 0.78f, FLinearColor::White);
