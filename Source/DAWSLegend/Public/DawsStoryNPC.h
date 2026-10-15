@@ -45,5 +45,6 @@ private:
     UPROPERTY()
     FLinearColor ClothingColor = FLinearColor(0.1f,0.25f,0.3f);
     bool bHasTalked = false;
+    float VisualAnimationTime = 0.0f;
     void ApplyClothingColor();
 };
