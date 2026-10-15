@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate campaign consistency and critical gameplay wiring
-        run: python3 Scripts/validate_campaign.py
+        run: python3 Scripts/validate_campaign_30.py
       - name: Validate Unreal project descriptor
         run: python3 -m json.tool DAWSLegend.uproject > /dev/null
       - name: Verify required gameplay source files
