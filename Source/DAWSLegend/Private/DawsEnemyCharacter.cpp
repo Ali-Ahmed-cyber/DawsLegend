@@ -77,7 +77,7 @@ float ADawsEnemyCharacter::GetHealthRatio() const
 void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
 {
     EnemyId = NewEnemyId;
-    bIsSpecialTarget = bSpecialTarget || NewEnemyId == FName(TEXT("enforcer"));
+    bIsSpecialTarget = bSpecialTarget;
     FLinearColor BodyColor(0.42f,0.08f,0.07f);
     float MaxHealth = 100.0f;
     RangedDamage = 8.0f;
