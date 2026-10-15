@@ -178,6 +178,18 @@ void ADawsPlayerCharacter::LoadCheckpoint()
     }
 }
 
+FText ADawsPlayerCharacter::GetTargetInteractionPrompt() const
+{
+    if (!FollowCamera || !GetWorld()) return FText::GetEmpty();
+    const FVector Start = FollowCamera->GetComponentLocation();
+    const FVector End = Start + FollowCamera->GetForwardVector() * 650.0f;
+    FHitResult Hit;
+    FCollisionQueryParams Params(SCENE_QUERY_STAT(DawsPromptTrace), true, this);
+    if (!GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params)) return FText::GetEmpty();
+    AActor* Target = Hit.GetActor();
+    if (Target && Target->GetClass()->ImplementsInterface(UDawsInteractable::StaticClass())) return IDawsInteractable::Execute_GetInteractionPrompt(Target);
+    return FText::GetEmpty();
+}
 void ADawsPlayerCharacter::InteractWithWorld()
 {
     if (!FollowCamera || !GetWorld()) return;
