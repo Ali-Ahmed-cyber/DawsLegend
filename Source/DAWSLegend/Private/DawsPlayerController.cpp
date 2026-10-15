@@ -1,5 +1,6 @@
 #include "DawsPlayerController.h"
 #include "GameFramework/GameModeBase.h"
+#include "DawsGameMode.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
@@ -153,11 +154,10 @@ void ADawsPlayerController::RestartCampaign()
     if (!GetGameInstance()) return;
     UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
     if (!Missions || Missions->GetCurrentMissionId() != TEXT("campaign_complete")) return;
-    Missions->StartCampaign();
+    if (ADawsGameMode* Mode = Cast<ADawsGameMode>(UGameplayStatics::GetGameMode(this))) Mode->RestartCampaignWorld();
+    else Missions->StartCampaign();
     if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
-    for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
-    for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) It->ResetForNewCampaign();
     bHasStartedGame = true;
     bSettingsMenuOpen = false;
     bDawsPaused = false;
