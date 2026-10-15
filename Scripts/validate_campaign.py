@@ -39,6 +39,7 @@ assert "StoryNPCs[10]" in game_mode and 'TEXT("tawfiq")' in game_mode and 'TEXT(
 hud = read("Source/DAWSLegend/Private/DawsHUD.cpp")
 assert 'BindAction("Jump", IE_Pressed' in player and "StartJump" in player, "Jump input must be bound"
 assert 'GetCurrentTaskType() != TEXT("defeat")' in enemy, "Enemy AI must respect combat mission gating"
+assert "AAIController::StaticClass" in enemy and "AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned" in enemy, "Spawned enemies must possess AI controllers to move"
 assert "ReceiveWeaponDamage" in player and "ReceiveWeaponDamage" in enemy, "Enemy weapon damage API must be connected"
 assert "VInterpTo" in npc and "chapter03_escort" in npc, "Technician escort behavior must exist"
 assert "ActiveMission == TEXT(\"chapter05_finale\")" in npc and "NPCId == FName(TEXT(\"tawfiq\"))" in npc, "Main companions need contextual campaign dialogue"
