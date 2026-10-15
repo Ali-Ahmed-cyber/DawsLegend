@@ -35,8 +35,16 @@ void ADawsHUD::DrawHUD()
             }
         }
         if (PC->IsPaused()) {
+            if (ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(PC); DawsPC && DawsPC->IsSettingsMenuOpen()) {
+                DrawTextLine(TEXT("OPTIONS"), W*0.5f-85.0f, H*0.27f, 1.7f, FLinearColor(0.15f,0.95f,0.78f));
+                DrawTextLine(FString::Printf(TEXT("%s Mouse sensitivity: %.1f"), DawsPC->GetSelectedSetting()==0 ? TEXT(">") : TEXT(" "), DawsPC->GetMouseSensitivity()), W*0.5f-180.0f, H*0.40f, 0.95f, FLinearColor::White);
+                DrawTextLine(FString::Printf(TEXT("%s Camera FOV: %.0f"), DawsPC->GetSelectedSetting()==1 ? TEXT(">") : TEXT(" "), DawsPC->GetCameraFOV()), W*0.5f-180.0f, H*0.47f, 0.95f, FLinearColor::White);
+                DrawTextLine(FString::Printf(TEXT("%s Subtitles: %s"), DawsPC->GetSelectedSetting()==2 ? TEXT(">") : TEXT(" "), DawsPC->AreSubtitlesEnabled() ? TEXT("ON") : TEXT("OFF")), W*0.5f-180.0f, H*0.54f, 0.95f, FLinearColor::White);
+                DrawTextLine(TEXT("UP/DOWN SELECT   LEFT/RIGHT CHANGE   F1 CLOSE   ESC RESUME"), W*0.5f-255.0f, H*0.68f, 0.75f, FLinearColor::White);
+                return;
+            }
             DrawTextLine(TEXT("PAUSED"), W*0.5f-70.0f, H*0.38f, 1.8f, FLinearColor(0.15f,0.95f,0.78f));
-            DrawTextLine(TEXT("Press ESC to resume"), W*0.5f-100.0f, H*0.46f, 1.0f, FLinearColor::White);
+            DrawTextLine(TEXT("F1 OPTIONS   ESC RESUME"), W*0.5f-135.0f, H*0.46f, 1.0f, FLinearColor::White);
             return;
         }
     }
@@ -48,7 +56,7 @@ void ADawsHUD::DrawHUD()
             DrawTextLine(FString::Printf(TEXT("MISSION %02d / 15  |  %s"), Missions->GetCampaignMissionNumber(), *Missions->GetCurrentMissionTitle().ToString()), 44, H-145, 0.84f, FLinearColor(1.0f,0.72f,0.25f));
             const TArray<FDawsMissionObjective>& Objectives = Missions->GetObjectives();
             if (Objectives.Num() > 0) DrawTextLine(FString::Printf(TEXT("OBJECTIVE: %s"), *Objectives[0].Description.ToString()), 44, H-108, 0.78f, FLinearColor::White);
-            DrawTextLine(Missions->GetCurrentDialogue().ToString(), 44, H-185, 0.68f, FLinearColor(0.85f,0.92f,1.0f));
+            if (const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(GetOwningPlayerController()); !DawsPC || DawsPC->AreSubtitlesEnabled()) DrawTextLine(Missions->GetCurrentDialogue().ToString(), 44, H-185, 0.68f, FLinearColor(0.85f,0.92f,1.0f));
         }
     }
     if (GetWorld() && GetWorld()->GetGameInstance()) {
