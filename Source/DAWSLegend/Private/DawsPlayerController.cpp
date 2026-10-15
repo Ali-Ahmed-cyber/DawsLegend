@@ -153,6 +153,7 @@ void ADawsPlayerController::RestartCampaign()
     UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
     if (!Missions || Missions->GetCurrentMissionId() != TEXT("campaign_complete")) return;
     Missions->StartCampaign();
+    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
     for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
     bHasStartedGame = true;
