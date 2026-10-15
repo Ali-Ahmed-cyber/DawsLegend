@@ -48,6 +48,7 @@ protected:
     FTimerHandle RespawnTimer;
     FVector InitialSpawnLocation = FVector::ZeroVector;
     float VisualAnimationTime = 0.0f;
+    float RecoilAmount = 0.0f;
     bool bIsAiming = false;
     FString StatusMessage;
     float StatusMessageTime = 0.0f;
