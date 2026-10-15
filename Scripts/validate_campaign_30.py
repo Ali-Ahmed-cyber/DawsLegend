@@ -38,12 +38,12 @@ spawn_ids = string_array(game_mode, "MissionNames")
 assert mission_ids == trigger_ids == spawn_ids, "Mission IDs must match across campaign, markers and runtime spawning"
 
 task_types = string_array(mission, "TaskTypes")
-target_match = re.search(r"static\\s+const\\s+TCHAR\\*\\s+TaskTargets\\[\\d*\\]\\s*=\\s*\\{(.*?)\\};", mission, re.S)
+target_match = re.search(r"static\s+const\s+TCHAR\*\s+TaskTargets\[\d*\]\s*=\s*\{(.*?)\};", mission, re.S)
 assert target_match, "Could not read mission task targets"
-task_targets = re.findall(r'TEXT\\("([^"]*)"\\)', target_match.group(1))
-npc_match = re.search(r"StoryNPCs\\[\\d+\\]\\s*=\\s*\\{(.*?)\\n    \\};", game_mode, re.S)
+task_targets = re.findall(r'TEXT\("([^"]*)"\)', target_match.group(1))
+npc_match = re.search(r"StoryNPCs\[\d+\]\s*=\s*\{(.*?)\n    \};", game_mode, re.S)
 assert npc_match, "Could not read runtime story NPC setup"
-npc_ids = set(re.findall(r'\\{ TEXT\\("([^"]+)"\\), TEXT\\("', npc_match.group(1)))
+npc_ids = set(re.findall(r'\{ TEXT\("([^"]+)"\), TEXT\("', npc_match.group(1)))
 assert len(task_types) == len(task_targets) == 30, "Task types and targets must align with all 30 missions"
 missing_talk_targets = [target for task, target in zip(task_types, task_targets) if task == "talk" and target not in npc_ids]
 assert not missing_talk_targets, f"Talk missions reference missing NPCs: {missing_talk_targets}"
