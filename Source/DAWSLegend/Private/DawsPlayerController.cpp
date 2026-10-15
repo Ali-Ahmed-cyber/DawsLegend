@@ -5,6 +5,10 @@
 #include "DawsPlayerCharacter.h"
 #include "DawsVehiclePawn.h"
 #include "DawsSaveGame.h"
+#include "DawsMissionSubsystem.h"
+#include "DawsMissionTrigger.h"
+#include "Engine/GameInstance.h"
+#include "EngineUtils.h"
 ADawsPlayerController::ADawsPlayerController()
 {
     bShowMouseCursor = false;
@@ -27,6 +31,8 @@ void ADawsPlayerController::SetupInputComponent()
     FInputActionBinding& StartBinding = InputComponent->BindAction("StartGame", IE_Pressed, this, &ADawsPlayerController::StartGame);
     StartBinding.bExecuteWhenPaused = true;
     FInputActionBinding& ContinueBinding = InputComponent->BindAction("ContinueGame", IE_Pressed, this, &ADawsPlayerController::ContinueGame);
+    FInputActionBinding& RestartBinding = InputComponent->BindAction("RestartCampaign", IE_Pressed, this, &ADawsPlayerController::RestartCampaign);
+    RestartBinding.bExecuteWhenPaused = true;
     ContinueBinding.bExecuteWhenPaused = true;
     FInputActionBinding& OptionsBinding = InputComponent->BindAction("Options", IE_Pressed, this, &ADawsPlayerController::ToggleSettings);
     OptionsBinding.bExecuteWhenPaused = true;
@@ -138,4 +144,21 @@ void ADawsPlayerController::ContinueGame()
         if (UGameplayStatics::DoesSaveGameExist(TEXT("DAWSLegend_Main"), 0)) Player->LoadCheckpoint();
     }
     StartGame();
+}
+
+void ADawsPlayerController::RestartCampaign()
+{
+    if (!GetGameInstance()) return;
+    UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
+    if (!Missions || Missions->GetCurrentMissionId() != TEXT("campaign_complete")) return;
+    Missions->StartCampaign();
+    if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
+    for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
+    bHasStartedGame = true;
+    bSettingsMenuOpen = false;
+    bDawsPaused = false;
+    SetPause(false);
+    bShowMouseCursor = false;
+    FInputModeGameOnly Mode;
+    SetInputMode(Mode);
 }
