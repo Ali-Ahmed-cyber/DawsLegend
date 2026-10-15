@@ -29,6 +29,8 @@ private:
     float AttackCooldown = 0.0f;
     float RangedDamage = 8.0f;
     float MeleeDamage = 12.0f;
+    float AttackRange = 800.0f;
+    bool bPreferMelee = false;
     float VisualAnimationTime = 0.0f;
     UFUNCTION() void HandleDeath();
 };
