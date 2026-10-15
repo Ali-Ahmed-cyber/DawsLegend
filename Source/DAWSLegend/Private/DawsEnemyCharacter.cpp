@@ -76,6 +76,10 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
         AttackCooldown = 1.25f;
     }
 }
+void ADawsEnemyCharacter::ReceiveWeaponDamage(float Amount)
+{
+    if (HealthComponent && HealthComponent->IsAlive()) HealthComponent->ApplyDamage(Amount);
+}
 void ADawsEnemyCharacter::HandleDeath()
 {
     if (GetGameInstance()) {
