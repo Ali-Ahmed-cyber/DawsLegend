@@ -11,7 +11,7 @@ This is the implementation checklist for the full game, not a claim that each fe
 - [ ] Input rebinding and gamepad support.
 - [x] Interaction trace, contextual prompt text and active mission markers.
 - [x] Basic weapon trace combat, enemy health, pursuit/ranged/melee attacks and defeat handling.
-- [ ] Vehicle possession, driving, enter/exit and damage.
+- [x] Basic arcade vehicle possession, driving, enter/exit and chase camera.\n- [ ] Vehicle damage, repair and handling polish.
 - [ ] Dialogue graph, choices and relationship flags.
 - [x] Objective tracker, title screen, pause menu, sensitivity/FOV/subtitle options.\n- [x] 15-step campaign state with collection/evidence/defeat requirements and subtitle dialogue.
 - [x] Mission markers, autosave checkpoints, manual save/load and death respawn.
