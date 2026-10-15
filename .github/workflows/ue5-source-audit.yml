@@ -69,6 +69,7 @@ jobs:
           tracer = (source / "Private/DawsBulletTracer.cpp").read_text()
           assert "InitializeTracer" in tracer and "TravelSpeed" in tracer
           assert "DawsBulletTracer" in player and "DawsBulletTracer" in enemy_code
+          assert "HitMarkerTime" in player and "IsHitMarkerVisible" in hud and "bHitConfirmed" in hud
           assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
           assert "bFinalConfrontation" in enemy_code and "chapter05_finale" in player
           assert "BindAction(\"Jump\", IE_Pressed, this, &ACharacter::Jump)" not in player
