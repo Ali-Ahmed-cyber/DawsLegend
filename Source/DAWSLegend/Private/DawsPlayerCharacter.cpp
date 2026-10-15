@@ -1,5 +1,9 @@
 #include "DawsPlayerCharacter.h"
 #include "Camera/CameraComponent.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
+#include "Materials/MaterialInstanceDynamic.h"
+#include "UObject/ConstructorHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/InputComponent.h"
@@ -36,6 +40,31 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
     FollowCamera->bUsePawnControlRotation = false;
     HealthComponent = CreateDefaultSubobject<UDawsHealthComponent>(TEXT("Health"));
     CombatComponent = CreateDefaultSubobject<UDawsCombatComponent>(TEXT("Combat"));
+
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> CubeMeshAsset(TEXT("/Engine/BasicShapes/Cube.Cube"));
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereMeshAsset(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> CylinderMeshAsset(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+    auto MakePart = [this](const TCHAR* Name, UStaticMesh* Mesh, FVector Location, FVector Scale, FLinearColor Tint) {
+        UStaticMeshComponent* Part = CreateDefaultSubobject<UStaticMeshComponent>(Name);
+        Part->SetupAttachment(RootComponent);
+        if (Mesh) Part->SetStaticMesh(Mesh);
+        Part->SetRelativeLocation(Location);
+        Part->SetRelativeScale3D(Scale);
+        Part->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        if (UMaterialInstanceDynamic* Material = UMaterialInstanceDynamic::Create(Part->GetMaterial(0), this)) {
+            Material->SetVectorParameterValue(TEXT("Color"), Tint);
+            Part->SetMaterial(0, Material);
+        }
+        return Part;
+    };
+    BodyVisual = MakePart(TEXT("BodyVisual"), CubeMeshAsset.Object, FVector(0,0,48), FVector(0.42f,0.28f,0.55f), FLinearColor(0.16f,0.20f,0.23f));
+    HeadVisual = MakePart(TEXT("HeadVisual"), SphereMeshAsset.Object, FVector(0,0,91), FVector(0.28f,0.28f,0.30f), FLinearColor(0.52f,0.34f,0.24f));
+    LeftArmVisual = MakePart(TEXT("LeftArmVisual"), CylinderMeshAsset.Object, FVector(0,-28,48), FVector(0.13f,0.13f,0.42f), FLinearColor(0.16f,0.20f,0.23f));
+    RightArmVisual = MakePart(TEXT("RightArmVisual"), CylinderMeshAsset.Object, FVector(0,28,48), FVector(0.13f,0.13f,0.42f), FLinearColor(0.16f,0.20f,0.23f));
+    LeftLegVisual = MakePart(TEXT("LeftLegVisual"), CylinderMeshAsset.Object, FVector(0,-13,7), FVector(0.14f,0.14f,0.42f), FLinearColor(0.08f,0.09f,0.10f));
+    RightLegVisual = MakePart(TEXT("RightLegVisual"), CylinderMeshAsset.Object, FVector(0,13,7), FVector(0.14f,0.14f,0.42f), FLinearColor(0.08f,0.09f,0.10f));
+    WeaponVisual = MakePart(TEXT("WeaponVisual"), CubeMeshAsset.Object, FVector(34,25,49), FVector(0.42f,0.08f,0.09f), FLinearColor(0.05f,0.06f,0.07f));
+
 }
 void ADawsPlayerCharacter::BeginPlay()
 {
