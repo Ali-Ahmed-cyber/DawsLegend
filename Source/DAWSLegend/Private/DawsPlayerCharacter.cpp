@@ -292,6 +292,7 @@ void ADawsPlayerCharacter::InteractWithWorld()
 void ADawsPlayerCharacter::HandlePlayerDeath()
 {
     StopAim();
+    StopSprint();
     GetCharacterMovement()->DisableMovement();
     if (APlayerController* PC = Cast<APlayerController>(Controller)) DisableInput(PC);
     if (GetWorld()) GetWorld()->GetTimerManager().SetTimer(RespawnTimer, this, &ADawsPlayerCharacter::RespawnAtCheckpoint, 3.0f, false);
@@ -299,6 +300,7 @@ void ADawsPlayerCharacter::HandlePlayerDeath()
 void ADawsPlayerCharacter::RespawnAtCheckpoint()
 {
     StopAim();
+    StopSprint();
     bool bLoadedCheckpoint = false;
     if (GetGameInstance()) {
         if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
