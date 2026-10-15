@@ -77,6 +77,7 @@ float ADawsEnemyCharacter::GetHealthRatio() const
 void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
 {
     EnemyId = NewEnemyId;
+    bIsSpecialTarget = bSpecialTarget || NewEnemyId == FName(TEXT("enforcer"));
     FLinearColor BodyColor(0.42f,0.08f,0.07f);
     float MaxHealth = 100.0f;
     RangedDamage = 8.0f;
@@ -112,7 +113,8 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
     AttackCooldown -= DeltaSeconds;
     if (!GetGameInstance()) return;
     const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
-    if (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat") || Missions->CanCompleteCurrentMission()) return;
+    const bool bFinalConfrontation = Missions && Missions->GetCurrentMissionId() == TEXT("chapter05_finale") && bIsSpecialTarget;
+    if (!Missions || ((!bFinalConfrontation) && (Missions->GetCurrentTaskType() != TEXT("defeat") || Missions->CanCompleteCurrentMission()))) return;
     APawn* TargetPawn = UGameplayStatics::GetPlayerPawn(this, 0);
     if (!TargetPawn || !HealthComponent || !HealthComponent->IsAlive()) return;
     const float Distance = FVector::Dist2D(GetActorLocation(), TargetPawn->GetActorLocation());
