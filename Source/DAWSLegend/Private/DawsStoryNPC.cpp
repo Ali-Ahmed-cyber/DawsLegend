@@ -7,9 +7,10 @@
 #include "DawsPlayerCharacter.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/GameInstance.h"
+#include "Kismet/GameplayStatics.h"
 ADawsStoryNPC::ADawsStoryNPC()
 {
-    PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = true;
     InteractionBounds = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractionBounds"));
     SetRootComponent(InteractionBounds);
     InteractionBounds->SetBoxExtent(FVector(65,65,105));
@@ -38,6 +39,20 @@ ADawsStoryNPC::ADawsStoryNPC()
     AccessoryVisual->SetRelativeLocation(FVector(0,0,68));
     AccessoryVisual->SetRelativeScale3D(FVector(0.36f,0.36f,0.08f));
     AccessoryVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+void ADawsStoryNPC::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+    if (!bHasTalked || NPCId != FName(TEXT("technician")) || !GetGameInstance()) return;
+    const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
+    if (!Missions || Missions->GetCurrentMissionId() != TEXT("chapter03_escort")) return;
+    APawn* PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+    if (!PlayerPawn) return;
+    const FVector DesiredLocation = PlayerPawn->GetActorLocation() - PlayerPawn->GetActorForwardVector() * 190.0f;
+    const FVector SmoothedLocation = FMath::VInterpTo(GetActorLocation(), DesiredLocation, DeltaSeconds, 2.8f);
+    SetActorLocation(SmoothedLocation, true);
+    const FVector ToPlayer = PlayerPawn->GetActorLocation() - GetActorLocation();
+    if (!ToPlayer.IsNearlyZero()) SetActorRotation(FMath::RInterpTo(GetActorRotation(), ToPlayer.Rotation(), DeltaSeconds, 4.0f));
 }
 void ADawsStoryNPC::ConfigureNPC(FName NewId, const FText& NewName, const FText& NewDialogue, FLinearColor NewClothingColor)
 {
