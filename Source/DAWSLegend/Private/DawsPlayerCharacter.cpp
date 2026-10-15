@@ -211,7 +211,10 @@ void ADawsPlayerCharacter::FireWeapon()
 }
 void ADawsPlayerCharacter::ReloadWeapon()
 {
-    if (CombatComponent) CombatComponent->Reload();
+    if (!CombatComponent) return;
+    const bool bReloaded = CombatComponent->Reload();
+    if (bReloaded) SetStatusMessage(TEXT("RELOADED"));
+    else SetStatusMessage(CombatComponent->ReserveAmmo <= 0 ? TEXT("NO RESERVE AMMO") : TEXT("MAGAZINE FULL"));
 }
 
 void ADawsPlayerCharacter::SaveCheckpoint()
