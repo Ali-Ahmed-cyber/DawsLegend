@@ -58,4 +58,12 @@ restart_controller = controller[controller.index("void ADawsPlayerController::Re
 assert restart_controller.index("DeleteSave") < restart_controller.index("RestartCampaignWorld"), "Delete old save before rebuilding campaign pickups"
 world_builder = read("Source/DAWSLegend/Private/DawsWorldBuilder.cpp")
 assert "StallCenters" in world_builder and "AwningColors" in world_builder, "Market district dressing is missing"
-print("Campaign integrity passed: 15 aligned missions, movement/combat wiring, escort, save progress, waypoint HUD, graphics settings, and market props.")
+
+save_code = read("Source/DAWSLegend/Private/DawsSaveSubsystem.cpp")
+trigger_code = read("Source/DAWSLegend/Private/DawsMissionTrigger.cpp")
+assert "bUseOverrideLocation ? OverrideLocation" in save_code, "Checkpoint override location must be supported"
+assert "NextCheckpointLocation" in trigger_code and "bHasNextCheckpoint" in trigger_code, "Mission completion must checkpoint at the next marker"
+assert "bFinalConfrontation" in enemy and "bIsSpecialTarget" in read("Source/DAWSLegend/Public/DawsEnemyCharacter.h"), "Final enforcer encounter must be gated to the designated boss"
+assert "CAMPAIGN COMPLETE" in hud and "MISSION COMPLETE" in trigger_code, "Campaign completion feedback is missing"
+
+print("Campaign integrity passed: 15 aligned missions, companions, final encounter, checkpoint routing, movement/combat, escort, save progress, waypoint HUD, graphics settings, and market props.")
