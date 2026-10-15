@@ -69,7 +69,6 @@ jobs:
           tracer = (source / "Private/DawsBulletTracer.cpp").read_text()
           assert "InitializeTracer" in tracer and "TravelSpeed" in tracer
           assert "DawsBulletTracer" in player and "DawsBulletTracer" in enemy_code
-          assert "HitMarkerTime" in player and "IsHitMarkerVisible" in (source / "Private/DawsHUD.cpp").read_text() and "bHitConfirmed" in (source / "Private/DawsHUD.cpp").read_text()
           assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
           assert "bFinalConfrontation" in enemy_code and "chapter05_finale" in player
           assert "BindAction(\"Jump\", IE_Pressed, this, &ACharacter::Jump)" not in player
@@ -88,6 +87,7 @@ jobs:
           assert "ExitVehicle" in vehicle and "UFloatingPawnMovement" in vehicle
           controller = (source / "Private/DawsPlayerController.cpp").read_text()
           hud = (source / "Private/DawsHUD.cpp").read_text()
+          assert "HitMarkerTime" in player and "IsHitMarkerVisible" in hud and "bHitConfirmed" in hud
           assert "InteractWithWorld" in player and "FireWeapon" in player
           assert "SetStatusMessage" in player and "CHECKPOINT SAVED" in player and "MISSION COMPLETE" in (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert "BindAction(\"Jump\", IE_Pressed" in player and "StartJump" in player
