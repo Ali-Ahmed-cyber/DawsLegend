@@ -47,11 +47,12 @@ void ADawsMissionTrigger::RefreshMissionMarker()
             CurrentId = Missions->GetCurrentMissionId();
     }
     static const TCHAR* MissionOrder[] = {
-        TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
-        TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
-        TEXT("chapter03_relay"), TEXT("chapter03_escort"), TEXT("chapter03_broadcast"),
-        TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
-        TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
+        TEXT("chapter01_radio"), TEXT("chapter01_plaza"), TEXT("chapter01_workshop"), TEXT("chapter01_supplies"), TEXT("chapter01_driver"),
+        TEXT("chapter02_market"), TEXT("chapter02_nurse"), TEXT("chapter02_minibus"), TEXT("chapter02_convoy"), TEXT("chapter02_sami"),
+        TEXT("chapter03_tawfiq"), TEXT("chapter03_amjad"), TEXT("chapter03_clinic"), TEXT("chapter03_needle"), TEXT("chapter03_bashir"),
+        TEXT("chapter04_relay"), TEXT("chapter04_escort"), TEXT("chapter04_broadcast"), TEXT("chapter04_ferry"), TEXT("chapter04_charity"),
+        TEXT("chapter05_roadblocks"), TEXT("chapter05_workers"), TEXT("chapter05_tawfiq_debt"), TEXT("chapter05_ledger"), TEXT("chapter05_amjad_truth"),
+        TEXT("chapter06_river_road"), TEXT("chapter06_witness_run"), TEXT("chapter06_depot"), TEXT("chapter06_muntasir"), TEXT("chapter06_dawn")
     };
     int32 MyIndex = INDEX_NONE, ActiveIndex = INDEX_NONE;
     for (int32 Index = 0; Index < UE_ARRAY_COUNT(MissionOrder); ++Index) {
