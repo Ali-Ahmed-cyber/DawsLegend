@@ -59,13 +59,22 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
         }
         return Part;
     };
-    BodyVisual = MakePart(TEXT("BodyVisual"), CubeMeshAsset.Object, FVector(0,0,48), FVector(0.42f,0.28f,0.55f), FLinearColor(0.16f,0.20f,0.23f));
+    BodyVisual = MakePart(TEXT("BodyVisual"), CubeMeshAsset.Object, FVector(0,0,48), FVector(0.42f,0.28f,0.55f), FLinearColor(0.88f,0.88f,0.82f));
     HeadVisual = MakePart(TEXT("HeadVisual"), SphereMeshAsset.Object, FVector(0,0,91), FVector(0.28f,0.28f,0.30f), FLinearColor(0.52f,0.34f,0.24f));
-    LeftArmVisual = MakePart(TEXT("LeftArmVisual"), CylinderMeshAsset.Object, FVector(0,-28,48), FVector(0.13f,0.13f,0.42f), FLinearColor(0.16f,0.20f,0.23f));
-    RightArmVisual = MakePart(TEXT("RightArmVisual"), CylinderMeshAsset.Object, FVector(0,28,48), FVector(0.13f,0.13f,0.42f), FLinearColor(0.16f,0.20f,0.23f));
+    LeftArmVisual = MakePart(TEXT("LeftArmVisual"), CylinderMeshAsset.Object, FVector(0,-28,48), FVector(0.13f,0.13f,0.42f), FLinearColor(0.86f,0.87f,0.82f));
+    RightArmVisual = MakePart(TEXT("RightArmVisual"), CylinderMeshAsset.Object, FVector(0,28,48), FVector(0.13f,0.13f,0.42f), FLinearColor(0.86f,0.87f,0.82f));
     LeftLegVisual = MakePart(TEXT("LeftLegVisual"), CylinderMeshAsset.Object, FVector(0,-13,7), FVector(0.14f,0.14f,0.42f), FLinearColor(0.08f,0.09f,0.10f));
     RightLegVisual = MakePart(TEXT("RightLegVisual"), CylinderMeshAsset.Object, FVector(0,13,7), FVector(0.14f,0.14f,0.42f), FLinearColor(0.08f,0.09f,0.10f));
     WeaponVisual = MakePart(TEXT("WeaponVisual"), CubeMeshAsset.Object, FVector(34,25,49), FVector(0.42f,0.08f,0.09f), FLinearColor(0.05f,0.06f,0.07f));
+    NeckVisual = MakePart(TEXT("NeckVisual"), CylinderMeshAsset.Object, FVector(0,0,76), FVector(0.12f,0.12f,0.12f), FLinearColor(0.48f,0.31f,0.22f));
+    HairVisual = MakePart(TEXT("HairVisual"), SphereMeshAsset.Object, FVector(-1,0,102), FVector(0.28f,0.28f,0.12f), FLinearColor(0.035f,0.028f,0.025f));
+    BackpackVisual = MakePart(TEXT("BackpackVisual"), CubeMeshAsset.Object, FVector(-23,0,54), FVector(0.20f,0.22f,0.30f), FLinearColor(0.09f,0.13f,0.14f));
+    BeltVisual = MakePart(TEXT("BeltVisual"), CubeMeshAsset.Object, FVector(0,0,27), FVector(0.40f,0.29f,0.07f), FLinearColor(0.08f,0.10f,0.12f));
+    ChestCrestVisual = MakePart(TEXT("ChestCrestVisual"), CubeMeshAsset.Object, FVector(23,0,59), FVector(0.045f,0.075f,0.085f), FLinearColor(0.10f,0.22f,0.48f));
+    LeftShoulderStripe = MakePart(TEXT("LeftShoulderStripe"), CubeMeshAsset.Object, FVector(1,-30,60), FVector(0.08f,0.035f,0.18f), FLinearColor(0.10f,0.22f,0.48f));
+    RightShoulderStripe = MakePart(TEXT("RightShoulderStripe"), CubeMeshAsset.Object, FVector(1,30,60), FVector(0.08f,0.035f,0.18f), FLinearColor(0.10f,0.22f,0.48f));
+    LeftBootVisual = MakePart(TEXT("LeftBootVisual"), CubeMeshAsset.Object, FVector(13,-13,-10), FVector(0.22f,0.16f,0.12f), FLinearColor(0.035f,0.04f,0.045f));
+    RightBootVisual = MakePart(TEXT("RightBootVisual"), CubeMeshAsset.Object, FVector(13,13,-10), FVector(0.22f,0.16f,0.12f), FLinearColor(0.035f,0.04f,0.045f));
 
 }
 void ADawsPlayerCharacter::BeginPlay()
