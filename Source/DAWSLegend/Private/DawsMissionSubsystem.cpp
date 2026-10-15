@@ -5,6 +5,51 @@ void UDawsMissionSubsystem::StartMission(FString MissionId, FText MissionTitle, 
     CurrentMissionTitle = MoveTemp(MissionTitle);
     CurrentObjectives = Objectives;
 }
+void UDawsMissionSubsystem::StartCampaign()
+{
+    CampaignMissionIndex = 0;
+    bCampaignActive = true;
+    StartCampaignMission(CampaignMissionIndex);
+}
+void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
+{
+    static const TCHAR* Ids[] = {
+        TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
+        TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
+        TEXT("chapter03_relay"), TEXT("chapter03_escort"), TEXT("chapter03_broadcast"),
+        TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
+        TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
+    };
+    static const TCHAR* Titles[] = {
+        TEXT("The First Signal"), TEXT("The Empty Storehouse"), TEXT("A Mechanic's Warning"),
+        TEXT("Smoke Over the Market"), TEXT("Protect the Clinic"), TEXT("The Courier"),
+        TEXT("The Silent Relay"), TEXT("Escort the Technician"), TEXT("Broadcast the Truth"),
+        TEXT("The Broker's Route"), TEXT("Free the Workers"), TEXT("Road to the River"),
+        TEXT("Dawn of the City"), TEXT("Hold the Depot"), TEXT("The Final Broadcast")
+    };
+    static const TCHAR* ObjectivesText[] = {
+        TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Find the survivor near the west street"),
+        TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
+        TEXT("Restore the silent radio relay"), TEXT("Escort the technician safely"), TEXT("Reach the broadcast station"),
+        TEXT("Scout the broker's industrial yard"), TEXT("Free the detained workers"), TEXT("Secure the river-side route"),
+        TEXT("Recover the last piece of evidence"), TEXT("Defend the central depot"), TEXT("Reach the final broadcast point")
+    };
+    if (MissionIndex < 0 || MissionIndex >= UE_ARRAY_COUNT(Ids)) {
+        bCampaignActive = false;
+        CurrentMissionId = TEXT("campaign_complete");
+        CurrentMissionTitle = FText::FromString(TEXT("Dawn of the City — Campaign Complete"));
+        CurrentObjectives.Reset();
+        return;
+    }
+    CampaignMissionIndex = MissionIndex;
+    FDawsMissionObjective Objective;
+    Objective.Id = FString(Ids[MissionIndex]) + TEXT("_reach");
+    Objective.Description = FText::FromString(ObjectivesText[MissionIndex]);
+    Objective.bCompleted = false;
+    TArray<FDawsMissionObjective> Objectives;
+    Objectives.Add(Objective);
+    StartMission(Ids[MissionIndex], FText::FromString(Titles[MissionIndex]), Objectives);
+}
 bool UDawsMissionSubsystem::CompleteObjective(FString ObjectiveId)
 {
     for (FDawsMissionObjective& Objective : CurrentObjectives)
@@ -12,6 +57,7 @@ bool UDawsMissionSubsystem::CompleteObjective(FString ObjectiveId)
         if (Objective.Id == ObjectiveId && !Objective.bCompleted)
         {
             Objective.bCompleted = true;
+            if (bCampaignActive && IsMissionComplete()) StartCampaignMission(CampaignMissionIndex + 1);
             return true;
         }
     }
