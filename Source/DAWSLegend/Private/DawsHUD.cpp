@@ -86,7 +86,8 @@ void ADawsHUD::DrawHUD()
             DrawTextLine(FString::Printf(TEXT("MISSION %02d / 15  |  %s"), Missions->GetCampaignMissionNumber(), *Missions->GetCurrentMissionTitle().ToString()), 44, H-145, 0.84f, FLinearColor(1.0f,0.72f,0.25f));
             const TArray<FDawsMissionObjective>& Objectives = Missions->GetObjectives();
             if (Objectives.Num() > 0) DrawTextLine(FString::Printf(TEXT("OBJECTIVE: %s"), *Objectives[0].Description.ToString()), 44, H-108, 0.78f, FLinearColor::White);
-            if (APawn* CurrentPawn = GetOwningPawn()) {
+            APawn* CurrentPawn = GetOwningPawn();
+            if (CurrentPawn) {
                 for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) {
                     if (It->MissionId.ToString() != Missions->GetCurrentMissionId()) continue;
                     FVector TargetLocation = It->GetActorLocation();
