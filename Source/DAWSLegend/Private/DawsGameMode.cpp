@@ -1,5 +1,6 @@
 #include "DawsGameMode.h"
 #include "DawsPlayerCharacter.h"
+#include "DawsPlayerController.h"
 #include "DawsWorldBuilder.h"
 #include "DawsMissionTrigger.h"
 #include "DawsHUD.h"
@@ -12,7 +13,7 @@
 ADawsGameMode::ADawsGameMode()
 {
     DefaultPawnClass = ADawsPlayerCharacter::StaticClass();
-    PlayerControllerClass = APlayerController::StaticClass();
+    PlayerControllerClass = ADawsPlayerController::StaticClass();
     HUDClass = ADawsHUD::StaticClass();
 }
 void ADawsGameMode::StartPlay()
