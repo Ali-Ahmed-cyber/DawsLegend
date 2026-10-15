@@ -112,7 +112,18 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
             const int32 Chapter = ActiveMission.StartsWith(TEXT("chapter")) ? FCString::Atoi(*ActiveMission.Mid(7,2)) : 5;
             ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(InteractingActor);
             const float Health = (Player && Player->HealthComponent) ? Player->HealthComponent->CurrentHealth : 100.0f;
-            Saves->SaveCheckpoint(Chapter, ActiveMission, InteractingActor, Health);
+            FVector NextCheckpointLocation = InteractingActor->GetActorLocation();
+            bool bHasNextCheckpoint = false;
+            if (ActiveMission != TEXT("campaign_complete")) {
+                for (TActorIterator<ADawsMissionTrigger> NextIt(GetWorld()); NextIt; ++NextIt) {
+                    if (NextIt->MissionId.ToString() == ActiveMission) {
+                        NextCheckpointLocation = NextIt->GetActorLocation();
+                        bHasNextCheckpoint = true;
+                        break;
+                    }
+                }
+            }
+            Saves->SaveCheckpoint(Chapter, ActiveMission, InteractingActor, Health, NextCheckpointLocation, bHasNextCheckpoint);
         }
         if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(InteractingActor))
             Player->SetStatusMessage(Missions->GetCurrentMissionId() == TEXT("campaign_complete") ? TEXT("CAMPAIGN COMPLETE") : TEXT("MISSION COMPLETE — CHECKPOINT SAVED"), 3.5f);
