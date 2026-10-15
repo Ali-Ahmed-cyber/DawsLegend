@@ -20,6 +20,7 @@ jobs:
         run: |
           test -f Source/DAWSLegend/DAWSLegend.Build.cs
           test -f Source/DAWSLegend/Private/DawsGameMode.cpp
+          test -f Scripts/Build-DAWSLegend.ps1
           test -f Source/DAWSLegend/Private/DawsBulletTracer.cpp
           test -f Source/DAWSLegend/Public/DawsBulletTracer.h
           test -f Source/DAWSLegend/Private/DawsPlayerCharacter.cpp
