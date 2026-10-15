@@ -27,6 +27,8 @@ protected:
     void StopSprint();
     void FireWeapon();
     void ReloadWeapon();
+    void SaveCheckpoint();
+    void LoadCheckpoint();
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
     TObjectPtr<USpringArmComponent> CameraBoom;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
