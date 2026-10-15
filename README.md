@@ -28,6 +28,7 @@
 - In a vehicle: W/S accelerate/reverse, A/D steer, E exit
 - F5: save checkpoint
 - F9: load checkpoint
+- F10: restart the campaign after the final mission
 - Esc: pause/resume
 - F1: options (mouse sensitivity, camera field of view, subtitles)
 - Arrow keys: navigate and change options
