@@ -57,6 +57,8 @@ jobs:
           game_mode = (source / "Private/DawsGameMode.cpp").read_text()
           player = (source / "Private/DawsPlayerCharacter.cpp").read_text()
           hud = (source / "Private/DawsHUD.cpp").read_text()
+          assert "TECHNICIAN DISTANCE" in hud
+          assert "APawn* CurrentPawn = GetOwningPawn();\\n            if (CurrentPawn)" in hud
           trigger = (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert mission.count('TEXT("chapter') >= 30, "Campaign mission IDs are incomplete"
           assert "RestoreCampaignAtMission" in mission and "StartCampaignMission" in mission
