@@ -81,6 +81,7 @@ jobs:
           assert "GetHealthRatio" in enemy_code and "HOSTILE" in player
           assert "HelmetVisual" in enemy_code and "LeftArmVisual" in enemy_code and "VisualAnimationTime" in enemy_code
           assert "WeaponVisual" in player and "WeaponVisual->AttachToComponent(RightArmVisual" in player
+          assert "WeaponVisual = CreateDefaultSubobject" in enemy_code and "WeaponVisual->SetupAttachment(RightArmVisual)" in enemy_code
           assert "BackpackVisual" in player and "ChestCrestVisual" in player and "LeftBootVisual" in player
           assert "LeftEyeVisual" in player and "NoseVisual" in player and "MouthVisual" in player
           assert "EDawsPickupType::Ammo" in enemy_code and "LootRoll" in enemy_code
