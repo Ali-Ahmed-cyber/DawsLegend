@@ -5,6 +5,7 @@
 #include "DawsPlayerCharacter.h"
 #include "DawsVehiclePawn.h"
 #include "DawsSaveGame.h"
+#include "DawsSaveSubsystem.h"
 #include "DawsMissionSubsystem.h"
 #include "DawsMissionTrigger.h"
 #include "Engine/GameInstance.h"
@@ -28,7 +29,7 @@ void ADawsPlayerController::SetupInputComponent()
     Super::SetupInputComponent();
     FInputActionBinding& PauseBinding = InputComponent->BindAction("Pause", IE_Pressed, this, &ADawsPlayerController::TogglePause);
     PauseBinding.bExecuteWhenPaused = true;
-    FInputActionBinding& StartBinding = InputComponent->BindAction("StartGame", IE_Pressed, this, &ADawsPlayerController::StartGame);
+    FInputActionBinding& StartBinding = InputComponent->BindAction("StartGame", IE_Pressed, this, &ADawsPlayerController::StartNewCampaign);
     StartBinding.bExecuteWhenPaused = true;
     FInputActionBinding& ContinueBinding = InputComponent->BindAction("ContinueGame", IE_Pressed, this, &ADawsPlayerController::ContinueGame);
     FInputActionBinding& RestartBinding = InputComponent->BindAction("RestartCampaign", IE_Pressed, this, &ADawsPlayerController::RestartCampaign);
@@ -161,4 +162,14 @@ void ADawsPlayerController::RestartCampaign()
     bShowMouseCursor = false;
     FInputModeGameOnly Mode;
     SetInputMode(Mode);
+}
+
+void ADawsPlayerController::StartNewCampaign()
+{
+    if (bHasStartedGame || !GetGameInstance()) return;
+    if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->StartCampaign();
+    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
+    if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
+    for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
+    StartGame();
 }
