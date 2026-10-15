@@ -65,10 +65,10 @@ jobs:
           assert "Clinic district landmark" in world_builder and "Silent relay landmark" in world_builder
           assert "Industrial yard" in world_builder and "River-side route" in world_builder
           assert "SpawnActor<ADawsEnemyCharacter>" in game_mode
+          enemy_code = (source / "Private/DawsEnemyCharacter.cpp").read_text()
           tracer = (source / "Private/DawsBulletTracer.cpp").read_text()
           assert "InitializeTracer" in tracer and "TravelSpeed" in tracer
           assert "DawsBulletTracer" in player and "DawsBulletTracer" in enemy_code
-          enemy_code = (source / "Private/DawsEnemyCharacter.cpp").read_text()
           assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
           assert "bFinalConfrontation" in enemy_code and "chapter05_finale" in player
           assert "BindAction(\"Jump\", IE_Pressed, this, &ACharacter::Jump)" not in player
