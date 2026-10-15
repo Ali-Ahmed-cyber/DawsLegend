@@ -19,6 +19,9 @@ public:
     virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
     virtual FText GetInteractionPrompt_Implementation() const override;
     virtual void Interact_Implementation(AActor* InteractingActor) override;
+    void ApplyVehicleDamage(float Amount);
+    float GetVehicleHealth() const { return VehicleHealth; }
+    bool IsVehicleDisabled() const { return bDisabled; }
 protected:
     virtual void BeginPlay() override;
 private:
@@ -39,6 +42,8 @@ private:
     float ThrottleInput = 0.0f;
     float SteeringInput = 0.0f;
     float TurnRate = 78.0f;
+    float VehicleHealth = 250.0f;
+    bool bDisabled = false;
     void SetThrottle(float Value);
     void SetSteering(float Value);
     void ExitVehicle();
