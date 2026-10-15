@@ -59,6 +59,14 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
         TEXT("Fawzi: The depot is holding. People are bringing water and bandages. Do not let them through."),
         TEXT("Captain Nadir: This is the final broadcast. Once it goes out, there is no turning back.")
     };
+    static const TCHAR* TaskTypes[] = {
+        TEXT("reach"), TEXT("collect"), TEXT("reach"),
+        TEXT("evidence"), TEXT("defeat"), TEXT("defeat"),
+        TEXT("reach"), TEXT("reach"), TEXT("reach"),
+        TEXT("reach"), TEXT("evidence"), TEXT("defeat"),
+        TEXT("evidence"), TEXT("defeat"), TEXT("reach")
+    };
+    static const int32 RequiredCounts[] = { 0,3,0,1,3,1,0,0,0,0,2,4,1,5,0 };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Find the survivor near the west street"),
         TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
@@ -76,12 +84,24 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
     CampaignMissionIndex = MissionIndex;
     FDawsMissionObjective Objective;
     CurrentDialogue = FText::FromString(DialogueText[MissionIndex]);
+    CurrentTaskType = TaskTypes[MissionIndex];
+    CurrentTaskProgress = 0;
+    RequiredTaskProgress = RequiredCounts[MissionIndex];
     Objective.Id = FString(Ids[MissionIndex]) + TEXT("_reach");
     Objective.Description = FText::FromString(ObjectivesText[MissionIndex]);
     Objective.bCompleted = false;
     TArray<FDawsMissionObjective> Objectives;
     Objectives.Add(Objective);
     StartMission(Ids[MissionIndex], FText::FromString(Titles[MissionIndex]), Objectives);
+}
+void UDawsMissionSubsystem::RegisterTaskProgress(const FString& TaskType, int32 Amount)
+{
+    if (TaskType != CurrentTaskType || Amount <= 0 || RequiredTaskProgress <= 0) return;
+    CurrentTaskProgress = FMath::Clamp(CurrentTaskProgress + Amount, 0, RequiredTaskProgress);
+}
+bool UDawsMissionSubsystem::CanCompleteCurrentMission() const
+{
+    return RequiredTaskProgress <= 0 || CurrentTaskProgress >= RequiredTaskProgress;
 }
 bool UDawsMissionSubsystem::CompleteObjective(FString ObjectiveId)
 {
