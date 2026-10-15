@@ -55,9 +55,9 @@ public:
     UFUNCTION(BlueprintCallable, Category="Dialogue")
     void SetCurrentDialogue(FText DialogueLine) { CurrentDialogue = MoveTemp(DialogueLine); }
     UFUNCTION(BlueprintPure, Category="Campaign")
-    int32 GetCampaignMissionNumber() const { return FMath::Clamp(CampaignMissionIndex + 1, 1, 15); }
+    int32 GetCampaignMissionNumber() const { return FMath::Clamp(CampaignMissionIndex + 1, 1, 30); }
     UFUNCTION(BlueprintPure, Category="Campaign")
-    int32 GetCurrentChapterNumber() const { return FMath::Clamp(CampaignMissionIndex / 3 + 1, 1, 5); }
+    int32 GetCurrentChapterNumber() const { return FMath::Clamp(CampaignMissionIndex / 5 + 1, 1, 6); }
     UFUNCTION(BlueprintPure, Category="Missions")
     TArray<FDawsMissionObjective> GetObjectives() const { return CurrentObjectives; }
     UFUNCTION(BlueprintPure, Category="Missions")
