@@ -118,7 +118,7 @@ void ADawsGameMode::SpawnCampaignWorldActors()
 
 
     struct FStoryNPCSetup { const TCHAR* Id; const TCHAR* Name; const TCHAR* Dialogue; FVector Location; FLinearColor Color; };
-    const FStoryNPCSetup StoryNPCs[13] = {
+    const FStoryNPCSetup StoryNPCs[17] = {
         { TEXT("hiba"), TEXT("Hiba"), TEXT("The radio reports missing medical cargo. Secure the plaza, then follow the supply trail."), FVector(-650,300,0), FLinearColor(0.06f,0.28f,0.46f) },
         { TEXT("bashir"), TEXT("Bashir"), TEXT("These crates were emptied before the convoy arrived. Someone knew the route in advance."), FVector(650,1900,0), FLinearColor(0.45f,0.24f,0.08f) },
         { TEXT("fawzi"), TEXT("Fawzi"), TEXT("The clinic needs these supplies. I will move the families while you keep the road clear."), FVector(-650,3300,0), FLinearColor(0.12f,0.40f,0.20f) },
@@ -131,7 +131,11 @@ void ADawsGameMode::SpawnCampaignWorldActors()
         { TEXT("amjad"), TEXT("Amjad"), TEXT("I checked the side streets. Someone has been watching the convoy since before dawn. Keep your head clear."), FVector(-220,240,0), FLinearColor(0.045f,0.05f,0.06f) },
         { TEXT("salwa"), TEXT("Salwa"), TEXT("The clinic seal is fake. I can prove the medicine was relabeled after leaving the depot."), FVector(650,3000,0), FLinearColor(0.18f,0.48f,0.42f) },
         { TEXT("sami"), TEXT("Sami the Courier"), TEXT("I drove because they threatened my family. I will tell you what I know if you keep them safe."), FVector(-650,3900,0), FLinearColor(0.30f,0.34f,0.42f) },
-        { TEXT("muntasir"), TEXT("Muntasir"), TEXT("You have routes and rumors. I have the records. Without the missing page, you cannot prove a thing."), FVector(650,11900,0), FLinearColor(0.28f,0.22f,0.32f) }
+        { TEXT("muntasir"), TEXT("Muntasir"), TEXT("You have routes and rumors. I have the records. Without the missing page, you cannot prove a thing."), FVector(650,11900,0), FLinearColor(0.28f,0.22f,0.32f) },
+        { TEXT("mariam"), TEXT("Mariam"), TEXT("Tea first, trouble after. I saw a sealed case carried toward the ferry landing just before the power went out."), FVector(-900,80,0), FLinearColor(0.58f,0.30f,0.68f) },
+        { TEXT("idris"), TEXT("Idris the Minibus Driver"), TEXT("Ya zalameh, I know every lane in Al-Mirfa. The main road is watched; let me show you the safe turn."), FVector(650,3370,0), FLinearColor(0.16f,0.42f,0.55f) },
+        { TEXT("abu_sahl"), TEXT("Abu Sahl"), TEXT("A road closes when someone pays for a barrier. Ask who benefits, not who put the cones there."), FVector(650,8290,0), FLinearColor(0.32f,0.25f,0.18f) },
+        { TEXT("needle"), TEXT("The Needle"), TEXT("Signals travel farther than people think. You should have kept your investigation off the air."), FVector(650,5830,0), FLinearColor(0.24f,0.30f,0.38f) }
     };
     for (const FStoryNPCSetup& Setup : StoryNPCs) {
         ADawsStoryNPC* NPC = GetWorld()->SpawnActor<ADawsStoryNPC>(Setup.Location, FRotator::ZeroRotator);
