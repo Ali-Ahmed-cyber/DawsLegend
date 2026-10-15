@@ -97,7 +97,7 @@ void ADawsGameMode::StartPlay()
     }
 
 
-    const FVector VehicleLocations[2] = { FVector(650,1700,65), FVector(-650,6500,65) };
+    const FVector VehicleLocations[2] = { FVector(650,1700,55), FVector(-650,6500,55) };
     for (const FVector& VehicleLocation : VehicleLocations)
         GetWorld()->SpawnActor<ADawsVehiclePawn>(VehicleLocation, FRotator::ZeroRotator);
 
