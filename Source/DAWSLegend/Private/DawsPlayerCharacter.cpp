@@ -6,6 +6,7 @@
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
 #include "DawsSaveSubsystem.h"
+#include "DawsMissionSubsystem.h"
 #include "DawsInteractable.h"
 #include "Engine/GameInstance.h"
 #include "Engine/World.h"
@@ -105,7 +106,9 @@ void ADawsPlayerCharacter::LoadCheckpoint()
         int32 Chapter = 1;
         FString Mission;
         float SavedHealth = 100.0f;
-        if (Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth) && HealthComponent) {
+        if (Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth)) {
+            if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RestoreCampaignAtMission(Mission);
+            if (!HealthComponent) return;
             HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 1.0f, HealthComponent->MaxHealth);
             HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
         }
