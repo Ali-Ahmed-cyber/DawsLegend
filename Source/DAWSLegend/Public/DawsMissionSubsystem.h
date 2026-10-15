@@ -34,6 +34,8 @@ public:
     FString GetCurrentMissionId() const { return CurrentMissionId; }
     UFUNCTION(BlueprintPure, Category="Missions")
     FText GetCurrentMissionTitle() const { return CurrentMissionTitle; }
+    UFUNCTION(BlueprintPure, Category="Dialogue")
+    FText GetCurrentDialogue() const { return CurrentDialogue; }
     UFUNCTION(BlueprintPure, Category="Missions")
     const TArray<FDawsMissionObjective>& GetObjectives() const { return CurrentObjectives; }
     UFUNCTION(BlueprintPure, Category="Missions")
@@ -46,6 +48,8 @@ private:
     FString CurrentMissionId;
     UPROPERTY()
     FText CurrentMissionTitle;
+    UPROPERTY()
+    FText CurrentDialogue;
     UPROPERTY()
     TArray<FDawsMissionObjective> CurrentObjectives;
 };
