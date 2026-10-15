@@ -107,6 +107,7 @@ void ADawsPlayerCharacter::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
     VisualAnimationTime += DeltaSeconds;
+    StatusMessageTime = FMath::Max(0.0f, StatusMessageTime - DeltaSeconds);
     const float Speed = GetVelocity().Size2D();
     const float Swing = Speed > 12.0f ? FMath::Sin(VisualAnimationTime * (Speed > SprintSpeed ? 13.0f : 9.0f)) * (Speed > SprintSpeed ? 28.0f : 18.0f) : 0.0f;
     if (LeftArmVisual) LeftArmVisual->SetRelativeRotation(FRotator(Swing,0,0));
@@ -218,7 +219,8 @@ void ADawsPlayerCharacter::SaveCheckpoint()
             MissionId = Missions->GetCurrentMissionId();
             if (MissionId.StartsWith(TEXT("chapter"))) Chapter = FCString::Atoi(*MissionId.Mid(7,2));
         }
-        Saves->SaveCheckpoint(Chapter, MissionId, this, Health);
+        const bool bSaved = Saves->SaveCheckpoint(Chapter, MissionId, this, Health);
+        SetStatusMessage(bSaved ? TEXT("CHECKPOINT SAVED") : TEXT("SAVE FAILED"));
     }
 }
 void ADawsPlayerCharacter::LoadCheckpoint()
@@ -235,6 +237,9 @@ void ADawsPlayerCharacter::LoadCheckpoint()
             if (!HealthComponent) return;
             HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 1.0f, HealthComponent->MaxHealth);
             HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
+            SetStatusMessage(TEXT("CHECKPOINT LOADED"));
+        } else {
+            SetStatusMessage(TEXT("NO CHECKPOINT FOUND"));
         }
     }
 }
