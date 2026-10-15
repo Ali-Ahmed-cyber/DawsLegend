@@ -2,6 +2,7 @@
 #include "DawsHealthComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -24,12 +25,14 @@ ADawsEnemyCharacter::ADawsEnemyCharacter()
     BodyVisual->SetRelativeLocation(FVector(0,0,5));
     BodyVisual->SetRelativeScale3D(FVector(0.65f,0.45f,1.0f));
     BodyVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    if (UMaterialInstanceDynamic* BodyMat = UMaterialInstanceDynamic::Create(BodyVisual->GetMaterial(0), this)) { BodyMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.42f,0.08f,0.07f)); BodyVisual->SetMaterial(0, BodyMat); }
     HeadVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HeadVisual"));
     HeadVisual->SetupAttachment(GetRootComponent());
     if (Sphere.Succeeded()) HeadVisual->SetStaticMesh(Sphere.Object);
     HeadVisual->SetRelativeLocation(FVector(0,0,92));
     HeadVisual->SetRelativeScale3D(FVector(0.38f,0.38f,0.38f));
     HeadVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    if (UMaterialInstanceDynamic* HeadMat = UMaterialInstanceDynamic::Create(HeadVisual->GetMaterial(0), this)) { HeadMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.18f,0.12f,0.10f)); HeadVisual->SetMaterial(0, HeadMat); }
 }
 void ADawsEnemyCharacter::BeginPlay()
 {
