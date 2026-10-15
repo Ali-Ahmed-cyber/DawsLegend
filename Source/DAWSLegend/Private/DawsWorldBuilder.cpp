@@ -51,7 +51,7 @@ AActor* ADawsWorldBuilder::AddBlock(FVector Location, FVector Scale, FLinearColo
 }
 void ADawsWorldBuilder::BuildEnvironment()
 {
-    // A complete playable greybox environment, generated at runtime so the project does not depend on missing binary map files.
+    // Procedural runtime city set: district geometry, collision and mission lanes are assembled from engine meshes.
     AddBlock(FVector(0,0,-70), FVector(90,220,1), FLinearColor(0.13f,0.17f,0.16f));
     // Main road and sidewalks.
     AddBlock(FVector(0,0,-5), FVector(8,220,0.12f), FLinearColor(0.055f,0.06f,0.065f));
