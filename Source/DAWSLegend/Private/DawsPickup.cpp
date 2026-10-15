@@ -7,6 +7,8 @@
 #include "DawsPlayerCharacter.h"
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
+#include "DawsMissionSubsystem.h"
+#include "Engine/GameInstance.h"
 ADawsPickup::ADawsPickup()
 {
     PrimaryActorTick.bCanEverTick = false;
@@ -27,7 +29,10 @@ void ADawsPickup::ConfigurePickup(EDawsPickupType NewType, float NewAmount)
 {
     PickupType = NewType;
     PickupAmount = NewAmount;
-    const FLinearColor Tint = PickupType == EDawsPickupType::Health ? FLinearColor(0.08f,0.95f,0.28f) : FLinearColor(1.0f,0.55f,0.08f);
+    FLinearColor Tint(1.0f,0.55f,0.08f);
+    if (PickupType == EDawsPickupType::Health) Tint = FLinearColor(0.08f,0.95f,0.28f);
+    else if (PickupType == EDawsPickupType::Supplies) Tint = FLinearColor(0.95f,0.78f,0.18f);
+    else if (PickupType == EDawsPickupType::Evidence) Tint = FLinearColor(0.62f,0.28f,0.95f);
     if (UMaterialInstanceDynamic* Material = UMaterialInstanceDynamic::Create(PickupVisual->GetMaterial(0), this)) {
         Material->SetVectorParameterValue(TEXT("Color"), Tint);
         PickupVisual->SetMaterial(0, Material);
@@ -54,6 +59,15 @@ void ADawsPickup::HandleOverlap(UPrimitiveComponent*, AActor* OtherActor, UPrimi
         Player->CombatComponent->ReserveAmmo += FMath::RoundToInt(PickupAmount);
         Player->CombatComponent->OnAmmoChanged.Broadcast(Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo);
         bConsumed = true;
+    }
+    else if ((PickupType == EDawsPickupType::Supplies || PickupType == EDawsPickupType::Evidence) && GetGameInstance()) {
+        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+            const FString RequiredType = PickupType == EDawsPickupType::Supplies ? TEXT("collect") : TEXT("evidence");
+            if (Missions->GetCurrentTaskType() == RequiredType) {
+                Missions->RegisterTaskProgress(RequiredType);
+                bConsumed = true;
+            }
+        }
     }
     if (bConsumed) Destroy();
 }
