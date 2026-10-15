@@ -15,6 +15,7 @@ class DAWSLEGEND_API ADawsPlayerCharacter : public ACharacter
 public:
     ADawsPlayerCharacter();
     void SetCameraFOV(float NewFOV);
+    bool IsAiming() const { return bIsAiming; }
     void LoadCheckpoint();
     void ResetForNewCampaign();
     FText GetTargetInteractionPrompt() const;
@@ -35,6 +36,8 @@ protected:
     void StartJump();
     void StopJump();
     void FireWeapon();
+    void StartAim();
+    void StopAim();
     void ReloadWeapon();
     void InteractWithWorld();
     void SaveCheckpoint();
@@ -43,6 +46,7 @@ protected:
     FTimerHandle RespawnTimer;
     FVector InitialSpawnLocation = FVector::ZeroVector;
     float VisualAnimationTime = 0.0f;
+    bool bIsAiming = false;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
     TObjectPtr<USpringArmComponent> CameraBoom;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
