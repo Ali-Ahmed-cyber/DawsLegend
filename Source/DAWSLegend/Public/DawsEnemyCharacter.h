@@ -25,6 +25,7 @@ private:
     UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* LeftLegVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* RightLegVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* HelmetVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") UStaticMeshComponent* WeaponVisual;
     FName EnemyId = TEXT("grunt");
     float AttackCooldown = 0.0f;
     float RangedDamage = 8.0f;
