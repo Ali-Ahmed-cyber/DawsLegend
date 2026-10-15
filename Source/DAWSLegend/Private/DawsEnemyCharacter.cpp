@@ -112,7 +112,7 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
     AttackCooldown -= DeltaSeconds;
     if (!GetGameInstance()) return;
     const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
-    if (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat")) return;
+    if (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat") || Missions->CanCompleteCurrentMission()) return;
     APawn* TargetPawn = UGameplayStatics::GetPlayerPawn(this, 0);
     if (!TargetPawn || !HealthComponent || !HealthComponent->IsAlive()) return;
     const float Distance = FVector::Dist2D(GetActorLocation(), TargetPawn->GetActorLocation());
