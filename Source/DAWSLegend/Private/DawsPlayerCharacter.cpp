@@ -91,6 +91,7 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
     MouthVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
     LeftShoulderStripe->AttachToComponent(LeftArmVisual, FAttachmentTransformRules::KeepWorldTransform);
     RightShoulderStripe->AttachToComponent(RightArmVisual, FAttachmentTransformRules::KeepWorldTransform);
+    WeaponVisual->AttachToComponent(RightArmVisual, FAttachmentTransformRules::KeepWorldTransform);
     LeftBootVisual->AttachToComponent(LeftLegVisual, FAttachmentTransformRules::KeepWorldTransform);
     RightBootVisual->AttachToComponent(RightLegVisual, FAttachmentTransformRules::KeepWorldTransform);
 
