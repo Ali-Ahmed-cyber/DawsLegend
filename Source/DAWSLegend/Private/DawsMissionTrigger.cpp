@@ -28,7 +28,7 @@ void ADawsMissionTrigger::OnOverlap(UPrimitiveComponent*, AActor* OtherActor, UP
         Objective.Id = MissionId.ToString() + TEXT("_reach");
         Objective.Description = ObjectiveText;
         Objectives.Add(Objective);
-        Missions->StartMission(MissionId.ToString(), ObjectiveText, Objectives);
+        if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
         Missions->CompleteObjective(Objective.Id);
         SetActorEnableCollision(false);
     }
