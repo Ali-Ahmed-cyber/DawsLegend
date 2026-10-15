@@ -11,7 +11,7 @@
 - Runtime-generated city-street environment with road, building blocks, cover and mission beacons.
 - A title screen and start flow; a 15-step sequential campaign across five chapters; mission-specific supply/evidence/hostile-count tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; and persistent options.
 - Enemy pursuit, ranged pressure, close-range attacks, death handling, and checkpoint respawn.
-- Story bible, secondary character roster and production notes.
+- Five original interactive story characters with contextual dialogue subtitles, plus the campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
 ## Main menu and controls
