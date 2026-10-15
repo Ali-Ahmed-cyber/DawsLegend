@@ -10,6 +10,7 @@
 #include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
 #include "DawsPickup.h"
+#include "DawsBulletTracer.h"
 #include "DawsSaveSubsystem.h"
 #include "Engine/GameInstance.h"
 #include "DrawDebugHelpers.h"
@@ -137,6 +138,8 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
         const FVector ShotEnd = TargetPawn->GetActorLocation() + FVector(0,0,45);
         const bool bClearShot = GetWorld()->LineTraceSingleByChannel(ShotHit, ShotStart, ShotEnd, ECC_Visibility, ShotParams) && ShotHit.GetActor() == TargetPawn;
         if (bClearShot) {
+            if (ADawsBulletTracer* Tracer = GetWorld()->SpawnActor<ADawsBulletTracer>(ShotStart, (ShotEnd - ShotStart).Rotation()))
+                Tracer->InitializeTracer(ShotStart, ShotEnd, FLinearColor(1.0f,0.24f,0.12f), 12500.0f);
             if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(TargetPawn)) {
                 if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(RangedDamage);
             } else if (ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(TargetPawn)) {
