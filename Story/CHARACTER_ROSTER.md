@@ -5,7 +5,7 @@
 - **Tawfiq:** based on the user-provided reference wearing yellow. Runtime companion identity: `tawfiq`.
 - **Amjad:** based on the user-provided reference wearing black. Runtime companion identity: `amjad`.
 
-The three reference photos are intentionally not embedded yet. Current runtime models are replaceable procedural stand-ins; when the user later uploads the three images, map each to the identity above without changing mission IDs or story continuity.
+The three reference photos are intentionally not embedded yet. The hero uses the procedural white-kit player stand-in; Tawfiq and Amjad are spawned as persistent yellow-kit and black-kit companions that follow the player and have mission-aware dialogue. When the user later uploads the three images, replace only these three stand-ins without changing mission IDs or story continuity.
 
 ## Original supporting cast
 - **Hiba:** community radio presenter; the radio lead who starts the investigation.
