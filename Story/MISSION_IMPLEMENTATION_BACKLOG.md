@@ -9,7 +9,7 @@ This checklist separates source systems already authored from the work that stil
 - [x] Health and ammo systems, visual HUD bars, enemy health feedback and reticle.
 - [x] Four enemy archetypes with different health, speed and damage; mission-gated AI; hostile pursuit, ranged/melee attacks, death handling and ammo/health drops.
 - [x] Five-chapter, 15-mission sequential campaign with supply, evidence, combat, named-NPC and final confrontation objectives.
-- [x] Story dialogue subtitles and original NPCs; the technician follows during the escort mission and must remain nearby to finish it.
+- [x] Story dialogue subtitles and original NPCs; Tawfiq and Amjad follow the hero as companions, while the technician follows during the escort mission and must remain nearby to finish it.
 - [x] Runtime-generated city streets, buildings, cover, market stalls, street props, palm silhouettes, rooftop tanks, daylight and ambient fill.
 - [x] Mission waypoint distance/direction, interactive markers, contextual prompts and task-progress display.
 - [x] Arcade vehicles with enter/exit, driving, camera control, vehicle health and disabled state.
