@@ -38,11 +38,11 @@ AActor* ADawsWorldBuilder::AddBlock(FVector Location, FVector Scale, FLinearColo
 void ADawsWorldBuilder::BuildEnvironment()
 {
     // A complete playable greybox environment, generated at runtime so the project does not depend on missing binary map files.
-    AddBlock(FVector(0,0,-70), FVector(90,90,1), FLinearColor(0.13f,0.17f,0.16f));
+    AddBlock(FVector(0,0,-70), FVector(90,220,1), FLinearColor(0.13f,0.17f,0.16f));
     // Main road and sidewalks.
-    AddBlock(FVector(0,0,-5), FVector(8,110,0.12f), FLinearColor(0.055f,0.06f,0.065f));
-    AddBlock(FVector(-520,0,2), FVector(2,110,0.18f), FLinearColor(0.76f,0.68f,0.45f));
-    AddBlock(FVector(520,0,2), FVector(2,110,0.18f), FLinearColor(0.76f,0.68f,0.45f));
+    AddBlock(FVector(0,0,-5), FVector(8,220,0.12f), FLinearColor(0.055f,0.06f,0.065f));
+    AddBlock(FVector(-520,0,2), FVector(2,220,0.18f), FLinearColor(0.76f,0.68f,0.45f));
+    AddBlock(FVector(520,0,2), FVector(2,220,0.18f), FLinearColor(0.76f,0.68f,0.45f));
     // Street markings.
     for (int32 I=-9; I<=9; ++I) AddBlock(FVector(I*430.0f,0,3), FVector(1.6f,1.4f,0.025f), FLinearColor(0.88f,0.82f,0.61f), false);
     // Distinct buildings frame a broad mission plaza.
@@ -81,7 +81,7 @@ void ADawsWorldBuilder::BuildEnvironment()
     AddBlock(FVector(0,850,110), FVector(0.55f,0.55f,2.2f), FLinearColor(0.05f,0.75f,0.62f), false);
     AddBlock(FVector(850,0,110), FVector(0.55f,0.55f,2.2f), FLinearColor(0.92f,0.58f,0.12f), false);
     AddBlock(FVector(-850,0,110), FVector(0.55f,0.55f,2.2f), FLinearColor(0.80f,0.18f,0.12f), false);
-    // Simple sun lighting.
+    // Extra urban blocks frame the extended campaign route, with alleys and cover near each chapter marker.\n    for (int32 District = 0; District < 5; ++District) {\n        const float Y = 2800.0f + District * 1450.0f;\n        AddBlock(FVector(-1150,Y,180.0f + (District%2)*55.0f), FVector(5.5f,5.0f,3.6f + (District%3)*0.8f), Facades[District%4]);\n        AddBlock(FVector(1150,Y+250.0f,210.0f + (District%3)*35.0f), FVector(5.0f,4.5f,4.2f), Facades[(District+1)%4]);\n        AddBlock(FVector(-650,Y+600.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));\n        AddBlock(FVector(650,Y+650.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));\n    }\n    // Simple sun lighting.
     ADirectionalLight* Sun = GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,1600), FRotator(-42,-28,0));
     if (Sun) {
         Sun->GetLightComponent()->SetIntensity(7.0f);
