@@ -40,4 +40,10 @@ assert 'GetCurrentTaskType() != TEXT("defeat")' in enemy, "Enemy AI must respect
 assert "ReceiveWeaponDamage" in player and "ReceiveWeaponDamage" in enemy, "Enemy weapon damage API must be connected"
 assert "VInterpTo" in npc and "chapter03_escort" in npc, "Technician escort behavior must exist"
 assert "OBJECTIVE WAYPOINT" in hud, "Objective waypoint HUD must exist"
-print("Campaign integrity passed: 15 aligned missions, required controls, combat gating, escort behavior and waypoint HUD.")
+enemy_cpp = read("Source/DAWSLegend/Private/DawsEnemyCharacter.cpp")
+npc_cpp = read("Source/DAWSLegend/Private/DawsStoryNPC.cpp")
+controller = read("Source/DAWSLegend/Private/DawsPlayerController.cpp")
+assert "FObjectFinder<UStaticMesh> Cylinder" in enemy_cpp and "Cylinder.Succeeded()" in enemy_cpp, "Enemy helmet mesh reference must be declared"
+assert "FObjectFinder<UStaticMesh> Cylinder" in npc_cpp and "Cylinder.Succeeded()" in npc_cpp, "NPC accessory mesh reference must be declared"
+assert "SetOverallScalabilityLevel" in controller and "GraphicsQuality" in controller, "Graphics quality setting must be connected"
+print("Campaign integrity passed: 15 aligned missions, movement/combat wiring, escort, save progress, waypoint HUD, and graphics settings.")
