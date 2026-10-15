@@ -1,33 +1,33 @@
-# Mission implementation backlog
+# DAWS LEGEND — Production status
 
-This is the implementation checklist for the full game, not a claim that each feature is complete.
+This checklist separates source systems already authored from the work that still requires Unreal Editor, real assets, and playtesting. A passing source audit is not an Unreal compile.
 
-## Core gameplay
-- [x] Third-person character class, camera, walk/jump/sprint bindings.
-- [x] Reusable health component with damage/heal events.
-- [x] Mission objective data framework.
-- [x] Local checkpoint save/load subsystem.
-- [x] Generic interaction interface.
-- [ ] Input rebinding and gamepad support.
-- [x] Interaction trace, contextual prompt text and active mission markers.
-- [x] Basic weapon trace combat, enemy health, pursuit/ranged/melee attacks and defeat handling.
-- [x] Basic arcade vehicle possession, driving, enter/exit and chase camera.\n- [ ] Vehicle damage, repair and handling polish.
-- [ ] Dialogue graph, choices and relationship flags.
-- [x] Objective tracker, title screen, pause menu, sensitivity/FOV/subtitle options.\n- [x] 15-step campaign state with collection/evidence/defeat requirements and subtitle dialogue.
-- [x] Mission markers, autosave checkpoints, manual save/load and death respawn.
+## Implemented in source
 
-## World and narrative
-- [ ] Authored district maps and streaming boundaries.
-- [ ] Navigation mesh, NPC schedules and pedestrian traffic.
-- [x] Basic hostile AI pursuit and attack behavior.\n- [ ] Advanced perception, cover tactics and squad coordination.
-- [x] Five-chapter campaign outline and 15-step runtime mission progression.
-- [ ] Side missions and optional relationship choices.
-- [ ] Audio, original music, environmental ambience and Arabic voice/subtitles.
-- [ ] Original optimized environment assets, animations and final main-character likenesses.
+- [x] Third-person player, camera, movement, jump, sprint, aim zoom, weapon trace fire and reload.
+- [x] Procedural white-kit hero silhouette with clothing details, facial features, weapon attachment and limb animation; final likeness is deferred.
+- [x] Health and ammo systems, visual HUD bars, enemy health feedback and reticle.
+- [x] Four enemy archetypes with different health, speed and damage; mission-gated AI; hostile pursuit, ranged/melee attacks, death handling and ammo/health drops.
+- [x] Five-chapter, 15-mission sequential campaign with supply, evidence, combat, named-NPC and final confrontation objectives.
+- [x] Story dialogue subtitles and original NPCs; the technician follows during the escort mission and must remain nearby to finish it.
+- [x] Runtime-generated city streets, buildings, cover, market stalls, street props, palm silhouettes, rooftop tanks, daylight and ambient fill.
+- [x] Mission waypoint distance/direction, interactive markers, contextual prompts and task-progress display.
+- [x] Arcade vehicles with enter/exit, driving, camera control, vehicle health and disabled state.
+- [x] Local save/load checkpoints, task-progress autosaves that preserve the safe checkpoint position, ammo persistence and death respawn.
+- [x] Title screen, fresh-campaign start, continue when a save exists, pause/options, persistent sensitivity/FOV/subtitle settings, gamepad mappings and campaign restart.
+- [x] Low-to-mid scalability defaults and automated source/campaign consistency checks.
 
-- [ ] Vehicle possession, driving, enter/exit and damage.\n- [ ] Dialogue choices, relationship flags and branching outcomes.\n\n## Quality gates
-- [ ] Compile in the chosen UE5 version.
-- [ ] Playtest on target hardware and resolve crashes.
-- [ ] Test saving/loading after mission transitions.
-- [ ] Test controls and Arabic UI at common resolutions.
-- [ ] Package a distributable build only after validation.
+## Remaining production work
+
+- [ ] Build the C++ project in the selected Unreal Engine 5.4 toolchain; fix all compile and runtime errors.
+- [ ] Run a full 15-mission playthrough, including death during supply/evidence/hostile objectives, escort distance, vehicle entry/exit, checkpoint restore and campaign restart.
+- [ ] Integrate the three final main-character references last and preserve exact mapping: hero in the white Real Madrid shirt, Tawfiq in yellow, Amjad in black.
+- [ ] Replace procedural characters/props with polished optimized meshes, proper materials, skeletal rigs, full animation sets and final weapon/vehicle art.
+- [ ] Import original sound effects, ambience, music and voice; connect audio controls.
+- [ ] Add authored district art, collision/navigation polish, environmental storytelling, cinematics and final UI assets.
+- [ ] Decide final Arabic/English localization and verify fonts, text shaping and common display resolutions.
+- [ ] Profile on target hardware, tune scalability and memory, then package and verify a distributable build.
+
+## Release gate
+
+Do not call the project release-ready until the Unreal build succeeds and the full campaign is tested in-engine. The GitHub workflow currently validates project/source structure and campaign consistency; it does not compile Unreal C++.
