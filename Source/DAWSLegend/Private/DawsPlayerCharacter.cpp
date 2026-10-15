@@ -141,12 +141,14 @@ void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 void ADawsPlayerCharacter::MoveForward(float Value)
 {
     if (!Controller || FMath::IsNearlyZero(Value)) return;
+    if (const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr; Missions && Missions->GetCurrentMissionId() == TEXT("campaign_complete")) return;
     const FRotator YawRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
     AddMovementInput(FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X), Value);
 }
 void ADawsPlayerCharacter::MoveRight(float Value)
 {
     if (!Controller || FMath::IsNearlyZero(Value)) return;
+    if (const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr; Missions && Missions->GetCurrentMissionId() == TEXT("campaign_complete")) return;
     const FRotator YawRotation(0.0f, Controller->GetControlRotation().Yaw, 0.0f);
     AddMovementInput(FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y), Value);
 }
@@ -185,6 +187,7 @@ void ADawsPlayerCharacter::StopAim()
 void ADawsPlayerCharacter::FireWeapon()
 {
     if (!CombatComponent || !FollowCamera || !GetWorld()) return;
+    if (const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr; Missions && Missions->GetCurrentMissionId() == TEXT("campaign_complete")) return;
     const FVector Start = FollowCamera->GetComponentLocation();
     const FVector End = Start + FollowCamera->GetForwardVector() * WeaponRange;
     FHitResult Hit;
@@ -273,6 +276,7 @@ FText ADawsPlayerCharacter::GetTargetInteractionPrompt() const
 void ADawsPlayerCharacter::InteractWithWorld()
 {
     if (!FollowCamera || !GetWorld()) return;
+    if (const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr; Missions && Missions->GetCurrentMissionId() == TEXT("campaign_complete")) return;
     const FVector Start = FollowCamera->GetComponentLocation();
     const FVector End = Start + FollowCamera->GetForwardVector() * 650.0f;
     FHitResult Hit;
