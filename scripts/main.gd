@@ -12,6 +12,9 @@ var mission_markers: Array[Node3D] = []
 var health := MAX_HEALTH
 var mission_index := 0
 var score := 0
+var boss_spawned := false
+var boss_defeated := false
+var game_completed := false
 var attack_cooldown := 0.0
 var message_timer := 0.0
 var message_text := "الفصل الأول: بداية الحكاية"
@@ -37,7 +40,8 @@ func _ready() -> void:
 	_build_missions()
 	_build_camera()
 	_build_hud()
-	_set_message("يا بطل، أمشِ لنقطة المهمة الأولى وابدأ الحكاية.")
+	_load_game()
+	_set_message("الفصل الأول: بداية الحكاية. قابل توفيق وأمجد عند العلامة الخضراء.")
 
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(player):
@@ -202,15 +206,15 @@ func _build_companions() -> void:
 	friends.append(amjad)
 
 func _build_enemies() -> void:
-	for i in range(7):
-		var foe := _make_character("خصم %d" % (i+1), [Color(0.55,0.12,0.12),Color(0.28,0.18,0.42),Color(0.25,0.27,0.29)][i%3], false)
-		foe.position = Vector3([-4.0,4.0,-6.0,6.0,-3.0,3.0,0.0][i],0,-8.0 - float(i)*5.5)
+	for i in range(8):
+		var foe := _make_character("فرد العصابة %d" % (i+1), [Color(0.55,0.12,0.12),Color(0.28,0.18,0.42),Color(0.25,0.27,0.29)][i%3], false)
+		foe.position = Vector3([-4.0,4.0,-6.0,6.0,-3.0,3.0,0.0,8.0][i],0,-8.0 - float(i)*5.5)
 		foe.set_meta("health", 60.0)
 		enemies.append(foe)
 
 func _build_missions() -> void:
-	var mission_positions := [Vector3(0,0,-8), Vector3(26,0,-38), Vector3(-24,0,-65)]
-	var titles := ["قابل الشباب", "حرّر السوق من العصابة", "واجه قائد العصابة"]
+	var mission_positions := [Vector3(0,0,-8), Vector3(26,0,-38), Vector3(-24,0,-65), Vector3(-30,0,-72), Vector3(0,0,12)]
+	var titles := ["الفصل 1: لقاء الشباب", "الفصل 2: حماية السوق", "الفصل 3: تطهير الحي", "الفصل 4: المواجهة الأخيرة", "الفصل 5: العودة بالنصر"]
 	for i in range(mission_positions.size()):
 		var marker := Node3D.new()
 		marker.position = mission_positions[i]
@@ -316,6 +320,9 @@ func _update_companions(delta: float) -> void:
 		friend.move_and_slide()
 
 func _attack() -> void:
+	if game_completed:
+		_set_message("انتهت القصة! تقدر تستكشف المدينة أو تبدأ من جديد.")
+		return
 	if attack_cooldown > 0.0:
 		return
 	attack_cooldown = 0.55
@@ -332,28 +339,103 @@ func _attack() -> void:
 		var hp := float(target.get_meta("health",60.0))-25.0
 		target.set_meta("health",hp)
 		if hp <= 0.0:
+			if bool(target.get_meta("is_boss", false)):
+				boss_defeated = true
 			enemies.erase(target)
 			target.queue_free()
 			score += 100
 			_set_message("هزمت خصماً! +100 نقطة")
+			_save_game()
 		else:
 			_set_message("ضربة ناجحة! باقي للخصم %.0f صحة" % hp)
 	else:
 		_set_message("اقترب من الخصم قبل الضرب.")
 
 func _check_missions() -> void:
-	if mission_index >= mission_markers.size():
+	if game_completed or mission_index >= mission_markers.size():
 		return
 	var marker := mission_markers[mission_index]
-	if player.global_position.distance_to(marker.global_position) < 3.2:
-		var title := str(marker.get_meta("title"))
-		mission_index += 1
-		score += 250
-		_set_message("اكتملت المهمة: %s — +250 نقطة" % title)
-		if mission_index == mission_markers.size():
-			_set_message("انتهت المهام المتاحة في هذه النسخة. شكراً للعب!")
-		else:
-			_set_message("المهمة التالية: %s" % str(mission_markers[mission_index].get_meta("title")))
+	if player.global_position.distance_to(marker.global_position) >= 3.2:
+		return
+	if mission_index == 1 and enemies.size() > 5:
+		_set_message("مهمة السوق: اهزم ثلاثة من أفراد العصابة أولاً.")
+		return
+	if mission_index == 2 and enemies.size() > 0:
+		_set_message("الحي لسه ما آمن؛ اهزم بقية أفراد العصابة.")
+		return
+	if mission_index == 3 and not boss_defeated:
+		if not boss_spawned:
+			_spawn_boss()
+		_set_message("زعيم العصابة ظهر! اهزمه لإنقاذ الحي.")
+		return
+	var completed_title := str(marker.get_meta("title"))
+	mission_index += 1
+	score += 250
+	_save_game()
+	_set_message("اكتملت المهمة: %s — +250 نقطة" % completed_title)
+	if mission_index == 3 and not boss_spawned and not boss_defeated:
+		_spawn_boss()
+	if mission_index >= mission_markers.size():
+		game_completed = true
+		_set_message("النهاية: انتصرت مع توفيق وأمجد، ورجعتوا الحي بأمان. أسطورة دؤوس!")
+		_save_game()
+	elif mission_index == 1:
+		_set_message("الفصل الثاني: العصابة تهدد السوق. اهزم ثلاثة من أفرادها ثم ارجع للعلامة.")
+	elif mission_index == 2:
+		_set_message("الفصل الثالث: أمّن الحي من بقية أفراد العصابة.")
+	elif mission_index == 3:
+		_set_message("الفصل الرابع: المواجهة الأخيرة. زعيم العصابة في انتظارك.")
+	elif mission_index == 4:
+		_set_message("الفصل الخامس: ارجع لنقطة البداية بعد الانتصار.")
+
+func _spawn_boss() -> void:
+	boss_spawned = true
+	var boss := _make_character("زعيم العصابة", Color(0.16,0.055,0.06), false)
+	boss.position = Vector3(-31,0,-73)
+	boss.scale = Vector3(1.25,1.25,1.25)
+	boss.set_meta("health", 240.0)
+	boss.set_meta("is_boss", true)
+	enemies.append(boss)
+	_set_message("زعيم العصابة ظهر! صحته 240. استعد للمواجهة الأخيرة.")
+
+func _save_game() -> void:
+	var data := {
+		"mission_index": mission_index,
+		"score": score,
+		"health": health,
+		"player_position": [player.position.x, player.position.y, player.position.z],
+		"boss_spawned": boss_spawned,
+		"boss_defeated": boss_defeated,
+		"game_completed": game_completed
+	}
+	var file := FileAccess.open("user://daws_legend_save.json", FileAccess.WRITE)
+	if file:
+		file.store_string(JSON.stringify(data))
+		file.close()
+
+func _load_game() -> void:
+	if not FileAccess.file_exists("user://daws_legend_save.json"):
+		return
+	var file := FileAccess.open("user://daws_legend_save.json", FileAccess.READ)
+	if not file:
+		return
+	var parsed = JSON.parse_string(file.get_as_text())
+	file.close()
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return
+	mission_index = clampi(int(parsed.get("mission_index", 0)), 0, mission_markers.size())
+	score = int(parsed.get("score", 0))
+	health = clampf(float(parsed.get("health", MAX_HEALTH)), 1.0, MAX_HEALTH)
+	boss_spawned = bool(parsed.get("boss_spawned", false))
+	boss_defeated = bool(parsed.get("boss_defeated", false))
+	game_completed = bool(parsed.get("game_completed", false))
+	var saved_position = parsed.get("player_position", [0.0,0.0,12.0])
+	if saved_position is Array and saved_position.size() == 3:
+		player.position = Vector3(float(saved_position[0]),float(saved_position[1]),float(saved_position[2]))
+	if boss_spawned and not boss_defeated:
+		_spawn_boss()
+	elif boss_defeated:
+		boss_spawned = true
 
 func _build_hud() -> void:
 	hud = CanvasLayer.new()
@@ -418,6 +500,27 @@ func _build_mobile_controls() -> void:
 	jump_btn.size = Vector2(90,60)
 	jump_btn.pressed.connect(func(): jump_requested = true)
 	hud.add_child(jump_btn)
+	var save_btn := Button.new()
+	save_btn.text = "حفظ"
+	save_btn.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	save_btn.position = Vector2(-118,18)
+	save_btn.size = Vector2(100,48)
+	save_btn.pressed.connect(func(): _save_game(); _set_message("تم حفظ تقدمك على الجهاز."))
+	hud.add_child(save_btn)
+	var reset_btn := Button.new()
+	reset_btn.text = "إعادة"
+	reset_btn.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	reset_btn.position = Vector2(-228,18)
+	reset_btn.size = Vector2(100,48)
+	reset_btn.pressed.connect(_reset_game)
+	hud.add_child(reset_btn)
+
+func _reset_game() -> void:
+	var file := FileAccess.open("user://daws_legend_save.json", FileAccess.WRITE)
+	if file:
+		file.store_string("{}")
+		file.close()
+	get_tree().reload_current_scene()
 
 func _on_move_pad_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
