@@ -8,7 +8,9 @@ UENUM(BlueprintType)
 enum class EDawsPickupType : uint8
 {
     Health UMETA(DisplayName="Medical Supply"),
-    Ammo UMETA(DisplayName="Ammunition")
+    Ammo UMETA(DisplayName="Ammunition"),
+    Supplies UMETA(DisplayName="Emergency Supplies"),
+    Evidence UMETA(DisplayName="Evidence")
 };
 UCLASS()
 class DAWSLEGEND_API ADawsPickup : public AActor
