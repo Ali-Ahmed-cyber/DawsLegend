@@ -6,7 +6,7 @@ This checklist separates source systems already authored from the work that stil
 
 - [x] Third-person player, camera, movement, jump, sprint, aim zoom, weapon trace fire and reload.
 - [x] Procedural white-kit hero silhouette with clothing details, facial features, weapon attachment and limb animation; final likeness is deferred.
-- [x] Health and ammo systems, visual HUD bars, enemy health feedback and reticle.
+- [x] Health and ammo systems, visual HUD bars, enemy health feedback, moving player/enemy shot tracers, and hit-confirmation reticle.
 - [x] Four enemy archetypes with different health, speed and damage; mission-gated AI; hostile pursuit, ranged/melee attacks, death handling and ammo/health drops.
 - [x] Five-chapter, 15-mission sequential campaign with supply, evidence, combat, named-NPC and final confrontation objectives.
 - [x] Story dialogue subtitles and original NPCs; Tawfiq and Amjad follow the hero as companions, while the technician follows during the escort mission and must remain nearby to finish it.
@@ -14,8 +14,8 @@ This checklist separates source systems already authored from the work that stil
 - [x] Mission waypoint distance/direction, interactive markers, contextual prompts and task-progress display.
 - [x] Arcade vehicles with enter/exit, driving, camera control, vehicle health and disabled state.
 - [x] Local save/load checkpoints, task-progress autosaves that preserve the safe checkpoint position, stable IDs for collected mission pickups, ammo persistence and death respawn.
-- [x] Title screen, fresh-campaign start, continue when a save exists, pause/options, persistent sensitivity/FOV/subtitle settings, gamepad mappings and campaign restart.
-- [x] Low-to-mid scalability defaults and automated source/campaign consistency checks.
+- [x] Title screen, fresh-campaign start, continue when a save exists, pause/options, persistent sensitivity/FOV/subtitle settings, conflict-free gamepad continue/restart routing, and campaign restart.
+- [x] Low-to-mid scalability defaults, Windows Unreal build/package helper, and automated source/campaign consistency checks.
 
 ## Remaining production work
 
