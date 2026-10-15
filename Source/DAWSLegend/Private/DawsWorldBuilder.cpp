@@ -50,7 +50,7 @@ void ADawsWorldBuilder::BuildEnvironment()
     const FVector BuildingLocations[] = {
         FVector(-1050,-1050,260), FVector(-1050,1050,340), FVector(1050,-1050,300),
         FVector(1050,1050,390), FVector(-1900,0,210), FVector(1900,0,250),
-        FVector(0,-1900,300), FVector(0,1900,230)
+        FVector(-1300,-1900,300), FVector(1300,1900,230)
     };
     const FVector BuildingScales[] = {
         FVector(7,7,5.2f), FVector(7,6,6.8f), FVector(6,7,6.0f), FVector(8,6,7.8f),
