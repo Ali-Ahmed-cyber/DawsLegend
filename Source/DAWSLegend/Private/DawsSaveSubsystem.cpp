@@ -5,7 +5,7 @@
 #include "DawsCombatComponent.h"
 #include "Kismet/GameplayStatics.h"
 
-bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& MissionId, AActor* PlayerActor, float PlayerHealth)
+bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& MissionId, AActor* PlayerActor, float PlayerHealth, const FVector& OverrideLocation, bool bUseOverrideLocation)
 {
     if (!PlayerActor) return false;
     UDawsSaveGame* Save = Cast<UDawsSaveGame>(UGameplayStatics::CreateSaveGameObject(UDawsSaveGame::StaticClass()));
@@ -15,7 +15,7 @@ bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& Missi
     }
     Save->StoryChapter = StoryChapter;
     Save->CurrentMissionId = MissionId;
-    Save->PlayerLocation = PlayerActor->GetActorLocation();
+    Save->PlayerLocation = bUseOverrideLocation ? OverrideLocation : PlayerActor->GetActorLocation();
     Save->PlayerRotation = PlayerActor->GetActorRotation();
     Save->PlayerHealth = FMath::Clamp(PlayerHealth, 0.0f, 100.0f);
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(PlayerActor)) {
