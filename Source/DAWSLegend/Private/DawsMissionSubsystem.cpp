@@ -99,6 +99,10 @@ void UDawsMissionSubsystem::RegisterTaskProgress(const FString& TaskType, int32 
     if (TaskType != CurrentTaskType || Amount <= 0 || RequiredTaskProgress <= 0) return;
     CurrentTaskProgress = FMath::Clamp(CurrentTaskProgress + Amount, 0, RequiredTaskProgress);
 }
+void UDawsMissionSubsystem::RestoreTaskProgress(int32 Progress)
+{
+    CurrentTaskProgress = FMath::Clamp(Progress, 0, RequiredTaskProgress);
+}
 bool UDawsMissionSubsystem::CanCompleteCurrentMission() const
 {
     return RequiredTaskProgress <= 0 || CurrentTaskProgress >= RequiredTaskProgress;
