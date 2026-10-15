@@ -28,7 +28,7 @@ assert any(size == 15 for size in array_lengths(trigger).get("MissionOrder", [])
 assert any(size == 15 for size in array_lengths(game_mode).get("MissionNames", [])), "MissionNames must contain 15 entries"
 
 def string_array(text, name):
-    match = re.search(rf"(?:static\s+)?const\s+TCHAR\*\s+{name}\[\]\s*=\s*\{{(.*?)\}};", text, re.S)
+    match = re.search(rf"(?:static\s+)?const\s+TCHAR\*\s+{name}\[\d*\]\s*=\s*\{{(.*?)\}};", text, re.S)
     assert match, f"Could not find string array: {name}"
     return re.findall(r'TEXT\("([^"]+)"\)', match.group(1))
 
