@@ -3,6 +3,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "DawsPlayerCharacter.h"
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
@@ -21,6 +22,16 @@ ADawsPickup::ADawsPickup()
     static ConstructorHelpers::FObjectFinder<UStaticMesh> Sphere(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
     if (Sphere.Succeeded()) PickupVisual->SetStaticMesh(Sphere.Object);
     PickupVisual->SetRelativeScale3D(FVector(0.48f));
+}
+void ADawsPickup::ConfigurePickup(EDawsPickupType NewType, float NewAmount)
+{
+    PickupType = NewType;
+    PickupAmount = NewAmount;
+    const FLinearColor Tint = PickupType == EDawsPickupType::Health ? FLinearColor(0.08f,0.95f,0.28f) : FLinearColor(1.0f,0.55f,0.08f);
+    if (UMaterialInstanceDynamic* Material = UMaterialInstanceDynamic::Create(PickupVisual->GetMaterial(0), this)) {
+        Material->SetVectorParameterValue(TEXT("Color"), Tint);
+        PickupVisual->SetMaterial(0, Material);
+    }
 }
 void ADawsPickup::BeginPlay()
 {
