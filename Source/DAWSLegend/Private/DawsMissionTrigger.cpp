@@ -16,6 +16,7 @@ ADawsMissionTrigger::ADawsMissionTrigger()
     TriggerBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     TriggerBox->SetCollisionResponseToAllChannels(ECR_Ignore);
     TriggerBox->SetCollisionResponseToChannel(ECC_Pawn,ECR_Overlap);
+    TriggerBox->SetCollisionResponseToChannel(ECC_Visibility,ECR_Block);
     MarkerVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MissionMarker"));
     MarkerVisual->SetupAttachment(TriggerBox);
     MarkerVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
