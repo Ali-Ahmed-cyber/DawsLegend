@@ -12,6 +12,7 @@
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/PlayerController.h"
+#include "TimerManager.h"
 ADawsPlayerCharacter::ADawsPlayerCharacter()
 {
     PrimaryActorTick.bCanEverTick = false;
@@ -23,6 +24,8 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
     GetCharacterMovement()->JumpZVelocity = 520.0f;
     GetCharacterMovement()->AirControl = 0.32f;
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+    InitialSpawnLocation = GetActorLocation();
+    if (HealthComponent) HealthComponent->OnDeath.AddDynamic(this, &ADawsPlayerCharacter::HandlePlayerDeath);
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->TargetArmLength = 360.0f;
@@ -126,4 +129,34 @@ void ADawsPlayerCharacter::InteractWithWorld()
     AActor* Target = Hit.GetActor();
     if (Target && Target->GetClass()->ImplementsInterface(UDawsInteractable::StaticClass()))
         IDawsInteractable::Execute_Interact(Target, this);
+}
+
+void ADawsPlayerCharacter::HandlePlayerDeath()
+{
+    GetCharacterMovement()->DisableMovement();
+    if (APlayerController* PC = Cast<APlayerController>(Controller)) DisableInput(PC);
+    if (GetWorld()) GetWorld()->GetTimerManager().SetTimer(RespawnTimer, this, &ADawsPlayerCharacter::RespawnAtCheckpoint, 3.0f, false);
+}
+void ADawsPlayerCharacter::RespawnAtCheckpoint()
+{
+    bool bLoadedCheckpoint = false;
+    if (GetGameInstance()) {
+        if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
+            int32 Chapter = 1;
+            FString Mission;
+            float SavedHealth = 100.0f;
+            bLoadedCheckpoint = Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth);
+            if (bLoadedCheckpoint) {
+                if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RestoreCampaignAtMission(Mission);
+                if (HealthComponent) HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 35.0f, HealthComponent->MaxHealth);
+            }
+        }
+    }
+    if (!bLoadedCheckpoint) {
+        SetActorLocation(InitialSpawnLocation);
+        if (HealthComponent) HealthComponent->CurrentHealth = HealthComponent->MaxHealth;
+    }
+    if (HealthComponent) HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
+    GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+    if (APlayerController* PC = Cast<APlayerController>(Controller)) EnableInput(PC);
 }
