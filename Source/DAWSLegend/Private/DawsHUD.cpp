@@ -132,6 +132,9 @@ void ADawsHUD::DrawHUD()
         if (!Prompt.IsEmpty()) DrawTextLine(Prompt.ToString(), W*0.5f-180.0f, H*0.58f, 0.82f, FLinearColor(0.95f,0.85f,0.32f));
     }
     // Subtle centre reticle.
-    Canvas->K2_DrawLine(FVector2D(W*0.5f-8,H*0.5f), FVector2D(W*0.5f+8,H*0.5f), 1.5f, FLinearColor::White);
-    Canvas->K2_DrawLine(FVector2D(W*0.5f,H*0.5f-8), FVector2D(W*0.5f,H*0.5f+8), 1.5f, FLinearColor::White);
+    const ADawsPlayerCharacter* AimPlayer = Cast<ADawsPlayerCharacter>(GetOwningPawn());
+    const float ReticleSize = AimPlayer && AimPlayer->IsAiming() ? 4.0f : 8.0f;
+    const float ReticleThickness = AimPlayer && AimPlayer->IsAiming() ? 2.0f : 1.5f;
+    Canvas->K2_DrawLine(FVector2D(W*0.5f-ReticleSize,H*0.5f), FVector2D(W*0.5f+ReticleSize,H*0.5f), ReticleThickness, FLinearColor::White);
+    Canvas->K2_DrawLine(FVector2D(W*0.5f,H*0.5f-ReticleSize), FVector2D(W*0.5f,H*0.5f+ReticleSize), ReticleThickness, FLinearColor::White);
 }
