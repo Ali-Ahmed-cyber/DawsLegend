@@ -25,7 +25,7 @@ bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& Missi
     CachedSave = Save;
     return true;
 }
-bool UDawsSaveSubsystem::SaveTaskProgress(AActor* PlayerActor, float PlayerHealth)
+bool UDawsSaveSubsystem::SaveTaskProgress(AActor* PlayerActor, float PlayerHealth, const FString& CollectedPickupId)
 {
     if (!PlayerActor || !GetGameInstance()) return false;
     const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
@@ -40,6 +40,7 @@ bool UDawsSaveSubsystem::SaveTaskProgress(AActor* PlayerActor, float PlayerHealt
     Save->CurrentMissionId = MissionId;
     Save->PlayerHealth = FMath::Clamp(PlayerHealth, 0.0f, 100.0f);
     Save->CurrentTaskProgress = Missions->GetTaskProgress();
+    if (!CollectedPickupId.IsEmpty() && !Save->CollectedPickupIds.Contains(CollectedPickupId)) Save->CollectedPickupIds.Add(CollectedPickupId);
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(PlayerActor)) {
         if (Player->CombatComponent) { Save->MagazineAmmo = Player->CombatComponent->MagazineAmmo; Save->ReserveAmmo = Player->CombatComponent->ReserveAmmo; }
     }
@@ -70,6 +71,12 @@ bool UDawsSaveSubsystem::LoadCheckpoint(AActor* PlayerActor, int32& OutStoryChap
         }
     }
     return true;
+}
+bool UDawsSaveSubsystem::IsPickupCollected(const FString& PickupId) const
+{
+    if (PickupId.IsEmpty() || !UGameplayStatics::DoesSaveGameExist(SaveSlotName, UserIndex)) return false;
+    const UDawsSaveGame* Save = Cast<UDawsSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, UserIndex));
+    return Save && Save->CollectedPickupIds.Contains(PickupId);
 }
 bool UDawsSaveSubsystem::HasSave() const
 {
