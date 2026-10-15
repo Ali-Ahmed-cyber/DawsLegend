@@ -10,6 +10,7 @@
 #include "DawsMissionSubsystem.h"
 #include "DawsSaveSubsystem.h"
 #include "DawsMissionTrigger.h"
+#include "DawsStoryNPC.h"
 #include "EngineUtils.h"
 #include "Engine/GameInstance.h"
 void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color)
@@ -86,7 +87,13 @@ void ADawsHUD::DrawHUD()
             if (APawn* CurrentPawn = GetOwningPawn()) {
                 for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) {
                     if (It->MissionId.ToString() != Missions->GetCurrentMissionId()) continue;
-                    const FVector Delta = It->GetActorLocation() - CurrentPawn->GetActorLocation();
+                    FVector TargetLocation = It->GetActorLocation();
+                    if (Missions->GetCurrentTaskType() == TEXT("talk")) {
+                        for (TActorIterator<ADawsStoryNPC> NPCIt(GetWorld()); NPCIt; ++NPCIt) {
+                            if (NPCIt->GetNPCId().ToString() == Missions->GetCurrentTaskTargetId()) { TargetLocation = NPCIt->GetActorLocation(); break; }
+                        }
+                    }
+                    const FVector Delta = TargetLocation - CurrentPawn->GetActorLocation();
                     const float DistanceMeters = Delta.Size2D() / 100.0f;
                     const FVector Direction = Delta.GetSafeNormal2D();
                     const float ForwardDot = FVector::DotProduct(CurrentPawn->GetActorForwardVector().GetSafeNormal2D(), Direction);
