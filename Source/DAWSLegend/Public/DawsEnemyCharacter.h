@@ -11,6 +11,7 @@ class DAWSLEGEND_API ADawsEnemyCharacter : public ACharacter
 public:
     ADawsEnemyCharacter();
     void ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget = false);
+    void ReceiveWeaponDamage(float Amount);
 protected:
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaSeconds) override;
