@@ -8,6 +8,7 @@
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
 #include "DawsMissionSubsystem.h"
+#include "DawsSaveSubsystem.h"
 #include "Engine/GameInstance.h"
 ADawsPickup::ADawsPickup()
 {
@@ -65,6 +66,8 @@ void ADawsPickup::HandleOverlap(UPrimitiveComponent*, AActor* OtherActor, UPrimi
             const FString RequiredType = PickupType == EDawsPickupType::Supplies ? TEXT("collect") : TEXT("evidence");
             if (Missions->GetCurrentTaskType() == RequiredType) {
                 Missions->RegisterTaskProgress(RequiredType);
+                const float PlayerHealth = Player->HealthComponent ? Player->HealthComponent->CurrentHealth : 100.0f;
+                if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->SaveTaskProgress(Player, PlayerHealth);
                 bConsumed = true;
             }
         }
