@@ -21,6 +21,13 @@ void ADawsHUD::DrawHUD()
     Super::DrawHUD();
     if (!Canvas) return;
     const float W = Canvas->SizeX, H = Canvas->SizeY;
+    if (APlayerController* PC = GetOwningPlayerController()) {
+        if (PC->IsPaused()) {
+            DrawTextLine(TEXT("PAUSED"), W*0.5f-70.0f, H*0.38f, 1.8f, FLinearColor(0.15f,0.95f,0.78f));
+            DrawTextLine(TEXT("Press ESC to resume"), W*0.5f-100.0f, H*0.46f, 1.0f, FLinearColor::White);
+            return;
+        }
+    }
     DrawTextLine(TEXT("DAWS LEGEND"), 42, 32, 1.25f, FLinearColor(0.15f,0.95f,0.78f));
     DrawTextLine(TEXT("STORY CAMPAIGN  |  CHAPTER 01"), 44, 68, 0.78f, FLinearColor::White);
     DrawTextLine(TEXT("WASD MOVE   SHIFT SPRINT   SPACE JUMP"), 44, H-72, 0.78f, FLinearColor::White);
