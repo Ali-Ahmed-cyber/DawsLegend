@@ -1,77 +1,123 @@
 # DAWS LEGEND — Campaign Production Script
 
 ## Campaign promise
-A cinematic third-person action story grounded in an original Sudanese city setting. The hero and his two closest friends become involved in a supply theft and a conspiracy exploiting a city-wide emergency. The story is about loyalty, courage, and protecting ordinary people. This document is the production source of truth; the final likenesses of the three real main characters are deliberately deferred.
+A grounded third-person action story set in an original Sudanese city. The hero and his two closest friends are drawn into a network stealing emergency supplies and manipulating safe routes during a city-wide crisis. The campaign follows the current runtime mission order so objective text, dialogue, checkpoints and final art remain aligned.
 
 ## Chapter 1 — The First Signal
-**Playable spaces:** plaza, market street, side alley, improvised aid station.  
-**Opening:** a radio report warns that emergency supplies are disappearing while residents are being redirected away from safe routes. The hero arrives at the plaza to help.  
-**Mission 1: Secure the Plaza**
-- Reach the plaza marker.
-- Defeat or evade the first hostile patrol.
-- Speak to Hiba, the community radio presenter.
-- Outcome: Hiba gives the player a frequency and points toward the market.
 
-**Mission 2: The Empty Storehouse**
-- Follow the marked street.
-- Search three supply crates.
-- Recover a delivery ledger.
-- Survive an ambush and return to the aid station.
-- Outcome: the ledger reveals the same broker has intercepted several shipments.
+**Playable district:** central plaza, neighborhood workshop and supply route.
 
-**Mission 3: A Mechanic's Warning**
-- Meet Bashir at his workshop.
-- Restore power to a radio relay by finding two fuses.
-- Defend the workshop while Bashir finishes repairs.
-- Outcome: the relay records a coded message about a night transfer.
+### Mission 1 — The First Signal
+- Reach the plaza waypoint and secure the first area.
+- Hiba's radio warning introduces the missing medical cargo.
+- The waypoint interaction completes the opening mission.
 
-**Chapter finale: The Night Convoy**
-- Move through a market route using cover.
-- Disable the convoy's lead vehicle.
-- Rescue a trapped driver; do not harm civilians.
-- Escape to the safehouse before reinforcements arrive.
-- Cliffhanger: the ledger bears a mark associated with a respected local contractor.
+### Mission 2 — The Empty Storehouse
+- Collect three missing supply bundles from the marked route.
+- Each bundle advances the supply counter and autosaves mission progress.
+- The recovered cargo confirms that the theft is organized, not accidental.
+
+### Mission 3 — A Mechanic's Warning
+- Speak to Bashir at the workshop.
+- Bashir explains that the crates were emptied before the convoy arrived.
+- His clue points toward the burned market storage area.
 
 ## Chapter 2 — Smoke Over the Market
-**Spaces:** market rooftops, narrow lanes, warehouse interiors.
-- Mission 1: investigate a burned-out storage room and photograph evidence.
-- Mission 2: track the stolen cargo without raising the alarm; stealth routes reward careful play.
-- Mission 3: defend the market clinic while Fawzi moves civilians to safety.
-- Finale: intercept a courier, choose whether to trade evidence for a hostage's location. The choice affects later dialogue and the resources available, never the core identity of the three heroes.
+
+**Playable district:** market lane, clinic route and courier approach.
+
+### Mission 4 — Smoke Over the Market
+- Recover evidence from the burned store.
+- Evidence pickups are required to unlock the mission marker.
+- Hiba warns that the next shipment is headed toward the clinic.
+
+### Mission 5 — Protect the Clinic
+- Defeat three hostiles threatening the clinic supply route.
+- Hostiles become active for combat objectives; ammunition and health may drop from defeated enemies.
+- Fawzi moves residents away from the threat.
+
+### Mission 6 — The Courier
+- Intercept the courier before the transfer code is lost.
+- Defeat the active hostile guarding the route.
+- Bashir identifies the next destination as the silent relay.
 
 ## Chapter 3 — The Silent Relay
-**Spaces:** radio station, power substation, outskirts checkpoint.
-- Mission 1: restore the community relay and reconnect the radio network.
-- Mission 2: escort a technician through an active threat zone.
-- Mission 3: Captain Nadir requests evidence; the player must compare the ledger with the relay recording.
-- Finale: enter the relay building, disable a jammer, and broadcast the verified evidence. A false clue reveals that the Broker has an inside source.
+
+**Playable district:** relay street, technician route and broadcast station.
+
+### Mission 7 — The Silent Relay
+- Speak to the technician at the relay.
+- Hiba's radio says the signal is jammed and must be restored.
+- The technician agrees to move once the route is cleared.
+
+### Mission 8 — Escort the Technician
+- The technician follows the player after the briefing.
+- Reach the broadcast waypoint with the technician close by; the marker refuses completion if the escort falls too far behind.
+- Captain Nadir stresses that the evidence must survive the trip.
+
+### Mission 9 — Broadcast the Truth
+- Reach the broadcast station.
+- Hiba prepares to transmit verified evidence rather than rumors.
+- The broadcast exposes the route network and points to the Broker's industrial yard.
 
 ## Chapter 4 — The Broker's Route
-**Spaces:** industrial yard, roadblock, river-side loading area.
-- Mission 1: scout three entry points and choose stealth or direct approach.
-- Mission 2: disable the cargo scanners and free detained workers.
-- Mission 3: protect the mechanic's vehicle during a timed escape.
-- Finale: confront the Broker's field commander. The commander escapes but drops proof linking the scheme to a network of shell companies.
+
+**Playable district:** industrial yard, holding area and river-side road.
+
+### Mission 10 — The Broker's Route
+- Reach the industrial yard and scout the supply route.
+- Captain Nadir warns that the yard has multiple entrances.
+- The player discovers that workers are being detained for refusing to move medical cargo.
+
+### Mission 11 — Free the Workers
+- Speak to the detained worker and learn why the cargo was intercepted.
+- The worker identifies the river-side route used by the network.
+- Bashir offers to help clear the escape road.
+
+### Mission 12 — Road to the River
+- Defeat four hostiles controlling the river-side route.
+- The player can use cover and vehicles to cross the threat zone.
+- Clearing the road opens the final evidence route.
 
 ## Chapter 5 — Dawn of the City
-**Spaces:** city rooftops, central depot, public square.
-- Mission 1: gather the last two pieces of evidence from optional side routes.
-- Mission 2: coordinate Hiba's broadcast while Bashir keeps the relay online.
-- Mission 3: hold the depot until residents and investigators arrive.
-- Finale: face the Broker, disable the supply-control system, and choose whether to publish all evidence immediately or hand it to Captain Nadir for verified release.
-- Epilogue: the city receives aid; character-specific final scenes are staged only after the three real character likenesses are imported.
 
-## Supporting cast and dialogue beats
-- **Hiba:** practical, calm under pressure; radio lines are short and actionable, never exposition dumps.
-- **Bashir:** mechanic and friend; dry humour under stress; explains equipment and repair objectives.
-- **Captain Nadir:** investigator; insists on verified evidence and protects witnesses.
-- **Fawzi:** shopkeeper; knows the local routes and helps civilians.
-- **The Broker:** antagonist who presents himself as a benefactor while controlling the supply chain.
+**Playable district:** evidence route, central depot and final broadcast point.
 
-## Implementation and acceptance checklist
-- Every mission needs an objective state, completion condition, fail/retry path, checkpoint and short debrief.
-- Civilians must be protected; hostile AI must not target non-combatants.
-- Include subtitles for every spoken line, Arabic/English text localization, remappable controls, sensitivity, volume sliders, accessibility contrast, and a pause menu.
-- All story progress must persist in save slots. Optional evidence and choices persist separately from current health/ammo.
-- Final character photo import is the last character-specific task. No substitute likenesses.
-- This is the campaign source script; in-engine levels, cinematics, voice acting and all acceptance tests must still be implemented and verified before release.
+### Mission 13 — Dawn of the City
+- Recover the last piece of evidence.
+- Hiba verifies that the evidence connects the thefts to the same organizer.
+- The central depot becomes the network's final stronghold.
+
+### Mission 14 — Hold the Depot
+- Defeat five hostiles defending the depot.
+- Higher-threat enforcers have increased health and damage.
+- Fawzi reports that residents are bringing water and bandages to the depot.
+
+### Mission 15 — The Final Broadcast
+- Confront the Broker and hear his final argument.
+- Speak to the Broker, then activate the final broadcast waypoint.
+- The campaign concludes with the verified evidence reaching the city.
+
+## Supporting cast
+- **Hiba:** community radio presenter; clear, actionable warnings.
+- **Bashir:** mechanic; practical advice, dry humor and vehicle contact.
+- **Captain Nadir:** investigator who insists on verified evidence.
+- **Fawzi:** neighborhood shopkeeper helping move residents to safety.
+- **The Survivor:** witness who reveals the convoy route.
+- **The Technician:** restores the relay and follows during the escort mission.
+- **The Worker:** explains why the medical cargo was intercepted.
+- **The Broker:** organizer of the supply theft network.
+
+## Final character-art rule
+The three real main-character likenesses are reserved for the final art stage:
+- **Hero:** user wearing the white Real Madrid shirt.
+- **Tawfiq:** user-provided reference wearing yellow.
+- **Amjad:** user-provided reference wearing black.
+
+Do not replace these identities with unrelated people. Companion scenes, animations and final likeness assets are added after the core campaign and source validation.
+
+## Release acceptance gates
+- Compile in Unreal Engine 5.4 and fix all compile/runtime errors.
+- Play the full campaign in-engine, including death during collect/evidence/combat tasks, checkpoint restore, escort distance, vehicles and campaign restart.
+- Import final character likenesses, proper skeletal rigs, polished environment/weapon/vehicle assets, sound and music.
+- Verify save/load, controller support, localization and target-hardware performance before packaging.
