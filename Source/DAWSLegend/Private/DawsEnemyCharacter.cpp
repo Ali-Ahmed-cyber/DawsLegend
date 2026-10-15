@@ -125,7 +125,7 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
     AttackCooldown -= DeltaSeconds;
     if (!GetGameInstance()) return;
     const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
-    const bool bFinalConfrontation = Missions && Missions->GetCurrentMissionId() == TEXT("chapter05_finale") && bIsSpecialTarget;
+    const bool bFinalConfrontation = Missions && Missions->GetCurrentMissionId() == TEXT("chapter06_dawn") && bIsSpecialTarget;
     if (!Missions || ((!bFinalConfrontation) && (Missions->GetCurrentTaskType() != TEXT("defeat") || Missions->CanCompleteCurrentMission()))) return;
     APawn* TargetPawn = UGameplayStatics::GetPlayerPawn(this, 0);
     if (!TargetPawn || !HealthComponent || !HealthComponent->IsAlive()) return;
