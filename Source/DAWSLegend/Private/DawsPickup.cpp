@@ -32,7 +32,7 @@ void ADawsPickup::ConfigurePickup(EDawsPickupType NewType, float NewAmount, cons
     PickupType = NewType;
     PickupAmount = NewAmount;
     PickupId = NewPickupId;
-    SetActorTickEnabled(PickupType == EDawsPickupType::Supplies || PickupType == EDawsPickupType::Evidence);
+    SetActorTickEnabled(PickupType == EDawsPickupType::Health || PickupType == EDawsPickupType::Supplies || PickupType == EDawsPickupType::Evidence);
     if ((PickupType == EDawsPickupType::Supplies || PickupType == EDawsPickupType::Evidence) && !PickupId.IsEmpty()) {
         if (UGameInstance* GI = GetGameInstance()) {
             if (UDawsSaveSubsystem* Saves = GI->GetSubsystem<UDawsSaveSubsystem>(); Saves && Saves->IsPickupCollected(PickupId)) { Destroy(); return; }
@@ -55,6 +55,20 @@ void ADawsPickup::BeginPlay()
 void ADawsPickup::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    if (PickupType == EDawsPickupType::Health) {
+        TArray<AActor*> OverlappingActors;
+        PickupCollision->GetOverlappingActors(OverlappingActors, ADawsPlayerCharacter::StaticClass());
+        for (AActor* OverlappingActor : OverlappingActors) {
+            if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(OverlappingActor)) {
+                if (Player->HealthComponent && Player->HealthComponent->CurrentHealth < Player->HealthComponent->MaxHealth) {
+                    const FHitResult EmptyHit;
+                    HandleOverlap(PickupCollision, Player, nullptr, 0, false, EmptyHit);
+                    break;
+                }
+            }
+        }
+        return;
+    }
     if ((PickupType != EDawsPickupType::Supplies && PickupType != EDawsPickupType::Evidence) || !GetGameInstance()) return;
     const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
     const FString RequiredType = PickupType == EDawsPickupType::Supplies ? TEXT("collect") : TEXT("evidence");
