@@ -39,6 +39,36 @@ ADawsStoryNPC::ADawsStoryNPC()
     AccessoryVisual->SetRelativeLocation(FVector(0,0,68));
     AccessoryVisual->SetRelativeScale3D(FVector(0.36f,0.36f,0.08f));
     AccessoryVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    LeftArmVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftArmVisual"));
+    LeftArmVisual->SetupAttachment(InteractionBounds);
+    if (Cylinder.Succeeded()) LeftArmVisual->SetStaticMesh(Cylinder.Object);
+    LeftArmVisual->SetRelativeLocation(FVector(0,-24,45));
+    LeftArmVisual->SetRelativeScale3D(FVector(0.10f,0.10f,0.34f));
+    LeftArmVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    RightArmVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightArmVisual"));
+    RightArmVisual->SetupAttachment(InteractionBounds);
+    if (Cylinder.Succeeded()) RightArmVisual->SetStaticMesh(Cylinder.Object);
+    RightArmVisual->SetRelativeLocation(FVector(0,24,45));
+    RightArmVisual->SetRelativeScale3D(FVector(0.10f,0.10f,0.34f));
+    RightArmVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    LeftLegVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLegVisual"));
+    LeftLegVisual->SetupAttachment(InteractionBounds);
+    if (Cylinder.Succeeded()) LeftLegVisual->SetStaticMesh(Cylinder.Object);
+    LeftLegVisual->SetRelativeLocation(FVector(0,-10,9));
+    LeftLegVisual->SetRelativeScale3D(FVector(0.12f,0.12f,0.34f));
+    LeftLegVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    RightLegVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLegVisual"));
+    RightLegVisual->SetupAttachment(InteractionBounds);
+    if (Cylinder.Succeeded()) RightLegVisual->SetStaticMesh(Cylinder.Object);
+    RightLegVisual->SetRelativeLocation(FVector(0,10,9));
+    RightLegVisual->SetRelativeScale3D(FVector(0.12f,0.12f,0.34f));
+    RightLegVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    HairVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HairVisual"));
+    HairVisual->SetupAttachment(HeadVisual);
+    if (Sphere.Succeeded()) HairVisual->SetStaticMesh(Sphere.Object);
+    HairVisual->SetRelativeLocation(FVector(-0.1f,0,0.18f));
+    HairVisual->SetRelativeScale3D(FVector(0.95f,0.95f,0.32f));
+    HairVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 void ADawsStoryNPC::Tick(float DeltaSeconds)
 {
@@ -68,6 +98,11 @@ void ADawsStoryNPC::ApplyClothingColor()
         BodyMat->SetVectorParameterValue(TEXT("Color"), ClothingColor);
         BodyVisual->SetMaterial(0, BodyMat);
     }
+    if (UMaterialInstanceDynamic* LeftArmMat = UMaterialInstanceDynamic::Create(LeftArmVisual->GetMaterial(0), this)) { LeftArmMat->SetVectorParameterValue(TEXT("Color"), ClothingColor); LeftArmVisual->SetMaterial(0, LeftArmMat); }
+    if (UMaterialInstanceDynamic* RightArmMat = UMaterialInstanceDynamic::Create(RightArmVisual->GetMaterial(0), this)) { RightArmMat->SetVectorParameterValue(TEXT("Color"), ClothingColor); RightArmVisual->SetMaterial(0, RightArmMat); }
+    if (UMaterialInstanceDynamic* LeftLegMat = UMaterialInstanceDynamic::Create(LeftLegVisual->GetMaterial(0), this)) { LeftLegMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.08f,0.09f,0.10f)); LeftLegVisual->SetMaterial(0, LeftLegMat); }
+    if (UMaterialInstanceDynamic* RightLegMat = UMaterialInstanceDynamic::Create(RightLegVisual->GetMaterial(0), this)) { RightLegMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.08f,0.09f,0.10f)); RightLegVisual->SetMaterial(0, RightLegMat); }
+    if (UMaterialInstanceDynamic* HairMat = UMaterialInstanceDynamic::Create(HairVisual->GetMaterial(0), this)) { HairMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.035f,0.028f,0.025f)); HairVisual->SetMaterial(0, HairMat); }
     if (UMaterialInstanceDynamic* AccessoryMat = UMaterialInstanceDynamic::Create(AccessoryVisual->GetMaterial(0), this)) {
         AccessoryMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.08f,0.09f,0.10f));
         AccessoryVisual->SetMaterial(0, AccessoryMat);
