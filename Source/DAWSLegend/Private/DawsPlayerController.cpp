@@ -88,7 +88,6 @@ void ADawsPlayerController::StartGame()
 
 void ADawsPlayerController::ToggleSettings()
 {
-    if (!bHasStartedGame) return;
     bSettingsMenuOpen = !bSettingsMenuOpen;
     if (bSettingsMenuOpen) {
         bDawsPaused = true;
