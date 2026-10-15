@@ -73,6 +73,11 @@ void ADawsHUD::DrawHUD()
             DrawTextLine(FString::Printf(TEXT("STORY CAMPAIGN  |  CHAPTER %02d"), Missions->GetCurrentChapterNumber()), 44, 68, 0.78f, FLinearColor::White);
     }
     if (!Cast<ADawsVehiclePawn>(GetOwningPawn())) DrawTextLine(TEXT("WASD MOVE   SHIFT SPRINT   SPACE JUMP   E INTERACT"), 44, H-72, 0.78f, FLinearColor::White);
+    if (const APawn* CurrentPawn = GetOwningPawn()) {
+        const float DistrictY = CurrentPawn->GetActorLocation().Y;
+        const TCHAR* DistrictName = DistrictY < 2200.0f ? TEXT("CENTRAL PLAZA") : (DistrictY < 4300.0f ? TEXT("MARKET & CLINIC") : (DistrictY < 6500.0f ? TEXT("RADIO DISTRICT") : (DistrictY < 8700.0f ? TEXT("INDUSTRIAL ROUTE") : TEXT("CENTRAL DEPOT"))));
+        DrawTextLine(DistrictName, W-230.0f, H-112.0f, 0.72f, FLinearColor(0.75f,0.85f,0.82f));
+    }
     if (GetWorld() && GetWorld()->GetGameInstance()) {
         if (const UDawsMissionSubsystem* Missions = GetWorld()->GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
             DrawTextLine(FString::Printf(TEXT("MISSION %02d / 15  |  %s"), Missions->GetCampaignMissionNumber(), *Missions->GetCurrentMissionTitle().ToString()), 44, H-145, 0.84f, FLinearColor(1.0f,0.72f,0.25f));
