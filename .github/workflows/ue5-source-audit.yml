@@ -26,9 +26,33 @@ jobs:
           test -f Source/DAWSLegend/Private/DawsHUD.cpp
           test -f Source/DAWSLegend/Private/DawsPickup.cpp
           test -f Source/DAWSLegend/Private/DawsPlayerController.cpp
+          test -f Source/DAWSLegend/Private/DawsMissionTrigger.cpp
+          test -f Source/DAWSLegend/Public/DawsPickup.h
+          test -f Source/DAWSLegend/Public/DawsMissionSubsystem.h
           test -f Story/CAMPAIGN_PRODUCTION_SCRIPT.md
       - name: Ensure the UE5 branch has no old Godot project entry points
         run: |
           test ! -f project.godot
           test ! -f export_presets.cfg
           test ! -f .github/workflows/godot-check.yml
+
+      - name: Audit campaign and gameplay wiring
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          project = json.loads(Path("DAWSLegend.uproject").read_text())
+          assert project["EngineAssociation"] == "5.4"
+          source = Path("Source/DAWSLegend")
+          mission = (source / "Private/DawsMissionSubsystem.cpp").read_text()
+          game_mode = (source / "Private/DawsGameMode.cpp").read_text()
+          player = (source / "Private/DawsPlayerCharacter.cpp").read_text()
+          trigger = (source / "Private/DawsMissionTrigger.cpp").read_text()
+          assert mission.count('TEXT("chapter') >= 30, "Campaign mission IDs are incomplete"
+          assert "RestoreCampaignAtMission" in mission and "StartCampaignMission" in mission
+          assert "SpawnActor<ADawsEnemyCharacter>" in game_mode
+          assert "SpawnActor<ADawsPickup>" in game_mode
+          assert "InteractWithWorld" in player and "FireWeapon" in player
+          assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
+          print("Source integrity passed. This is not an Unreal C++ compile or in-engine test.")
+          PY
