@@ -31,7 +31,7 @@ void ADawsGameMode::StartPlay()
         TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
         TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
     };
-    const float MissionY[15] = { 0,700,1400,2100,2800,3500,4200,4900,5600,6300,7000,7700,8400,9100,9800 };
+    const float MissionY[15] = { 500,1200,1900,2600,3300,4000,4700,5400,6100,6800,7500,8200,8900,9600,10300 };
     for (int32 Index = 0; Index < 15; ++Index) {
         ADawsMissionTrigger* Trigger = GetWorld()->SpawnActor<ADawsMissionTrigger>(FVector(0, MissionY[Index], 90), FRotator::ZeroRotator);
         if (Trigger) {
