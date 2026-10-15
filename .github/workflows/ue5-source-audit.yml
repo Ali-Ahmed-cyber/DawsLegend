@@ -132,7 +132,7 @@ jobs:
           assert "TEXT(\"tawfiq\")" in game_mode and "TEXT(\"amjad\")" in game_mode
           assert "LeftArmVisual" in story_npc and "RightLegVisual" in story_npc
           assert "LeftEyeVisual" in story_npc and "NoseVisual" in story_npc
-          assert "ActiveMission == TEXT(\"chapter05_finale\")" in story_npc and "chapter03_escort" in story_npc
+          assert "ActiveMission == TEXT(\"chapter06_dawn\")" in story_npc and "chapter04_escort" in story_npc
           assert "IdleBob" in story_npc and "VisualAnimationTime" in story_npc
           assert "bIsMainCompanion" in story_npc and "SideOffset" in story_npc and "NPCId == FName(TEXT(\"tawfiq\"))" in story_npc
           assert "IsEscortReady" in (source / "Private/DawsMissionTrigger.cpp").read_text()
