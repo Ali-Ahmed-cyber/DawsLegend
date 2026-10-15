@@ -15,26 +15,36 @@ ADawsWorldBuilder::ADawsWorldBuilder()
     PrimaryActorTick.bCanEverTick = false;
     SetActorHiddenInGame(true);
     static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Engine/BasicShapes/Cube.Cube"));
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> Cylinder(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> Sphere(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
     if (Cube.Succeeded()) CubeMesh = Cube.Object;
+    if (Cylinder.Succeeded()) CylinderMesh = Cylinder.Object;
+    if (Sphere.Succeeded()) SphereMesh = Sphere.Object;
 }
 void ADawsWorldBuilder::BeginPlay()
 {
     Super::BeginPlay();
     BuildEnvironment();
 }
-AActor* ADawsWorldBuilder::AddBlock(FVector Location, FVector Scale, FLinearColor Tint, bool bCollision)
+AActor* ADawsWorldBuilder::AddPrimitive(UStaticMesh* Shape, FVector Location, FVector Scale, FLinearColor Tint, bool bCollision)
 {
-    if (!GetWorld() || !CubeMesh) return nullptr;
+    if (!GetWorld() || !Shape) return nullptr;
     AStaticMeshActor* Block = GetWorld()->SpawnActor<AStaticMeshActor>(Location, FRotator::ZeroRotator);
     if (!Block) return nullptr;
     UStaticMeshComponent* Mesh = Block->GetStaticMeshComponent();
-    Mesh->SetStaticMesh(CubeMesh);
+    Mesh->SetStaticMesh(Shape);
     Block->SetActorScale3D(Scale);
     Mesh->SetCollisionEnabled(bCollision ? ECollisionEnabled::QueryAndPhysics : ECollisionEnabled::NoCollision);
     Mesh->SetMobility(EComponentMobility::Static);
-    UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(Mesh->GetMaterial(0), Block);
-    if (Mat) { Mat->SetVectorParameterValue(TEXT("Color"), Tint); Mesh->SetMaterial(0, Mat); }
+    if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(Mesh->GetMaterial(0), Block)) {
+        Mat->SetVectorParameterValue(TEXT("Color"), Tint);
+        Mesh->SetMaterial(0, Mat);
+    }
     return Block;
+}
+AActor* ADawsWorldBuilder::AddBlock(FVector Location, FVector Scale, FLinearColor Tint, bool bCollision)
+{
+    return AddPrimitive(CubeMesh, Location, Scale, Tint, bCollision);
 }
 void ADawsWorldBuilder::BuildEnvironment()
 {
@@ -82,7 +92,31 @@ void ADawsWorldBuilder::BuildEnvironment()
     AddBlock(FVector(0,850,110), FVector(0.55f,0.55f,2.2f), FLinearColor(0.05f,0.75f,0.62f), false);
     AddBlock(FVector(850,0,110), FVector(0.55f,0.55f,2.2f), FLinearColor(0.92f,0.58f,0.12f), false);
     AddBlock(FVector(-850,0,110), FVector(0.55f,0.55f,2.2f), FLinearColor(0.80f,0.18f,0.12f), false);
-    // Extra urban blocks frame the extended campaign route, with alleys and cover near each chapter marker.\n    for (int32 District = 0; District < 5; ++District) {\n        const float Y = 2800.0f + District * 1450.0f;\n        AddBlock(FVector(-1150,Y,180.0f + (District%2)*55.0f), FVector(5.5f,5.0f,3.6f + (District%3)*0.8f), Facades[District%4]);\n        AddBlock(FVector(1150,Y+250.0f,210.0f + (District%3)*35.0f), FVector(5.0f,4.5f,4.2f), Facades[(District+1)%4]);\n        AddBlock(FVector(-650,Y+600.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));\n        AddBlock(FVector(650,Y+650.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));\n    }\n    // Simple sun lighting.
+    // Extra urban blocks frame the extended campaign route, with alleys and cover near each chapter marker.\n    for (int32 District = 0; District < 5; ++District) {\n        const float Y = 2800.0f + District * 1450.0f;\n        AddBlock(FVector(-1150,Y,180.0f + (District%2)*55.0f), FVector(5.5f,5.0f,3.6f + (District%3)*0.8f), Facades[District%4]);\n        AddBlock(FVector(1150,Y+250.0f,210.0f + (District%3)*35.0f), FVector(5.0f,4.5f,4.2f), Facades[(District+1)%4]);\n        AddBlock(FVector(-650,Y+600.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));\n        AddBlock(FVector(650,Y+650.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));\n    }\n
+    // Street furniture and local character details along the whole route.
+    for (int32 I = 0; I < 8; ++I) {
+        const float Y = 350.0f + I * 1350.0f;
+        for (int32 Side : {-1, 1}) {
+            const float X = Side * 900.0f;
+            AddPrimitive(CylinderMesh, FVector(X,Y,150), FVector(0.07f,0.07f,3.0f), FLinearColor(0.13f,0.14f,0.14f), false);
+            AddBlock(FVector(X-Side*45.0f,Y,305), FVector(0.75f,0.22f,0.10f), FLinearColor(0.95f,0.77f,0.34f), false);
+            AddBlock(FVector(X,Y+240.0f,60), FVector(1.0f,0.75f,0.55f), FLinearColor(0.32f,0.22f,0.14f), true);
+            AddBlock(FVector(X,Y+240.0f,118), FVector(1.12f,0.82f,0.12f), Facades[(I+1)%4], false);
+        }
+    }
+    // Palm trees and rooftop water tanks establish the warm urban district silhouette.
+    for (int32 I = 0; I < 6; ++I) {
+        const float Y = 850.0f + I * 1650.0f;
+        for (int32 Side : {-1, 1}) {
+            const FVector TreeBase(Side*2250.0f,Y,120.0f);
+            AddPrimitive(CylinderMesh, TreeBase, FVector(0.22f,0.22f,2.4f), FLinearColor(0.34f,0.22f,0.12f), false);
+            AddPrimitive(SphereMesh, TreeBase+FVector(0,0,175), FVector(1.1f,1.0f,0.72f), FLinearColor(0.12f,0.32f,0.16f), false);
+        }
+    }
+    const FVector TankLocations[4] = { FVector(-1300,-1050,550), FVector(-1300,1050,680), FVector(1300,-1050,600), FVector(1300,1050,780) };
+    for (const FVector& TankLocation : TankLocations)
+        AddPrimitive(CylinderMesh, TankLocation, FVector(0.85f,0.85f,0.65f), FLinearColor(0.25f,0.28f,0.28f), false);
+    // Simple sun lighting.
     ADirectionalLight* Sun = GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,1600), FRotator(-42,-28,0));
     if (Sun) {
         Sun->GetLightComponent()->SetIntensity(7.0f);
