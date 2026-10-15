@@ -4,6 +4,7 @@
 #include "DawsMissionTrigger.h"
 #include "DawsHUD.h"
 #include "DawsEnemyCharacter.h"
+#include "DawsPickup.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 ADawsGameMode::ADawsGameMode()
@@ -36,4 +37,14 @@ void ADawsGameMode::StartPlay()
     const FVector EnemyPositions[6] = { FVector(-450,450,100), FVector(450,-450,100), FVector(-650,-350,100), FVector(650,350,100), FVector(0,-750,100), FVector(750,750,100) };
     for (const FVector& EnemyPosition : EnemyPositions)
         GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPosition, FRotator::ZeroRotator);
+    const FVector HealthLocations[3] = { FVector(-900,300,75), FVector(300,900,75), FVector(1200,-200,75) };
+    for (const FVector& Location : HealthLocations) {
+        ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
+        if (Pickup) { Pickup->PickupType = EDawsPickupType::Health; Pickup->PickupAmount = 35.0f; }
+    }
+    const FVector AmmoLocations[3] = { FVector(600,600,75), FVector(-600,-600,75), FVector(1200,600,75) };
+    for (const FVector& Location : AmmoLocations) {
+        ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
+        if (Pickup) { Pickup->PickupType = EDawsPickupType::Ammo; Pickup->PickupAmount = 24.0f; }
+    }
 }
