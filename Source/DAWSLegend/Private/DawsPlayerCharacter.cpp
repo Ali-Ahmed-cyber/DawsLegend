@@ -28,8 +28,6 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
     GetCharacterMovement()->JumpZVelocity = 520.0f;
     GetCharacterMovement()->AirControl = 0.32f;
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-    InitialSpawnLocation = GetActorLocation();
-    if (HealthComponent) HealthComponent->OnDeath.AddDynamic(this, &ADawsPlayerCharacter::HandlePlayerDeath);
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
     CameraBoom->SetupAttachment(RootComponent);
     CameraBoom->TargetArmLength = 360.0f;
@@ -70,6 +68,8 @@ void ADawsPlayerCharacter::BeginPlay()
 {
     Super::BeginPlay();
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+    InitialSpawnLocation = GetActorLocation();
+    if (HealthComponent) HealthComponent->OnDeath.AddDynamic(this, &ADawsPlayerCharacter::HandlePlayerDeath);
 }
 void ADawsPlayerCharacter::Tick(float DeltaSeconds)
 {
@@ -81,7 +81,7 @@ void ADawsPlayerCharacter::Tick(float DeltaSeconds)
     if (RightArmVisual) RightArmVisual->SetRelativeRotation(FRotator(-Swing,0,0));
     if (LeftLegVisual) LeftLegVisual->SetRelativeRotation(FRotator(-Swing,0,0));
     if (RightLegVisual) RightLegVisual->SetRelativeRotation(FRotator(Swing,0,0));
-    if (BodyVisual) BodyVisual->SetRelativeLocation(FVector(0,0,48.0f + (Speed > 12.0f ? FMath::Abs(FMath::Sin(VisualAnimationTime * 9.0f)) * 2.0f : 0.0f));
+    if (BodyVisual) BodyVisual->SetRelativeLocation(FVector(0,0,48.0f + (Speed > 12.0f ? FMath::Abs(FMath::Sin(VisualAnimationTime * 9.0f)) * 2.0f : 0.0f)));
 }
 void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
