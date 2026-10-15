@@ -32,5 +32,6 @@ private:
     float AttackRange = 800.0f;
     bool bPreferMelee = false;
     float VisualAnimationTime = 0.0f;
+    bool bIsSpecialTarget = false;
     UFUNCTION() void HandleDeath();
 };
