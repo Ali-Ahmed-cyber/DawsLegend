@@ -52,7 +52,10 @@ jobs:
           assert "RestoreCampaignAtMission" in mission and "StartCampaignMission" in mission
           assert "SpawnActor<ADawsEnemyCharacter>" in game_mode
           assert "SpawnActor<ADawsPickup>" in game_mode
+          controller = (source / "Private/DawsPlayerController.cpp").read_text()
+          hud = (source / "Private/DawsHUD.cpp").read_text()
           assert "InteractWithWorld" in player and "FireWeapon" in player
+          assert "StartGame" in controller and "PRESS ENTER TO BEGIN" in hud
           assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
           print("Source integrity passed. This is not an Unreal C++ compile or in-engine test.")
           PY
