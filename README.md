@@ -11,6 +11,7 @@
 - Runtime-generated city-street environment with road, building blocks, cover and mission beacons.
 - A title screen and start flow; a 15-step sequential campaign across five chapters; mission-specific supply/evidence/hostile-count tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; and persistent options.
 - Enemy pursuit, ranged pressure, close-range attacks, death handling, and checkpoint respawn.
+- Arcade driving with enter/exit interaction and a chase camera.
 - Five original interactive story characters with contextual dialogue subtitles, plus the campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
@@ -22,7 +23,8 @@
 - Left Shift: sprint
 - Left mouse: fire
 - R: reload
-- E: interact with the active mission marker
+- E: interact with mission markers, story characters or vehicles
+- In a vehicle: W/S accelerate/reverse, A/D steer, E exit
 - F5: save checkpoint
 - F9: load checkpoint
 - Esc: pause/resume
