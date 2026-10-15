@@ -41,6 +41,7 @@ assert 'BindAction("Jump", IE_Pressed' in player and "StartJump" in player, "Jum
 assert 'GetCurrentTaskType() != TEXT("defeat")' in enemy, "Enemy AI must respect combat mission gating"
 assert "ReceiveWeaponDamage" in player and "ReceiveWeaponDamage" in enemy, "Enemy weapon damage API must be connected"
 assert "VInterpTo" in npc and "chapter03_escort" in npc, "Technician escort behavior must exist"
+assert "ActiveMission == TEXT(\"chapter05_finale\")" in npc and "NPCId == FName(TEXT(\"tawfiq\"))" in npc, "Main companions need contextual campaign dialogue"
 assert "OBJECTIVE WAYPOINT" in hud, "Objective waypoint HUD must exist"
 enemy_cpp = read("Source/DAWSLegend/Private/DawsEnemyCharacter.cpp")
 npc_cpp = read("Source/DAWSLegend/Private/DawsStoryNPC.cpp")
