@@ -100,6 +100,7 @@ jobs:
           assert "GetSpeedKPH" in (source / "Public/DawsVehiclePawn.h").read_text() and "SPEED" in (source / "Private/DawsHUD.cpp").read_text()
           controller = (source / "Private/DawsPlayerController.cpp").read_text()
           assert "HitMarkerTime" in player and "IsHitMarkerVisible" in hud and "bHitConfirmed" in hud
+          assert "Dist2D(GetActorLocation(), EnemyTarget->GetActorLocation()) > 1400.0f" in player
           assert "InteractWithWorld" in player and "FireWeapon" in player
           assert "SetStatusMessage" in player and "CHECKPOINT SAVED" in player and "MISSION COMPLETE" in (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert "bCheckpointSaved = Saves->SaveCheckpoint" in (source / "Private/DawsMissionTrigger.cpp").read_text()
