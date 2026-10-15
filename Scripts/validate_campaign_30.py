@@ -46,7 +46,7 @@ player = read("Source/DAWSLegend/Private/DawsPlayerCharacter.cpp")
 enemy = read("Source/DAWSLegend/Private/DawsEnemyCharacter.cpp")
 npc = read("Source/DAWSLegend/Private/DawsStoryNPC.cpp")
 game_mode = read("Source/DAWSLegend/Private/DawsGameMode.cpp")
-assert "StoryNPCs[10]" in game_mode and 'TEXT("tawfiq")' in game_mode and 'TEXT("amjad")' in game_mode, "Tawfiq and Amjad must be present as replaceable final-likeness companions"
+assert "StoryNPCs[13]" in game_mode and 'TEXT("tawfiq")' in game_mode and 'TEXT("amjad")' in game_mode, "Tawfiq and Amjad must be present as replaceable final-likeness companions"
 hud = read("Source/DAWSLegend/Private/DawsHUD.cpp")
 assert 'BindAction("Jump", IE_Pressed' in player and "StartJump" in player, "Jump input must be bound"
 assert 'GetCurrentTaskType() != TEXT("defeat")' in enemy, "Enemy AI must respect combat mission gating"
