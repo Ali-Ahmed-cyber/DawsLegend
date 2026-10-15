@@ -10,4 +10,5 @@ public:
     virtual void DrawHUD() override;
 private:
     void DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color);
+    void DrawOptionsPanel(float W, float H, const class ADawsPlayerController* DawsPC);
 };
