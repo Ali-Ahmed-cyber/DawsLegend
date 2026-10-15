@@ -6,6 +6,7 @@
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
 #include "DawsSaveSubsystem.h"
+#include "DawsInteractable.h"
 #include "Engine/GameInstance.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
@@ -50,6 +51,7 @@ void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
     PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ADawsPlayerCharacter::StopSprint);
     PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ADawsPlayerCharacter::FireWeapon);
     PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ADawsPlayerCharacter::ReloadWeapon);
+    PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ADawsPlayerCharacter::InteractWithWorld);
     PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &ADawsPlayerCharacter::SaveCheckpoint);
     PlayerInputComponent->BindAction("LoadGame", IE_Pressed, this, &ADawsPlayerCharacter::LoadCheckpoint);
 }
@@ -108,4 +110,17 @@ void ADawsPlayerCharacter::LoadCheckpoint()
             HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
         }
     }
+}
+
+void ADawsPlayerCharacter::InteractWithWorld()
+{
+    if (!FollowCamera || !GetWorld()) return;
+    const FVector Start = FollowCamera->GetComponentLocation();
+    const FVector End = Start + FollowCamera->GetForwardVector() * 650.0f;
+    FHitResult Hit;
+    FCollisionQueryParams Params(SCENE_QUERY_STAT(DawsInteractionTrace), true, this);
+    if (!GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params)) return;
+    AActor* Target = Hit.GetActor();
+    if (Target && Target->GetClass()->ImplementsInterface(UDawsInteractable::StaticClass()))
+        IDawsInteractable::Execute_Interact(Target, this);
 }
