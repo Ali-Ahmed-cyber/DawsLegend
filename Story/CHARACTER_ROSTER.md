@@ -13,5 +13,8 @@ Do not replace these identities. Do not generate their likenesses before the fin
 - **Captain Nadir:** investigator; mission contact for evidence handoffs.
 - **Fawzi:** shopkeeper whose disappearance drives the opening chapter.
 - **The Broker:** hidden antagonist connected to the smuggling network.
+- **The Survivor:** witness who reveals the convoy route.
+- **The Technician:** helps restore the radio relay.
+- **The Worker:** explains why the medical cargo was intercepted.
 
 Supporting character designs, names and dialogue can be revised as the script is developed. Keep the tone grounded and Sudanese, and use original assets and writing.
