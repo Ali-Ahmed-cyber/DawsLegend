@@ -106,6 +106,11 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
     if (GetGameInstance()) {
         const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
         const FString ActiveMission = Missions ? Missions->GetCurrentMissionId() : FString();
+        if (NPCId == FName(TEXT("the_broker"))) {
+            const FVector EventLocation = ActiveMission == TEXT("chapter04_charity") ? FVector(-650,8290,0) : FVector(-650,12450,0);
+            if (FVector::DistSquared2D(GetActorLocation(), EventLocation) > 2500.0f)
+                SetActorLocation(EventLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        }
         bIsMainCompanion = NPCId == FName(TEXT("tawfiq")) || NPCId == FName(TEXT("amjad"));
         if (bIsMainCompanion && Missions && ActiveMission != TEXT("campaign_complete")) {
             PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
@@ -194,22 +199,24 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
         }
         FText SpokenLine = DialogueLine;
         const FString ActiveMission = Missions->GetCurrentMissionId();
-        if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter04_escort")) {
+        if (NPCId == FName(TEXT("the_broker")) && ActiveMission == TEXT("chapter04_charity")) {
+            SpokenLine = FText::FromString(TEXT("We feed this city when others only talk. Strange how every accusation comes before proof."));
+        } else if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter04_escort")) {
             SpokenLine = FText::FromString(TEXT("Stay close. We have to reach the broadcast station before the signal window closes."));
         } else if (NPCId == FName(TEXT("tawfiq"))) {
             if (ActiveMission == TEXT("chapter01_plaza")) SpokenLine = FText::FromString(TEXT("I'm right here with you. Let's secure the plaza first, then follow the supply trail."));
-            else if (ActiveMission == TEXT("chapter01_supply")) SpokenLine = FText::FromString(TEXT("Check the ground around the convoy route. Three supply bundles are missing."));
-            else if (ActiveMission == TEXT("chapter02_clinic")) SpokenLine = FText::FromString(TEXT("I'll watch the side street. Don't let the guards push you away from the clinic."));
+            else if (ActiveMission == TEXT("chapter01_supplies")) SpokenLine = FText::FromString(TEXT("Check the ground around the convoy route. Three supply bundles are missing."));
+            else if (ActiveMission == TEXT("chapter03_clinic")) SpokenLine = FText::FromString(TEXT("I'll watch the side street. Don't let the guards push you away from the clinic."));
             else if (ActiveMission == TEXT("chapter04_escort")) SpokenLine = FText::FromString(TEXT("I'll cover the rear. Keep the technician close and move toward the broadcast marker."));
-            else if (ActiveMission == TEXT("chapter04_escape")) SpokenLine = FText::FromString(TEXT("The river road is exposed. Use the truck if the route gets too hot."));
-            else if (ActiveMission == TEXT("chapter05_depot")) SpokenLine = FText::FromString(TEXT("This is the last stronghold. Stay mobile and use the cover around the depot."));
+            else if (ActiveMission == TEXT("chapter06_river_road")) SpokenLine = FText::FromString(TEXT("The river road is exposed. Use the truck if the route gets too hot."));
+            else if (ActiveMission == TEXT("chapter06_depot")) SpokenLine = FText::FromString(TEXT("This is the last stronghold. Stay mobile and use the cover around the depot."));
             else SpokenLine = FText::FromString(TEXT("We started this together. Keep checking the evidence and don't trust the Broker's promises."));
         } else if (NPCId == FName(TEXT("amjad"))) {
             if (ActiveMission == TEXT("chapter01_plaza")) SpokenLine = FText::FromString(TEXT("I checked the side streets. The convoy trail leads away from the main road."));
-            else if (ActiveMission == TEXT("chapter01_supply")) SpokenLine = FText::FromString(TEXT("Look for the supply bundles beside the marked route. We need all three."));
+            else if (ActiveMission == TEXT("chapter01_supplies")) SpokenLine = FText::FromString(TEXT("Look for the supply bundles beside the marked route. We need all three."));
             else if (ActiveMission == TEXT("chapter02_market")) SpokenLine = FText::FromString(TEXT("The burned store is our best lead. Search for evidence before it disappears."));
-            else if (ActiveMission == TEXT("chapter03_relay")) SpokenLine = FText::FromString(TEXT("The relay is quiet. Find the technician and get the signal moving again."));
-            else if (ActiveMission == TEXT("chapter04_workers")) SpokenLine = FText::FromString(TEXT("Listen to the workers. Their account could connect the yard to the missing cargo."));
+            else if (ActiveMission == TEXT("chapter04_relay")) SpokenLine = FText::FromString(TEXT("The relay is quiet. Find the technician and get the signal moving again."));
+            else if (ActiveMission == TEXT("chapter05_workers")) SpokenLine = FText::FromString(TEXT("Listen to the workers. Their account could connect the yard to the missing cargo."));
             else if (ActiveMission == TEXT("chapter06_dawn")) SpokenLine = FText::FromString(TEXT("Make the Broker answer for this. Then get the verified evidence to Hiba."));
             else SpokenLine = FText::FromString(TEXT("Keep your eyes open. The route changes, but the clues are all connected."));
         }
