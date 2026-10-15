@@ -33,4 +33,6 @@ private:
     void AdjustSettingLeft();
     void AdjustSettingRight();
     void ApplyCameraFOV();
+    void LoadOptions();
+    void SaveOptions();
 };
