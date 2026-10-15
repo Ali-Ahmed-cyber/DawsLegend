@@ -57,7 +57,7 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
         TEXT("Bashir: The river road is blocked. I can get the truck moving, but you must clear the route."),
         TEXT("Hiba (radio): One last record remains. Bring it to the depot intact."),
         TEXT("Fawzi: The depot is holding. People are bringing water and bandages. Do not let them through."),
-        TEXT("Captain Nadir: This is the final broadcast. Once it goes out, there is no turning back.")
+        TEXT("Captain Nadir: The Broker’s enforcer guards the depot. Bring him down, then get the final broadcast out.")
     };
     static const TCHAR* TaskTypes[] = {
         TEXT("reach"), TEXT("collect"), TEXT("talk"),
@@ -73,7 +73,7 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
         TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
         TEXT("Speak to the technician at the relay"), TEXT("Escort the technician safely"), TEXT("Reach the broadcast station"),
         TEXT("Scout the broker's industrial yard"), TEXT("Speak to the workers and learn who detained them"), TEXT("Secure the river-side route"),
-        TEXT("Recover the last piece of evidence"), TEXT("Defend the central depot"), TEXT("Confront the Broker before the final broadcast")
+        TEXT("Recover the last piece of evidence"), TEXT("Defend the central depot"), TEXT("Defeat the Broker’s enforcer, then confront the Broker")
     };
     if (MissionIndex < 0 || MissionIndex >= UE_ARRAY_COUNT(Ids)) {
         bCampaignActive = false;
