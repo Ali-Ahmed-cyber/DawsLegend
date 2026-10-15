@@ -6,6 +6,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/StaticMeshActor.h"
 #include "Engine/DirectionalLight.h"
+#include "Engine/SkyLight.h"
+#include "Components/SkyLightComponent.h"
 #include "Engine/PointLight.h"
 #include "Components/DirectionalLightComponent.h"
 #include "Components/PointLightComponent.h"
@@ -124,10 +126,17 @@ void ADawsWorldBuilder::BuildEnvironment()
     const FVector TankLocations[4] = { FVector(-1300,-1050,550), FVector(-1300,1050,680), FVector(1300,-1050,600), FVector(1300,1050,780) };
     for (const FVector& TankLocation : TankLocations)
         AddPrimitive(CylinderMesh, TankLocation, FVector(0.85f,0.85f,0.65f), FLinearColor(0.25f,0.28f,0.28f), false);
+    // Balanced warm daylight and ambient fill so shaded alleys remain readable.
+    ASkyLight* AmbientSky = GetWorld()->SpawnActor<ASkyLight>(FVector(0,0,1200), FRotator::ZeroRotator);
+    if (AmbientSky) {
+        AmbientSky->GetLightComponent()->SetMobility(EComponentMobility::Movable);
+        AmbientSky->GetLightComponent()->SetIntensity(1.15f);
+        AmbientSky->GetLightComponent()->RecaptureSky();
+    }
     // Simple sun lighting.
     ADirectionalLight* Sun = GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,1600), FRotator(-42,-28,0));
     if (Sun) {
-        Sun->GetLightComponent()->SetIntensity(7.0f);
+        Sun->GetLightComponent()->SetIntensity(100000.0f);
         Sun->GetLightComponent()->SetLightColor(FLinearColor(1.0f,0.84f,0.65f));
     }
 }
