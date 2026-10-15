@@ -38,6 +38,36 @@ ADawsEnemyCharacter::ADawsEnemyCharacter()
     HeadVisual->SetRelativeScale3D(FVector(0.38f,0.38f,0.38f));
     HeadVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     if (UMaterialInstanceDynamic* HeadMat = UMaterialInstanceDynamic::Create(HeadVisual->GetMaterial(0), this)) { HeadMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.18f,0.12f,0.10f)); HeadVisual->SetMaterial(0, HeadMat); }
+    LeftArmVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftArmVisual"));
+    LeftArmVisual->SetupAttachment(GetRootComponent());
+    if (Cube.Succeeded()) LeftArmVisual->SetStaticMesh(Cube.Object);
+    LeftArmVisual->SetRelativeLocation(FVector(0,-42,45));
+    LeftArmVisual->SetRelativeScale3D(FVector(0.20f,0.16f,0.48f));
+    LeftArmVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    RightArmVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightArmVisual"));
+    RightArmVisual->SetupAttachment(GetRootComponent());
+    if (Cube.Succeeded()) RightArmVisual->SetStaticMesh(Cube.Object);
+    RightArmVisual->SetRelativeLocation(FVector(0,42,45));
+    RightArmVisual->SetRelativeScale3D(FVector(0.20f,0.16f,0.48f));
+    RightArmVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    LeftLegVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftLegVisual"));
+    LeftLegVisual->SetupAttachment(GetRootComponent());
+    if (Cube.Succeeded()) LeftLegVisual->SetStaticMesh(Cube.Object);
+    LeftLegVisual->SetRelativeLocation(FVector(0,-18,8));
+    LeftLegVisual->SetRelativeScale3D(FVector(0.24f,0.18f,0.40f));
+    LeftLegVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    RightLegVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLegVisual"));
+    RightLegVisual->SetupAttachment(GetRootComponent());
+    if (Cube.Succeeded()) RightLegVisual->SetStaticMesh(Cube.Object);
+    RightLegVisual->SetRelativeLocation(FVector(0,18,8));
+    RightLegVisual->SetRelativeScale3D(FVector(0.24f,0.18f,0.40f));
+    RightLegVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    HelmetVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("HelmetVisual"));
+    HelmetVisual->SetupAttachment(GetRootComponent());
+    if (Cylinder.Succeeded()) HelmetVisual->SetStaticMesh(Cylinder.Object);
+    HelmetVisual->SetRelativeLocation(FVector(0,0,111));
+    HelmetVisual->SetRelativeScale3D(FVector(0.34f,0.34f,0.12f));
+    HelmetVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
 {
@@ -53,6 +83,9 @@ void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
     else if (EnemyId == FName(TEXT("enforcer")) || bSpecialTarget) { BodyColor = FLinearColor(0.24f,0.06f,0.18f); MaxHealth = 180.0f; GetCharacterMovement()->MaxWalkSpeed = 210.0f; RangedDamage = 12.0f; MeleeDamage = 22.0f; }
     if (HealthComponent) { HealthComponent->MaxHealth = MaxHealth; HealthComponent->CurrentHealth = MaxHealth; }
     if (BodyVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(BodyVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); BodyVisual->SetMaterial(0, Mat); }
+    if (LeftArmVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(LeftArmVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); LeftArmVisual->SetMaterial(0, Mat); }
+    if (RightArmVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(RightArmVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); RightArmVisual->SetMaterial(0, Mat); }
+    if (HelmetVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(HelmetVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), bSpecialTarget ? FLinearColor(0.05f,0.04f,0.06f) : BodyColor*0.55f); HelmetVisual->SetMaterial(0, Mat); }
     if (HeadVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(HeadVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), bSpecialTarget ? FLinearColor(0.08f,0.05f,0.08f) : FLinearColor(0.18f,0.12f,0.10f)); HeadVisual->SetMaterial(0, Mat); }
 }
 void ADawsEnemyCharacter::BeginPlay()
