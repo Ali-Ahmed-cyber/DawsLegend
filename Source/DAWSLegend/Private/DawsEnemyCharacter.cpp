@@ -24,6 +24,7 @@ ADawsEnemyCharacter::ADawsEnemyCharacter()
     HealthComponent->CurrentHealth = 100.0f;
     static ConstructorHelpers::FObjectFinder<UStaticMesh> Cube(TEXT("/Engine/BasicShapes/Cube.Cube"));
     static ConstructorHelpers::FObjectFinder<UStaticMesh> Sphere(TEXT("/Engine/BasicShapes/Sphere.Sphere"));
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> Cylinder(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
     BodyVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BodyVisual"));
     BodyVisual->SetupAttachment(GetRootComponent());
     if (Cube.Succeeded()) BodyVisual->SetStaticMesh(Cube.Object);
