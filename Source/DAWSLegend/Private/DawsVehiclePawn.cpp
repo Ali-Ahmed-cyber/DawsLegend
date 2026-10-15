@@ -38,7 +38,8 @@ ADawsVehiclePawn::ADawsVehiclePawn()
     }
     const FVector WheelLocations[4] = { FVector(95,-78,-18), FVector(95,78,-18), FVector(-95,-78,-18), FVector(-95,78,-18) };
     for (int32 Index = 0; Index < 4; ++Index) {
-        UStaticMeshComponent* Wheel = CreateDefaultSubobject<UStaticMeshComponent>(*FString::Printf(TEXT("WheelVisual%d"), Index));
+        const FName WheelName(*FString::Printf(TEXT("WheelVisual%d"), Index));
+        UStaticMeshComponent* Wheel = CreateDefaultSubobject<UStaticMeshComponent>(WheelName);
         Wheel->SetupAttachment(VehicleCollision);
         if (Cylinder.Succeeded()) Wheel->SetStaticMesh(Cylinder.Object);
         Wheel->SetRelativeLocation(WheelLocations[Index]);
