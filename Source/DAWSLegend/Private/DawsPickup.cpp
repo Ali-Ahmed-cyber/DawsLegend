@@ -12,7 +12,8 @@
 #include "Engine/GameInstance.h"
 ADawsPickup::ADawsPickup()
 {
-    PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bStartWithTickEnabled = false;
     PickupCollision = CreateDefaultSubobject<USphereComponent>(TEXT("PickupCollision"));
     SetRootComponent(PickupCollision);
     PickupCollision->InitSphereRadius(95.0f);
@@ -31,6 +32,7 @@ void ADawsPickup::ConfigurePickup(EDawsPickupType NewType, float NewAmount, cons
     PickupType = NewType;
     PickupAmount = NewAmount;
     PickupId = NewPickupId;
+    SetActorTickEnabled(PickupType == EDawsPickupType::Supplies || PickupType == EDawsPickupType::Evidence);
     if ((PickupType == EDawsPickupType::Supplies || PickupType == EDawsPickupType::Evidence) && !PickupId.IsEmpty()) {
         if (UGameInstance* GI = GetGameInstance()) {
             if (UDawsSaveSubsystem* Saves = GI->GetSubsystem<UDawsSaveSubsystem>(); Saves && Saves->IsPickupCollected(PickupId)) { Destroy(); return; }
@@ -49,6 +51,23 @@ void ADawsPickup::BeginPlay()
 {
     Super::BeginPlay();
     PickupCollision->OnComponentBeginOverlap.AddDynamic(this, &ADawsPickup::HandleOverlap);
+}
+void ADawsPickup::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+    if ((PickupType != EDawsPickupType::Supplies && PickupType != EDawsPickupType::Evidence) || !GetGameInstance()) return;
+    const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
+    const FString RequiredType = PickupType == EDawsPickupType::Supplies ? TEXT("collect") : TEXT("evidence");
+    if (!Missions || Missions->GetCurrentTaskType() != RequiredType) return;
+    TArray<AActor*> OverlappingActors;
+    PickupCollision->GetOverlappingActors(OverlappingActors, ADawsPlayerCharacter::StaticClass());
+    for (AActor* OverlappingActor : OverlappingActors) {
+        if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(OverlappingActor)) {
+            const FHitResult EmptyHit;
+            HandleOverlap(PickupCollision, Player, nullptr, 0, false, EmptyHit);
+            break;
+        }
+    }
 }
 void ADawsPickup::HandleOverlap(UPrimitiveComponent*, AActor* OtherActor, UPrimitiveComponent*, int32, bool, const FHitResult&)
 {
