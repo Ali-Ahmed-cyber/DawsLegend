@@ -65,6 +65,7 @@ void ADawsVehiclePawn::BeginPlay()
 void ADawsVehiclePawn::Tick(float DeltaSeconds)
 {
     Super::Tick(DeltaSeconds);
+    if (bDisabled) { VehicleMovement->StopMovementImmediately(); return; }
     if (FMath::Abs(ThrottleInput) > 0.01f) AddMovementInput(GetActorForwardVector(), ThrottleInput);
     const float Speed = GetVelocity().Size2D();
     if (FMath::Abs(SteeringInput) > 0.01f && Speed > 15.0f)
@@ -109,4 +110,20 @@ void ADawsVehiclePawn::ExitVehicle()
     ThrottleInput = 0.0f;
     SteeringInput = 0.0f;
     PC->Possess(Player);
+}
+
+void ADawsVehiclePawn::ApplyVehicleDamage(float Amount)
+{
+    if (Amount <= 0.0f || bDisabled) return;
+    VehicleHealth = FMath::Max(0.0f, VehicleHealth - Amount);
+    if (VehicleHealth <= 0.0f) {
+        bDisabled = true;
+        ThrottleInput = 0.0f;
+        SteeringInput = 0.0f;
+        VehicleMovement->StopMovementImmediately();
+        if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(VehicleBody->GetMaterial(0), this)) {
+            Mat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.12f,0.07f,0.06f));
+            VehicleBody->SetMaterial(0, Mat);
+        }
+    }
 }
