@@ -1,51 +1,57 @@
-# DAWS LEGEND — Story bible v0.1
+# DAWS LEGEND — Story Bible
 
 ## Identity rules
-- The player-controlled lead is the user; their final likeness and nameplate are reserved for the final character-art pass.
-- Tawfiq is the friend in the yellow shirt.
-- Amjad is the friend in the black shirt.
-- Do not replace these identities with generic named substitutes.
-- All other cast members introduced below are fictional supporting characters.
+- The player-controlled hero is the user; final likeness and nameplate are reserved for the last character-art pass.
+- **Tawfiq** is the friend in the yellow shirt.
+- **Amjad** is the friend in the black shirt.
+- Do not replace these identities with generic named substitutes or unrelated photos.
+- All other cast members are fictional supporting characters.
 
 ## Tone and setting
-A grounded Sudanese action-adventure about friendship, loyalty, neighborhood life, corruption, survival, and rebuilding. The setting should feel locally rooted through street layouts, markets, courtyards, minibuses, tea stalls, music and Arabic dialogue—not by copying GTA missions, maps, characters, or assets.
+A grounded Sudanese action-adventure about friendship, loyalty, neighborhood life, corruption, survival and rebuilding. The city should feel locally rooted through markets, courtyards, tea stalls, workshops, minibuses, radio broadcasts and familiar street rhythms. Use original writing and assets; do not copy proprietary game maps, characters or missions.
 
-## Supporting cast (working names; changeable during writing)
-- Hiba: community radio presenter who passes along leads and warnings.
-- Bashir: mechanic and vehicle contact, pragmatic and funny.
-- Captain Nadir: a disciplined investigator trying to expose a smuggling network.
-- Fawzi: neighborhood shopkeeper whose disappearance starts the first investigation.
-- The Broker: the network's anonymous organizer; identity revealed late in the story.
+## Core conflict
+Emergency supplies disappear while residents are redirected away from safe routes. The hero follows evidence from a neighborhood storehouse through the market, clinic, radio relay and industrial yard. Each clue reveals a larger network controlling the cargo. The Broker presents himself as a benefactor while hiding the people profiting from the crisis.
 
-## Main story arc
-Chapter 1 — The Missing Shopkeeper
-1. Meet the neighborhood and learn movement/interactions.
-2. Help Bashir recover a stolen delivery motorcycle.
-3. Find evidence near the market and speak with Hiba.
-4. Escape a staged ambush and return safely to the neighborhood.
-5. Discover Fawzi vanished after refusing to cooperate with the network.
+## Supporting cast
+- **Hiba:** community radio presenter who passes along leads and warnings.
+- **Bashir:** mechanic and vehicle contact, pragmatic and funny.
+- **Captain Nadir:** investigator protecting witnesses and verifying evidence.
+- **Fawzi:** neighborhood shopkeeper who helps move residents to safety.
+- **The Survivor:** witness who reveals the convoy route.
+- **The Technician:** helps restore the radio relay and must be escorted to the broadcast station.
+- **The Worker:** explains why the medical cargo was intercepted.
+- **The Broker:** the network's organizer, confronted before the final broadcast.
 
-Chapter 2 — Broken Routes
-1. Follow delivery routes and gather witness statements.
-2. Use a borrowed vehicle to reach three locations.
-3. Protect a witness during a timed escape.
-4. Deliver evidence to Captain Nadir without alerting the network.
+## Five-chapter arc (three runtime missions per chapter)
 
-Chapter 3 — The Price of Loyalty
-1. Tawfiq and Amjad disagree over how far to go.
-2. Resolve a conflict through dialogue and optional side objectives.
-3. Recover records from a guarded warehouse.
-4. Choose between a risky rescue and preserving evidence.
+### Chapter 1 — The First Signal
+1. **The First Signal:** reach the plaza after Hiba's warning.
+2. **The Empty Storehouse:** collect three missing supply bundles.
+3. **A Mechanic's Warning:** speak with Bashir and learn that the shipment was emptied before arrival.
 
-Chapter 4 — City Under Pressure
-1. Complete linked missions across neighborhoods.
-2. Track the Broker's supply chain and disable its operations.
-3. Rescue Fawzi and expose the network's local leadership.
+### Chapter 2 — Smoke Over the Market
+4. **Smoke Over the Market:** recover evidence from a burned store.
+5. **Protect the Clinic:** defeat the hostile group threatening the clinic route.
+6. **The Courier:** intercept the courier and identify the relay as the next target.
 
-Chapter 5 — A New Dawn
-1. Reach the final operation with allies recruited through optional missions.
-2. Confront the Broker and choose a finale based on evidence and relationships.
-3. Show consequences in a grounded epilogue.
+### Chapter 3 — The Silent Relay
+7. **The Silent Relay:** speak with the technician.
+8. **Escort the Technician:** keep the technician close while reaching the broadcast waypoint.
+9. **Broadcast the Truth:** reach the broadcast station and prepare the verified evidence.
 
-## Production rule
-This document defines narrative direction, not completed gameplay. Every mission must later be implemented, playtested, localized and connected to save/load and objective UI. Keep missions modular and avoid copying any proprietary GTA content.
+### Chapter 4 — The Broker's Route
+10. **The Broker's Route:** reach the industrial yard.
+11. **Free the Workers:** speak to a worker and learn why the cargo was intercepted.
+12. **Road to the River:** defeat the hostiles controlling the river-side route.
+
+### Chapter 5 — Dawn of the City
+13. **Dawn of the City:** recover the final evidence.
+14. **Hold the Depot:** defeat the depot defenders.
+15. **The Final Broadcast:** confront the Broker and activate the final broadcast waypoint.
+
+## Production principles
+- The current runtime objective order is the source of truth for mission IDs, task types and completion conditions.
+- The three real main-character references are deliberately deferred until the final art stage.
+- Future side missions, dialogue choices, companion relationships, cinematics and branching epilogues are expansion work; do not claim them as implemented until built and tested.
+- Keep all story progress connected to objective UI and checkpoint save/load. The escort and combat objectives must not softlock after death.
