@@ -132,6 +132,36 @@ void ADawsWorldBuilder::BuildEnvironment()
         AddPrimitive(CylinderMesh, Bench+FVector(-38,0,-20), FVector(0.055f,0.055f,0.22f), FLinearColor(0.18f,0.17f,0.15f), true);
         AddPrimitive(CylinderMesh, Bench+FVector(38,0,-20), FVector(0.055f,0.055f,0.22f), FLinearColor(0.18f,0.17f,0.15f), true);
     }
+    // Clinic district landmark: pale walls and a high-contrast green medical cross.
+    AddBlock(FVector(-1420,3550,220), FVector(5.2f,4.0f,4.4f), FLinearColor(0.72f,0.72f,0.62f));
+    AddBlock(FVector(-1420,3144,300), FVector(0.55f,0.06f,1.25f), FLinearColor(0.05f,0.48f,0.30f), false);
+    AddBlock(FVector(-1420,3140,300), FVector(1.2f,0.06f,0.38f), FLinearColor(0.05f,0.48f,0.30f), false);
+    AddBlock(FVector(-1420,3550,455), FVector(4.0f,3.0f,0.16f), FLinearColor(0.12f,0.20f,0.20f), false);
+    // Silent relay landmark: lattice-style mast and three horizontal antenna bars.
+    AddPrimitive(CylinderMesh, FVector(820,4680,350), FVector(0.13f,0.13f,7.0f), FLinearColor(0.18f,0.20f,0.21f), false);
+    for (int32 Antenna = 0; Antenna < 3; ++Antenna) {
+        const float Z = 390.0f + Antenna*95.0f;
+        AddBlock(FVector(820,4680,Z), FVector(1.1f,0.08f,0.06f), FLinearColor(0.72f,0.68f,0.55f), false);
+        AddPrimitive(SphereMesh, FVector(820,4680,Z+42.0f), FVector(0.11f), FLinearColor(0.08f,0.78f,0.68f), false);
+    }
+    for (int32 Brace = -1; Brace <= 1; ++Brace)
+        AddPrimitive(CylinderMesh, FVector(820+Brace*90.0f,4680,80), FVector(0.07f,0.07f,0.8f), FLinearColor(0.16f,0.18f,0.19f), false);
+    // Industrial yard: segmented fence, steel drums and stacked cargo near the late chapters.
+    for (int32 Fence = 0; Fence < 8; ++Fence) {
+        const float X = -900.0f + Fence*260.0f;
+        AddBlock(FVector(X,7000,110), FVector(0.08f,0.08f,1.1f), FLinearColor(0.19f,0.21f,0.21f), false);
+    }
+    AddBlock(FVector(0,7000,175), FVector(10.0f,0.06f,0.06f), FLinearColor(0.28f,0.31f,0.30f), false);
+    AddBlock(FVector(0,7000,90), FVector(10.0f,0.06f,0.06f), FLinearColor(0.28f,0.31f,0.30f), false);
+    for (int32 Drum = 0; Drum < 4; ++Drum)
+        AddPrimitive(CylinderMesh, FVector(-600.0f+Drum*400.0f,7300,55), FVector(0.36f,0.36f,0.55f), Drum%2==0 ? FLinearColor(0.35f,0.20f,0.12f) : FLinearColor(0.16f,0.28f,0.30f), true);
+    // River-side route: visible water strip, bank edge and warning posts.
+    AddBlock(FVector(2670,8200,-5), FVector(2.4f,17.0f,0.08f), FLinearColor(0.04f,0.25f,0.34f), false);
+    AddBlock(FVector(2440,8200,8), FVector(0.22f,17.0f,0.12f), FLinearColor(0.58f,0.49f,0.31f), false);
+    for (int32 Marker = 0; Marker < 7; ++Marker) {
+        const float Y = 6800.0f + Marker*430.0f;
+        AddPrimitive(CylinderMesh, FVector(2250,Y,55), FVector(0.12f,0.12f,0.55f), FLinearColor(0.86f,0.34f,0.10f), false);
+    }
     // Final depot district: warehouses, cargo containers and a broadcast mast.
     AddBlock(FVector(-1280,9520,245), FVector(6.5f,6.0f,4.8f), FLinearColor(0.48f,0.37f,0.25f));
     AddBlock(FVector(1280,9960,275), FVector(6.8f,6.5f,5.4f), FLinearColor(0.38f,0.42f,0.40f));
