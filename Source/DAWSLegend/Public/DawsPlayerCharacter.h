@@ -16,6 +16,7 @@ public:
     ADawsPlayerCharacter();
     void SetCameraFOV(float NewFOV);
     void LoadCheckpoint();
+    void ResetForNewCampaign();
     FText GetTargetInteractionPrompt() const;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
     UDawsHealthComponent* HealthComponent;
