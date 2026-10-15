@@ -119,7 +119,7 @@ void ADawsHUD::DrawHUD()
                 DrawTextLine(TEXT("DAWS LEGEND"), W*0.5f-120.0f, H*0.28f, 1.8f, FLinearColor(0.15f,0.95f,0.78f));
                 DrawTextLine(TEXT("CAMPAIGN COMPLETE"), W*0.5f-170.0f, H*0.39f, 1.35f, FLinearColor(1.0f,0.72f,0.25f));
                 DrawTextLine(TEXT("The city will remember what you did."), W*0.5f-190.0f, H*0.48f, 0.95f, FLinearColor::White);
-                DrawTextLine(TEXT("F10 RESTART CAMPAIGN   |   ESC PAUSE"), W*0.5f-190.0f, H*0.57f, 0.8f, FLinearColor::White);
+                DrawTextLine(TEXT("F10 / GAMEPAD Y RESTART   |   ESC PAUSE"), W*0.5f-190.0f, H*0.57f, 0.8f, FLinearColor::White);
                 return;
             }
         }
