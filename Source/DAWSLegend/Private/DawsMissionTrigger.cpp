@@ -53,7 +53,15 @@ void ADawsMissionTrigger::RefreshMissionMarker()
 }
 FText ADawsMissionTrigger::GetInteractionPrompt_Implementation() const
 {
-    return FText::Format(NSLOCTEXT("DAWS", "MissionPrompt", "Press E: {0}"), ObjectiveText);
+    if (!GetGameInstance()) return FText::GetEmpty();
+    if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+        if (Missions->GetCurrentMissionId() != MissionId.ToString()) return FText::GetEmpty();
+        if (!Missions->CanCompleteCurrentMission()) return FText::Format(NSLOCTEXT("DAWS", "TaskIncompletePrompt", "Task progress: {0} / {1}"), FText::AsNumber(Missions->GetTaskProgress()), FText::AsNumber(Missions->GetRequiredTaskProgress()));
+        const TArray<FDawsMissionObjective> Objectives = Missions->GetObjectives();
+        const FText PromptText = Objectives.Num() > 0 ? Objectives[0].Description : ObjectiveText;
+        return FText::Format(NSLOCTEXT("DAWS", "MissionPrompt", "Press E: {0}"), PromptText);
+    }
+    return FText::GetEmpty();
 }
 void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
 {
