@@ -171,8 +171,9 @@ void ADawsPlayerCharacter::LoadCheckpoint()
         int32 Chapter = 1;
         FString Mission;
         float SavedHealth = 100.0f;
-        if (Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth)) {
-            if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RestoreCampaignAtMission(Mission);
+        int32 SavedTaskProgress = 0;
+        if (Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth, SavedTaskProgress)) {
+            if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) { Missions->RestoreCampaignAtMission(Mission); Missions->RestoreTaskProgress(SavedTaskProgress); }
             for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
             if (!HealthComponent) return;
             HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 1.0f, HealthComponent->MaxHealth);
@@ -220,9 +221,10 @@ void ADawsPlayerCharacter::RespawnAtCheckpoint()
             int32 Chapter = 1;
             FString Mission;
             float SavedHealth = 100.0f;
-            bLoadedCheckpoint = Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth);
+            int32 SavedTaskProgress = 0;
+            bLoadedCheckpoint = Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth, SavedTaskProgress);
             if (bLoadedCheckpoint) {
-                if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RestoreCampaignAtMission(Mission);
+                if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) { Missions->RestoreCampaignAtMission(Mission); Missions->RestoreTaskProgress(SavedTaskProgress); }
                 for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
                 if (HealthComponent) HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 35.0f, HealthComponent->MaxHealth);
             }
