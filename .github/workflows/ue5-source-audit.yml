@@ -91,6 +91,7 @@ jobs:
           save_code = (source / "Private/DawsSaveSubsystem.cpp").read_text()
           assert "CurrentTaskProgress" in save_data and "MagazineAmmo" in save_data
           assert "ReserveAmmo" in save_code and "OnAmmoChanged.Broadcast" in save_code
+          assert "SaveTaskProgress" in save_code and "SaveTaskProgress" in (source / "Private/DawsPickup.cpp").read_text() and "SaveTaskProgress" in (source / "Private/DawsEnemyCharacter.cpp").read_text()
           assert "RestoreTaskProgress" in player
           assert "EDawsPickupType::Supplies" in pickup and "EDawsPickupType::Evidence" in pickup
           assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
