@@ -32,6 +32,8 @@ public:
     void RegisterTaskProgress(const FString& TaskType, int32 Amount = 1);
     UFUNCTION(BlueprintPure, Category="Missions")
     bool CanCompleteCurrentMission() const;
+    UFUNCTION(BlueprintCallable, Category="Missions")
+    void RestoreTaskProgress(int32 Progress);
     UFUNCTION(BlueprintPure, Category="Missions")
     FString GetCurrentTaskType() const { return CurrentTaskType; }
     UFUNCTION(BlueprintPure, Category="Missions")
