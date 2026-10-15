@@ -76,7 +76,7 @@ void ADawsMissionTrigger::RefreshMissionMarker()
 }
 bool ADawsMissionTrigger::IsEscortReady(const AActor* Player) const
 {
-    if (MissionId != FName(TEXT("chapter03_escort"))) return true;
+    if (MissionId != FName(TEXT("chapter04_escort"))) return true;
     if (!Player || !GetWorld()) return false;
     for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) {
         if (It->GetNPCId() == FName(TEXT("technician"))) return FVector::Dist2D(Player->GetActorLocation(), It->GetActorLocation()) <= 650.0f;
