@@ -68,6 +68,10 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
     WeaponVisual = MakePart(TEXT("WeaponVisual"), CubeMeshAsset.Object, FVector(34,25,49), FVector(0.42f,0.08f,0.09f), FLinearColor(0.05f,0.06f,0.07f));
     NeckVisual = MakePart(TEXT("NeckVisual"), CylinderMeshAsset.Object, FVector(0,0,76), FVector(0.12f,0.12f,0.12f), FLinearColor(0.48f,0.31f,0.22f));
     HairVisual = MakePart(TEXT("HairVisual"), SphereMeshAsset.Object, FVector(-1,0,102), FVector(0.28f,0.28f,0.12f), FLinearColor(0.035f,0.028f,0.025f));
+    LeftEyeVisual = MakePart(TEXT("LeftEyeVisual"), SphereMeshAsset.Object, FVector(13,-5.0f,95), FVector(0.035f,0.035f,0.035f), FLinearColor(0.025f,0.02f,0.018f));
+    RightEyeVisual = MakePart(TEXT("RightEyeVisual"), SphereMeshAsset.Object, FVector(13,5.0f,95), FVector(0.035f,0.035f,0.035f), FLinearColor(0.025f,0.02f,0.018f));
+    NoseVisual = MakePart(TEXT("NoseVisual"), SphereMeshAsset.Object, FVector(15,0,90), FVector(0.045f,0.045f,0.055f), FLinearColor(0.48f,0.31f,0.22f));
+    MouthVisual = MakePart(TEXT("MouthVisual"), CubeMeshAsset.Object, FVector(13.8f,0,85.5f), FVector(0.018f,0.055f,0.018f), FLinearColor(0.12f,0.035f,0.03f));
     BackpackVisual = MakePart(TEXT("BackpackVisual"), CubeMeshAsset.Object, FVector(-23,0,54), FVector(0.20f,0.22f,0.30f), FLinearColor(0.09f,0.13f,0.14f));
     BeltVisual = MakePart(TEXT("BeltVisual"), CubeMeshAsset.Object, FVector(0,0,27), FVector(0.40f,0.29f,0.07f), FLinearColor(0.08f,0.10f,0.12f));
     ChestCrestVisual = MakePart(TEXT("ChestCrestVisual"), CubeMeshAsset.Object, FVector(23,0,59), FVector(0.045f,0.075f,0.085f), FLinearColor(0.10f,0.22f,0.48f));
@@ -81,6 +85,10 @@ ADawsPlayerCharacter::ADawsPlayerCharacter()
     BeltVisual->AttachToComponent(BodyVisual, FAttachmentTransformRules::KeepWorldTransform);
     ChestCrestVisual->AttachToComponent(BodyVisual, FAttachmentTransformRules::KeepWorldTransform);
     HairVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
+    LeftEyeVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
+    RightEyeVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
+    NoseVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
+    MouthVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
     LeftShoulderStripe->AttachToComponent(LeftArmVisual, FAttachmentTransformRules::KeepWorldTransform);
     RightShoulderStripe->AttachToComponent(RightArmVisual, FAttachmentTransformRules::KeepWorldTransform);
     LeftBootVisual->AttachToComponent(LeftLegVisual, FAttachmentTransformRules::KeepWorldTransform);
