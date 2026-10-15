@@ -47,5 +47,7 @@ private:
     bool bDisabled = false;
     void SetThrottle(float Value);
     void SetSteering(float Value);
+    void TurnCamera(float Value);
+    void LookUpCamera(float Value);
     void ExitVehicle();
 };
