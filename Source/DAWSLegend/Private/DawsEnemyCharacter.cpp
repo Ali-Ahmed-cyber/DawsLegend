@@ -1,4 +1,5 @@
 #include "DawsEnemyCharacter.h"
+#include "AIController.h"
 #include "DawsHealthComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "Engine/StaticMesh.h"
@@ -18,6 +19,8 @@
 ADawsEnemyCharacter::ADawsEnemyCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
+    AIControllerClass = AAIController::StaticClass();
+    AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
     GetCharacterMovement()->MaxWalkSpeed = 245.0f;
     GetCharacterMovement()->bOrientRotationToMovement = true;
     HealthComponent = CreateDefaultSubobject<UDawsHealthComponent>(TEXT("EnemyHealth"));
