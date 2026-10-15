@@ -69,5 +69,50 @@ jobs:
           assert "SetCurrentDialogue" in (source / "Public/DawsMissionSubsystem.h").read_text()
           assert "EDawsPickupType::Supplies" in pickup and "EDawsPickupType::Evidence" in pickup
           assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
+          def delimiters_balanced(path):
+              text = path.read_text()
+              stack = []
+              state = "code"
+              pairs = {")": "(", "]": "[", "}": "{"}
+              i = 0
+              while i < len(text):
+                  ch = text[i]
+                  nxt = text[i + 1] if i + 1 < len(text) else ""
+                  if state == "code":
+                      if ch == "/" and nxt == "/":
+                          state = "line"
+                          i += 2
+                          continue
+                      if ch == "/" and nxt == "*":
+                          state = "block"
+                          i += 2
+                          continue
+                      if ch == '"':
+                          state = "string"
+                      elif ch == "'":
+                          state = "char"
+                      elif ch in "([{":
+                          stack.append(ch)
+                      elif ch in ")]}":
+                          if not stack or stack.pop() != pairs[ch]:
+                              return False
+                  elif state == "line":
+                      if ch == "\n":
+                          state = "code"
+                  elif state == "block":
+                      if ch == "*" and nxt == "/":
+                          state = "code"
+                          i += 2
+                          continue
+                  else:
+                      if ch == "\\":
+                          i += 2
+                          continue
+                      if (state == "string" and ch == '"') or (state == "char" and ch == "'"):
+                          state = "code"
+                  i += 1
+              return not stack and state not in ("block", "string", "char")
+          for path in list(source.rglob("*.cpp")) + list(source.rglob("*.h")):
+              assert delimiters_balanced(path), f"Unbalanced C++ delimiters: {path}"
           print("Source integrity passed. This is not an Unreal C++ compile or in-engine test.")
           PY
