@@ -76,6 +76,7 @@ jobs:
           assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
           assert "AAIController::StaticClass" in enemy_code and "AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned" in enemy_code
           assert "bFinalConfrontation" in enemy_code and "chapter05_finale" in player
+          assert "BROKER ENFORCER" in hud and "BossHealth" in hud
           assert "IsSpecialTarget" in (source / "Public/DawsEnemyCharacter.h").read_text()
           assert "Defeat the Broker enforcer" in (source / "Private/DawsStoryNPC.cpp").read_text() and "IsSpecialTarget" in (source / "Private/DawsStoryNPC.cpp").read_text()
           assert "BindAction(\"Jump\", IE_Pressed, this, &ACharacter::Jump)" not in player
