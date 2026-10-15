@@ -111,6 +111,35 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
             if (FVector::DistSquared2D(GetActorLocation(), EventLocation) > 2500.0f)
                 SetActorLocation(EventLocation, false, nullptr, ETeleportType::TeleportPhysics);
         }
+        if (NPCId == FName(TEXT("muntasir"))) {
+            const FVector RecordOfficeLocation = ActiveMission == TEXT("chapter04_charity") ? FVector(650,8090,0) : FVector(650,11900,0);
+            if (FVector::DistSquared2D(GetActorLocation(), RecordOfficeLocation) > 2500.0f)
+                SetActorLocation(RecordOfficeLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        }
+        if (NPCId == FName(TEXT("bashir"))) {
+            const FVector WorkshopLocation = ActiveMission == TEXT("chapter03_bashir") ? FVector(650,6240,0) : FVector(650,1900,0);
+            if (FVector::DistSquared2D(GetActorLocation(), WorkshopLocation) > 2500.0f)
+                SetActorLocation(WorkshopLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        }
+        if (NPCId == FName(TEXT("worker"))) {
+            const FVector WorkerLocation = ActiveMission == TEXT("chapter05_workers") ? FVector(650,9110,0) : FVector(650,7500,0);
+            if (FVector::DistSquared2D(GetActorLocation(), WorkerLocation) > 2500.0f)
+                SetActorLocation(WorkerLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        }
+        if (NPCId == FName(TEXT("fawzi"))) {
+            const FVector ClinicSupportLocation = ActiveMission == TEXT("chapter06_depot") ? FVector(-650,11570,0) : FVector(-650,3300,0);
+            if (FVector::DistSquared2D(GetActorLocation(), ClinicSupportLocation) > 2500.0f)
+                SetActorLocation(ClinicSupportLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        }
+        if (ActiveMission == TEXT("chapter06_witness_run")) {
+            if (NPCId == FName(TEXT("sami"))) SetActorLocation(FVector(-650,11050,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("survivor"))) SetActorLocation(FVector(-650,11250,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("captain_nadir"))) SetActorLocation(FVector(650,11160,0), false, nullptr, ETeleportType::TeleportPhysics);
+        } else {
+            if (NPCId == FName(TEXT("sami"))) SetActorLocation(FVector(-650,3900,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("survivor"))) SetActorLocation(FVector(-650,1900,0), false, nullptr, ETeleportType::TeleportPhysics);
+            else if (NPCId == FName(TEXT("captain_nadir"))) SetActorLocation(FVector(650,5400,0), false, nullptr, ETeleportType::TeleportPhysics);
+        }
         bIsMainCompanion = NPCId == FName(TEXT("tawfiq")) || NPCId == FName(TEXT("amjad"));
         if (bIsMainCompanion && Missions && ActiveMission != TEXT("campaign_complete")) {
             PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
