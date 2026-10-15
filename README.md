@@ -23,7 +23,8 @@
 - Mouse: camera
 - Space: jump
 - Left Shift: sprint
-- Left mouse: fire
+- Right mouse / gamepad left trigger: aim zoom
+- Left mouse / gamepad right trigger: fire
 - R: reload
 - E: interact with mission markers, story characters or vehicles
 - In a vehicle: W/S accelerate/reverse, A/D steer, E exit
