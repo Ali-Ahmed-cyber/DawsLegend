@@ -81,11 +81,13 @@ void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
     float MaxHealth = 100.0f;
     RangedDamage = 8.0f;
     MeleeDamage = 12.0f;
+    AttackRange = 800.0f;
+    bPreferMelee = false;
     GetCharacterMovement()->MaxWalkSpeed = 245.0f;
-    if (EnemyId == FName(TEXT("scout"))) { BodyColor = FLinearColor(0.38f,0.16f,0.08f); GetCharacterMovement()->MaxWalkSpeed = 310.0f; MaxHealth = 80.0f; RangedDamage = 6.0f; MeleeDamage = 9.0f; }
-    else if (EnemyId == FName(TEXT("marksman"))) { BodyColor = FLinearColor(0.68f,0.42f,0.10f); GetCharacterMovement()->MaxWalkSpeed = 185.0f; MaxHealth = 90.0f; RangedDamage = 13.0f; MeleeDamage = 7.0f; }
-    else if (EnemyId == FName(TEXT("guard"))) { BodyColor = FLinearColor(0.18f,0.27f,0.31f); MaxHealth = 130.0f; RangedDamage = 9.0f; MeleeDamage = 15.0f; }
-    else if (EnemyId == FName(TEXT("enforcer")) || bSpecialTarget) { BodyColor = FLinearColor(0.24f,0.06f,0.18f); MaxHealth = 180.0f; GetCharacterMovement()->MaxWalkSpeed = 210.0f; RangedDamage = 12.0f; MeleeDamage = 22.0f; }
+    if (EnemyId == FName(TEXT("scout"))) { BodyColor = FLinearColor(0.38f,0.16f,0.08f); GetCharacterMovement()->MaxWalkSpeed = 310.0f; MaxHealth = 80.0f; RangedDamage = 6.0f; MeleeDamage = 9.0f; AttackRange = 300.0f; bPreferMelee = true; }
+    else if (EnemyId == FName(TEXT("marksman"))) { BodyColor = FLinearColor(0.68f,0.42f,0.10f); GetCharacterMovement()->MaxWalkSpeed = 185.0f; MaxHealth = 90.0f; RangedDamage = 13.0f; MeleeDamage = 7.0f; AttackRange = 1150.0f; }
+    else if (EnemyId == FName(TEXT("guard"))) { BodyColor = FLinearColor(0.18f,0.27f,0.31f); MaxHealth = 130.0f; RangedDamage = 9.0f; MeleeDamage = 15.0f; AttackRange = 650.0f; }
+    else if (EnemyId == FName(TEXT("enforcer")) || bSpecialTarget) { BodyColor = FLinearColor(0.24f,0.06f,0.18f); MaxHealth = 180.0f; GetCharacterMovement()->MaxWalkSpeed = 210.0f; RangedDamage = 12.0f; MeleeDamage = 22.0f; AttackRange = 280.0f; bPreferMelee = true; }
     if (HealthComponent) { HealthComponent->MaxHealth = MaxHealth; HealthComponent->CurrentHealth = MaxHealth; }
     if (BodyVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(BodyVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); BodyVisual->SetMaterial(0, Mat); }
     if (LeftArmVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(LeftArmVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); LeftArmVisual->SetMaterial(0, Mat); }
@@ -114,9 +116,19 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
     APawn* TargetPawn = UGameplayStatics::GetPlayerPawn(this, 0);
     if (!TargetPawn || !HealthComponent || !HealthComponent->IsAlive()) return;
     const float Distance = FVector::Dist2D(GetActorLocation(), TargetPawn->GetActorLocation());
-    if (Distance > 1100.0f && Distance < 2400.0f) {
-        AddMovementInput((TargetPawn->GetActorLocation() - GetActorLocation()).GetSafeNormal2D(), 0.8f);
-    } else if (Distance > 170.0f && Distance <= 1100.0f && AttackCooldown <= 0.0f) {
+    if (Distance > 170.0f && Distance < 2400.0f && (bPreferMelee || Distance > AttackRange)) {
+        FVector MoveDirection = (TargetPawn->GetActorLocation() - GetActorLocation()).GetSafeNormal2D();
+        FHitResult ObstacleHit;
+        FCollisionQueryParams MoveParams(SCENE_QUERY_STAT(DawsEnemyAvoidance), true, this);
+        const FVector MoveStart = GetActorLocation() + FVector(0,0,45);
+        const FVector MoveEnd = TargetPawn->GetActorLocation() + FVector(0,0,45);
+        if (GetWorld()->LineTraceSingleByChannel(ObstacleHit, MoveStart, MoveEnd, ECC_Visibility, MoveParams) && ObstacleHit.GetActor() != TargetPawn) {
+            FVector SideStep = FVector::CrossProduct(FVector::UpVector, MoveDirection).GetSafeNormal();
+            if ((GetUniqueID() % 2) == 0) SideStep *= -1.0f;
+            MoveDirection = (MoveDirection + SideStep * 0.85f).GetSafeNormal2D();
+        }
+        AddMovementInput(MoveDirection, 0.8f);
+    } else if (Distance > 170.0f && Distance <= AttackRange && AttackCooldown <= 0.0f) {
         FHitResult ShotHit;
         FCollisionQueryParams ShotParams(SCENE_QUERY_STAT(DawsEnemyShot), true, this);
         const FVector ShotStart = GetActorLocation() + FVector(0,0,65);
