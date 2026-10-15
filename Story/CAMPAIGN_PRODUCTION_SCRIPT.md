@@ -37,8 +37,8 @@ A grounded third-person action story set in an original Sudanese city. The hero 
 - Fawzi moves residents away from the threat.
 
 ### Mission 6 — The Courier
-- Intercept the courier before the transfer code is lost.
-- Defeat the active hostile guarding the route.
+- Defeat the hostile guarding the courier route before the transfer code is moved.
+- Recover the route clue and identify the silent relay as the next target.
 - Bashir identifies the next destination as the silent relay.
 
 ## Chapter 3 — The Silent Relay
