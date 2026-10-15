@@ -56,4 +56,6 @@ assert "CollectedPickupIds" in save_code and "IsPickupCollected" in save_code, "
 assert 'task_pickup_%02d' in game_mode, "Mission pickups must have stable IDs"
 restart_controller = controller[controller.index("void ADawsPlayerController::RestartCampaign()"):controller.index("void ADawsPlayerController::StartNewCampaign()")]
 assert restart_controller.index("DeleteSave") < restart_controller.index("RestartCampaignWorld"), "Delete old save before rebuilding campaign pickups"
-print("Campaign integrity passed: 15 aligned missions, movement/combat wiring, escort, save progress, waypoint HUD, and graphics settings.")
+world_builder = read("Source/DAWSLegend/Private/DawsWorldBuilder.cpp")
+assert "StallCenters" in world_builder and "AwningColors" in world_builder, "Market district dressing is missing"
+print("Campaign integrity passed: 15 aligned missions, movement/combat wiring, escort, save progress, waypoint HUD, graphics settings, and market props.")
