@@ -28,6 +28,7 @@ private:
     void TogglePause();
     void StartGame();
     void ContinueGame();
+    void RestartCampaign();
     void ToggleSettings();
     void NavigateSettingsUp();
     void NavigateSettingsDown();
