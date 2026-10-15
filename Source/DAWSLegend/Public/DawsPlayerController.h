@@ -9,12 +9,28 @@ class DAWSLEGEND_API ADawsPlayerController : public APlayerController
 public:
     ADawsPlayerController();
     bool HasStartedGame() const { return bHasStartedGame; }
+    bool IsSettingsMenuOpen() const { return bSettingsMenuOpen; }
+    float GetMouseSensitivity() const { return MouseSensitivity; }
+    float GetCameraFOV() const { return CameraFOV; }
+    bool AreSubtitlesEnabled() const { return bSubtitlesEnabled; }
+    int32 GetSelectedSetting() const { return SelectedSetting; }
 protected:
     virtual void BeginPlay() override;
     virtual void SetupInputComponent() override;
 private:
     bool bDawsPaused = false;
     bool bHasStartedGame = false;
+    bool bSettingsMenuOpen = false;
+    float MouseSensitivity = 1.0f;
+    float CameraFOV = 90.0f;
+    bool bSubtitlesEnabled = true;
+    int32 SelectedSetting = 0;
     void TogglePause();
     void StartGame();
+    void ToggleSettings();
+    void NavigateSettingsUp();
+    void NavigateSettingsDown();
+    void AdjustSettingLeft();
+    void AdjustSettingRight();
+    void ApplyCameraFOV();
 };
