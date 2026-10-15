@@ -32,6 +32,7 @@ void ADawsHUD::DrawHUD()
                 DrawTextLine(TEXT("ENTER NEW GAME   |   F2 CONTINUE"), W*0.5f-175.0f, H*0.60f, 1.0f, FLinearColor(0.15f,0.95f,0.78f));
                 DrawTextLine(TEXT("WASD MOVE   MOUSE LOOK   SHIFT SPRINT   SPACE JUMP"), W*0.5f-245.0f, H*0.70f, 0.78f, FLinearColor::White);
                 DrawTextLine(TEXT("LEFT CLICK FIRE   R RELOAD   E INTERACT   F5 SAVE   F9 LOAD"), W*0.5f-260.0f, H*0.75f, 0.72f, FLinearColor::White);
+                DrawTextLine(TEXT("GAMEPAD START: NEW GAME   Y: CONTINUE"), W*0.5f-200.0f, H*0.80f, 0.72f, FLinearColor::White);
                 return;
             }
         }
