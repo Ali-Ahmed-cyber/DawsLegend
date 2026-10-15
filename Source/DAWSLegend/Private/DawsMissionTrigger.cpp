@@ -7,6 +7,8 @@
 #include "Engine/StaticMesh.h"
 #include "UObject/ConstructorHelpers.h"
 #include "DawsPlayerCharacter.h"
+#include "DawsSaveSubsystem.h"
+#include "DawsHealthComponent.h"
 ADawsMissionTrigger::ADawsMissionTrigger()
 {
     PrimaryActorTick.bCanEverTick = false;
@@ -39,6 +41,13 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
         Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"));
+        if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
+            const FString ActiveMission = Missions->GetCurrentMissionId();
+            const int32 Chapter = ActiveMission.StartsWith(TEXT("chapter")) ? FCString::Atoi(*ActiveMission.Mid(7,2)) : 5;
+            ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(InteractingActor);
+            const float Health = (Player && Player->HealthComponent) ? Player->HealthComponent->CurrentHealth : 100.0f;
+            Saves->SaveCheckpoint(Chapter, ActiveMission, InteractingActor, Health);
+        }
         SetActorEnableCollision(false);
         MarkerVisual->SetVisibility(false);
     }
