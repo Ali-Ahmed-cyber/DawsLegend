@@ -100,7 +100,7 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
     if (HeadVisual) HeadVisual->SetRelativeLocation(FVector(0,0,91.0f + IdleBob));
     bool bEscorting = false;
     APawn* PlayerPawn = nullptr;
-    if (bHasTalked && NPCId == FName(TEXT("technician")) && GetGameInstance()) {
+    if (NPCId == FName(TEXT("technician")) && GetGameInstance()) {
         const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
         if (Missions && Missions->GetCurrentMissionId() == TEXT("chapter03_escort")) {
             PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
