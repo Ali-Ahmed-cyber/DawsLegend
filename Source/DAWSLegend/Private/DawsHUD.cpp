@@ -39,6 +39,17 @@ void ADawsHUD::DrawHUD()
             DrawTextLine(Missions->GetCurrentDialogue().ToString(), 44, H-185, 0.68f, FLinearColor(0.85f,0.92f,1.0f));
         }
     }
+    if (GetWorld() && GetWorld()->GetGameInstance()) {
+        if (const UDawsMissionSubsystem* Missions = GetWorld()->GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+            if (Missions->GetCurrentMissionId() == TEXT("campaign_complete")) {
+                DrawTextLine(TEXT("DAWS LEGEND"), W*0.5f-120.0f, H*0.28f, 1.8f, FLinearColor(0.15f,0.95f,0.78f));
+                DrawTextLine(TEXT("CAMPAIGN COMPLETE"), W*0.5f-170.0f, H*0.39f, 1.35f, FLinearColor(1.0f,0.72f,0.25f));
+                DrawTextLine(TEXT("The city will remember what you did."), W*0.5f-190.0f, H*0.48f, 0.95f, FLinearColor::White);
+                DrawTextLine(TEXT("Press ESC to pause or resume"), W*0.5f-150.0f, H*0.57f, 0.8f, FLinearColor::White);
+                return;
+            }
+        }
+    }
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
         if (Player->HealthComponent) DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
         if (Player->CombatComponent) DrawTextLine(FString::Printf(TEXT("AMMO  %d / %d"), Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo), W-245, 68, 0.9f, FLinearColor::White);
