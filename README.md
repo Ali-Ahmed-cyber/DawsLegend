@@ -13,7 +13,7 @@
 - Four enemy archetypes with different health, movement speed and damage; mission-gated combat; ranged pressure, close-range attacks, death handling, and checkpoint respawn.
 - Live objective waypoint distance/direction, named district labels, health/ammo/vehicle durability bars, and a restartable campaign world.
 - Arcade driving with enter/exit interaction and a chase camera.
-- Eight original interactive story characters with contextual dialogue subtitles, plus the campaign story bible and character roster.
+- Eight original supporting characters plus Tawfiq and Amjad as persistent yellow-kit and black-kit companions with follow movement and contextual dialogue; campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
 ## Main menu and controls
@@ -37,7 +37,7 @@
 - Gamepad: left stick move/steer, right stick camera, left trigger aim, right trigger fire, face buttons interact/jump/reload, Y continues or restarts when relevant, left shoulder sprint
 
 ## Final character-photo rule
-- DINRITO: user photo wearing the white Real Madrid shirt.
+- HERO / PLAYER: user photo wearing the white Real Madrid shirt.
 - TAWFIQ: user photo wearing yellow.
 - AMJAD: user photo wearing black.
 
