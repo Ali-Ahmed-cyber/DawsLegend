@@ -3,6 +3,7 @@
 #include "DawsWorldBuilder.h"
 #include "DawsMissionTrigger.h"
 #include "DawsHUD.h"
+#include "DawsEnemyCharacter.h"
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
 ADawsGameMode::ADawsGameMode()
@@ -32,4 +33,7 @@ void ADawsGameMode::StartPlay()
             Trigger->ObjectiveText = FText::FromString(MissionDescriptions[Index]);
         }
     }
+    const FVector EnemyPositions[6] = { FVector(-450,450,100), FVector(450,-450,100), FVector(-650,-350,100), FVector(650,350,100), FVector(0,-750,100), FVector(750,750,100) };
+    for (const FVector& EnemyPosition : EnemyPositions)
+        GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPosition, FRotator::ZeroRotator);
 }
