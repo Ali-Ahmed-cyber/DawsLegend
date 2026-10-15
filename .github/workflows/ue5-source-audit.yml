@@ -71,6 +71,7 @@ jobs:
           assert "InitializeTracer" in tracer and "TravelSpeed" in tracer
           assert "DawsBulletTracer" in player and "DawsBulletTracer" in enemy_code
           assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
+          assert "AAIController::StaticClass" in enemy_code and "AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned" in enemy_code
           assert "bFinalConfrontation" in enemy_code and "chapter05_finale" in player
           assert "BindAction(\"Jump\", IE_Pressed, this, &ACharacter::Jump)" not in player
           assert "AttackRange" in enemy_code and "bPreferMelee" in enemy_code and "DawsEnemyAvoidance" in enemy_code
