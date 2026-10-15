@@ -90,7 +90,7 @@ jobs:
           assert "ExitVehicle" in vehicle and "UFloatingPawnMovement" in vehicle
           assert "WheelSpin" in vehicle and "Wheel->AddLocalRotation" in vehicle
           assert "HeadlightsVisual" in vehicle and "TailLightsVisual" in vehicle
-          assert "GetSpeedKPH" in (source / "Public/DawsVehiclePawn.h").read_text() and "SPEED" in hud
+          assert "GetSpeedKPH" in (source / "Public/DawsVehiclePawn.h").read_text() and "SPEED" in (source / "Private/DawsHUD.cpp").read_text()
           controller = (source / "Private/DawsPlayerController.cpp").read_text()
           assert "HitMarkerTime" in player and "IsHitMarkerVisible" in hud and "bHitConfirmed" in hud
           assert "InteractWithWorld" in player and "FireWeapon" in player
