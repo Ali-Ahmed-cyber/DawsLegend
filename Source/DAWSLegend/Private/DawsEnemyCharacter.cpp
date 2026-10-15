@@ -73,6 +73,12 @@ ADawsEnemyCharacter::ADawsEnemyCharacter()
     HelmetVisual->SetRelativeLocation(FVector(0,0,111));
     HelmetVisual->SetRelativeScale3D(FVector(0.34f,0.34f,0.12f));
     HelmetVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    WeaponVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponVisual"));
+    WeaponVisual->SetupAttachment(RightArmVisual);
+    if (Cube.Succeeded()) WeaponVisual->SetStaticMesh(Cube.Object);
+    WeaponVisual->SetRelativeLocation(FVector(22,0,0));
+    WeaponVisual->SetRelativeScale3D(FVector(0.42f,0.07f,0.07f));
+    WeaponVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 float ADawsEnemyCharacter::GetHealthRatio() const
 {
