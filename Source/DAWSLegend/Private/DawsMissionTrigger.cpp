@@ -103,6 +103,8 @@ void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
         if (!Missions->CanCompleteCurrentMission()) return;
         Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"));
+        if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(InteractingActor))
+            Player->SetStatusMessage(Missions->GetCurrentMissionId() == TEXT("campaign_complete") ? TEXT("CAMPAIGN COMPLETE") : TEXT("MISSION COMPLETE — CHECKPOINT SAVED"), 3.5f);
         bMissionCompleted = true;
         SetActorEnableCollision(false);
         MarkerVisual->SetVisibility(false);
