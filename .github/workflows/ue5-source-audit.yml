@@ -67,6 +67,8 @@ jobs:
           pickup = (source / "Private/DawsPickup.cpp").read_text()
           assert "RegisterTaskProgress" in mission and "CanCompleteCurrentMission" in trigger
           assert "SetCurrentDialogue" in (source / "Public/DawsMissionSubsystem.h").read_text()
+          assert "CurrentTaskProgress" in (source / "Public/DawsSaveGame.h").read_text()
+          assert "RestoreTaskProgress" in player
           assert "EDawsPickupType::Supplies" in pickup and "EDawsPickupType::Evidence" in pickup
           assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
           def delimiters_balanced(path):
