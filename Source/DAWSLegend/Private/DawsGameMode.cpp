@@ -30,20 +30,45 @@ void ADawsGameMode::SpawnCampaignWorldActors()
     if (GetGameInstance()) {
         if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->StartCampaign();
     }
-    const TCHAR* MissionNames[15] = {
-        TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
-        TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
-        TEXT("chapter03_relay"), TEXT("chapter03_escort"), TEXT("chapter03_broadcast"),
-        TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
-        TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
+    const TCHAR* MissionNames[30] = {
+        TEXT("chapter01_radio"),
+        TEXT("chapter01_plaza"),
+        TEXT("chapter01_workshop"),
+        TEXT("chapter01_supplies"),
+        TEXT("chapter01_driver"),
+        TEXT("chapter02_market"),
+        TEXT("chapter02_nurse"),
+        TEXT("chapter02_minibus"),
+        TEXT("chapter02_convoy"),
+        TEXT("chapter02_sami"),
+        TEXT("chapter03_tawfiq"),
+        TEXT("chapter03_amjad"),
+        TEXT("chapter03_clinic"),
+        TEXT("chapter03_needle"),
+        TEXT("chapter03_bashir"),
+        TEXT("chapter04_relay"),
+        TEXT("chapter04_escort"),
+        TEXT("chapter04_broadcast"),
+        TEXT("chapter04_ferry"),
+        TEXT("chapter04_charity"),
+        TEXT("chapter05_roadblocks"),
+        TEXT("chapter05_workers"),
+        TEXT("chapter05_tawfiq_debt"),
+        TEXT("chapter05_ledger"),
+        TEXT("chapter05_amjad_truth"),
+        TEXT("chapter06_river_road"),
+        TEXT("chapter06_witness_run"),
+        TEXT("chapter06_depot"),
+        TEXT("chapter06_muntasir"),
+        TEXT("chapter06_dawn")
     };
-    const float MissionY[15] = { 500,1200,1900,2600,3300,4000,4700,5400,6100,6800,7500,8200,8900,9600,10300 };
-    for (int32 Index = 0; Index < 15; ++Index) {
-        const FVector MarkerLocation = Index == 0 ? FVector(500,0,90) : FVector(0, MissionY[Index], 90);
+    for (int32 Index = 0; Index < 30; ++Index) {
+        const float MissionY = 500.0f + Index * 410.0f;
+        const FVector MarkerLocation = Index == 0 ? FVector(500,0,90) : FVector(0, MissionY, 90);
         ADawsMissionTrigger* Trigger = GetWorld()->SpawnActor<ADawsMissionTrigger>(MarkerLocation, FRotator::ZeroRotator);
         if (Trigger) {
             Trigger->MissionId = FName(MissionNames[Index]);
-            Trigger->ObjectiveText = FText::FromString(FString::Printf(TEXT("Continue campaign mission %d of 15"), Index+1));
+            Trigger->ObjectiveText = FText::FromString(FString::Printf(TEXT("Continue campaign mission %d of 30"), Index+1));
             Trigger->RefreshMissionMarker();
         }
     }
