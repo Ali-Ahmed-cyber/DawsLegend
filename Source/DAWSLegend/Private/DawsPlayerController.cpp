@@ -2,6 +2,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "DawsGameMode.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/GameUserSettings.h"
 #include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
 #include "DawsVehiclePawn.h"
@@ -21,6 +22,7 @@ void ADawsPlayerController::BeginPlay()
     Super::BeginPlay();
     LoadOptions();
     ApplyCameraFOV();
+    ApplyGraphicsQuality();
     FInputModeGameOnly Mode;
     SetInputMode(Mode);
     bDawsPaused = true;
@@ -55,6 +57,7 @@ void ADawsPlayerController::LoadOptions()
         MouseSensitivity = FMath::Clamp(Options->MouseSensitivity, 0.3f, 2.5f);
         CameraFOV = FMath::Clamp(Options->CameraFOV, 75.0f, 110.0f);
         bSubtitlesEnabled = Options->bSubtitlesEnabled;
+        GraphicsQuality = FMath::Clamp(Options->GraphicsQuality, 0, 2);
     }
 }
 void ADawsPlayerController::SaveOptions()
@@ -64,6 +67,7 @@ void ADawsPlayerController::SaveOptions()
     Options->MouseSensitivity = MouseSensitivity;
     Options->CameraFOV = CameraFOV;
     Options->bSubtitlesEnabled = bSubtitlesEnabled;
+    Options->GraphicsQuality = GraphicsQuality;
     UGameplayStatics::SaveGameToSlot(Options, TEXT("DAWSLegend_Options"), 0);
 }
 void ADawsPlayerController::TogglePause()
@@ -113,18 +117,19 @@ void ADawsPlayerController::ToggleSettings()
 }
 void ADawsPlayerController::NavigateSettingsUp()
 {
-    if (bSettingsMenuOpen) SelectedSetting = (SelectedSetting + 2) % 3;
+    if (bSettingsMenuOpen) SelectedSetting = (SelectedSetting + 3) % 4;
 }
 void ADawsPlayerController::NavigateSettingsDown()
 {
-    if (bSettingsMenuOpen) SelectedSetting = (SelectedSetting + 1) % 3;
+    if (bSettingsMenuOpen) SelectedSetting = (SelectedSetting + 1) % 4;
 }
 void ADawsPlayerController::AdjustSettingLeft()
 {
     if (!bSettingsMenuOpen) return;
     if (SelectedSetting == 0) MouseSensitivity = FMath::Clamp(MouseSensitivity - 0.1f, 0.3f, 2.5f);
     else if (SelectedSetting == 1) { CameraFOV = FMath::Clamp(CameraFOV - 5.0f, 75.0f, 110.0f); ApplyCameraFOV(); }
-    else bSubtitlesEnabled = !bSubtitlesEnabled;
+    else if (SelectedSetting == 2) bSubtitlesEnabled = !bSubtitlesEnabled;
+    else { GraphicsQuality = FMath::Clamp(GraphicsQuality - 1, 0, 2); ApplyGraphicsQuality(); }
     SaveOptions();
 }
 void ADawsPlayerController::AdjustSettingRight()
@@ -132,8 +137,16 @@ void ADawsPlayerController::AdjustSettingRight()
     if (!bSettingsMenuOpen) return;
     if (SelectedSetting == 0) MouseSensitivity = FMath::Clamp(MouseSensitivity + 0.1f, 0.3f, 2.5f);
     else if (SelectedSetting == 1) { CameraFOV = FMath::Clamp(CameraFOV + 5.0f, 75.0f, 110.0f); ApplyCameraFOV(); }
-    else bSubtitlesEnabled = !bSubtitlesEnabled;
+    else if (SelectedSetting == 2) bSubtitlesEnabled = !bSubtitlesEnabled;
+    else { GraphicsQuality = FMath::Clamp(GraphicsQuality + 1, 0, 2); ApplyGraphicsQuality(); }
     SaveOptions();
+}
+void ADawsPlayerController::ApplyGraphicsQuality()
+{
+    if (UGameUserSettings* Settings = UGameUserSettings::GetGameUserSettings()) {
+        Settings->SetOverallScalabilityLevel(FMath::Clamp(GraphicsQuality, 0, 2));
+        Settings->ApplySettings(false);
+    }
 }
 void ADawsPlayerController::ApplyCameraFOV()
 {
