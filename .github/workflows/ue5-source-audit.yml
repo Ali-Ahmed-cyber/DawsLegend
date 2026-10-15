@@ -113,6 +113,7 @@ jobs:
           assert "RestartCampaignWorld" in controller and "SpawnCampaignWorldActors" in (source / "Private/DawsGameMode.cpp").read_text()
           assert "StartNewCampaign" in controller and "DeleteSave" in controller
           assert "RestartCampaign(); return;" in controller
+          assert player.count('GetCurrentMissionId() == TEXT("campaign_complete")') >= 4, "Campaign ending must lock player gameplay input"
           assert 'ActionName="RestartCampaign",Key=Gamepad_FaceButton_Top' not in (Path("Config/DefaultInput.ini")).read_text()
           assert "AdjustSettingRight" in controller and "MouseSensitivity" in controller
           assert "ApplyGraphicsQuality" in controller and "GraphicsQuality" in controller and "Graphics quality" in hud
