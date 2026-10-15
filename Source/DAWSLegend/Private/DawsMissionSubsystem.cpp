@@ -60,17 +60,18 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
         TEXT("Captain Nadir: This is the final broadcast. Once it goes out, there is no turning back.")
     };
     static const TCHAR* TaskTypes[] = {
-        TEXT("reach"), TEXT("collect"), TEXT("reach"),
+        TEXT("reach"), TEXT("collect"), TEXT("talk"),
         TEXT("evidence"), TEXT("defeat"), TEXT("defeat"),
-        TEXT("reach"), TEXT("reach"), TEXT("reach"),
-        TEXT("reach"), TEXT("reach"), TEXT("defeat"),
-        TEXT("evidence"), TEXT("defeat"), TEXT("reach")
+        TEXT("talk"), TEXT("reach"), TEXT("reach"),
+        TEXT("reach"), TEXT("talk"), TEXT("defeat"),
+        TEXT("evidence"), TEXT("defeat"), TEXT("talk")
     };
-    static const int32 RequiredCounts[] = { 0,3,0,1,3,1,0,0,0,0,0,4,1,5,0 };
+    static const TCHAR* TaskTargets[] = { TEXT(""), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""), TEXT(""), TEXT("technician"), TEXT(""), TEXT(""), TEXT(""), TEXT("worker"), TEXT(""), TEXT(""), TEXT(""), TEXT("the_broker") };
+    static const int32 RequiredCounts[] = { 0,3,1,1,3,1,1,0,0,0,1,4,1,5,1 };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Find the survivor near the west street"),
         TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
-        TEXT("Restore the silent radio relay"), TEXT("Escort the technician safely"), TEXT("Reach the broadcast station"),
+        TEXT("Speak to the technician at the relay"), TEXT("Escort the technician safely"), TEXT("Reach the broadcast station"),
         TEXT("Scout the broker's industrial yard"), TEXT("Free the detained workers"), TEXT("Secure the river-side route"),
         TEXT("Recover the last piece of evidence"), TEXT("Defend the central depot"), TEXT("Reach the final broadcast point")
     };
@@ -85,6 +86,7 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
     FDawsMissionObjective Objective;
     CurrentDialogue = FText::FromString(DialogueText[MissionIndex]);
     CurrentTaskType = TaskTypes[MissionIndex];
+    CurrentTaskTargetId = TaskTargets[MissionIndex];
     CurrentTaskProgress = 0;
     RequiredTaskProgress = RequiredCounts[MissionIndex];
     Objective.Id = FString(Ids[MissionIndex]) + TEXT("_reach");
@@ -102,6 +104,10 @@ void UDawsMissionSubsystem::RegisterTaskProgress(const FString& TaskType, int32 
 void UDawsMissionSubsystem::RestoreTaskProgress(int32 Progress)
 {
     CurrentTaskProgress = FMath::Clamp(Progress, 0, RequiredTaskProgress);
+}
+void UDawsMissionSubsystem::RegisterNPCInteraction(const FString& NPCId)
+{
+    if (CurrentTaskType == TEXT("talk") && CurrentTaskTargetId == NPCId) RegisterTaskProgress(TEXT("talk"));
 }
 bool UDawsMissionSubsystem::CanCompleteCurrentMission() const
 {
