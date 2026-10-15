@@ -1,10 +1,12 @@
-# Character and asset production plan
+# DAWS LEGEND — Final art integration
 
-The three main character likenesses are intentionally deferred until the final character-art phase:
-- Main hero: the user, white Real Madrid shirt reference.
-- Tawfiq: yellow shirt reference.
-- Amjad: black shirt reference.
+The game systems are being developed separately from the final character-photo work. Do not replace the three main characters with unrelated people.
 
-Never replace these three identities with invented substitutes. Secondary story characters may be created during narrative development with original placeholder designs until their final art is approved. Do not import ripped GTA assets or copyrighted game content.
+Final character-specific inputs, intentionally last:
+- DINRITO (main hero): the user's photo in the white Real Madrid shirt.
+- TAWFIQ: the user's photo in yellow.
+- AMJAD: the user's photo in black.
 
-The project must progress toward a complete game: authored world, missions, AI, dialogue, vehicles, combat, save/load, UI, audio, optimization, and final character art. Built-in Engine assets are development stand-ins only.
+Secondary characters are original fictional characters described in Story/CHARACTER_ROSTER.md. Their final models, animations, dialogue and voice assets are part of the art-production pass. No third-party character likenesses are to be used as substitutes.
+
+Import final meshes, materials, animations, sound, UI and authored levels through Unreal Editor. Keep source assets organized by environment, characters, weapons, UI, audio and cinematics. Do not commit generated Binaries, Intermediate, Saved, or derived cache folders.
