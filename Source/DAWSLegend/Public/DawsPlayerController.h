@@ -27,6 +27,7 @@ private:
     int32 SelectedSetting = 0;
     void TogglePause();
     void StartGame();
+    void ContinueGame();
     void ToggleSettings();
     void NavigateSettingsUp();
     void NavigateSettingsDown();
