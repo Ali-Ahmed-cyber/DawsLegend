@@ -21,6 +21,7 @@ public:
     FText ObjectiveText = FText::FromString(TEXT("Reach the plaza and secure the area"));
     virtual FText GetInteractionPrompt_Implementation() const override;
     void RefreshMissionMarker();
+    bool IsEscortReady(const AActor* Player) const;
     virtual void Interact_Implementation(AActor* InteractingActor) override;
 protected:
     virtual void BeginPlay() override;
