@@ -74,6 +74,7 @@ void ADawsPlayerController::StartGame()
 {
     if (bHasStartedGame) return;
     bHasStartedGame = true;
+    ApplyCameraFOV();
     bDawsPaused = false;
     SetPause(false);
     bShowMouseCursor = false;
