@@ -15,6 +15,7 @@ class DAWSLEGEND_API ADawsPlayerCharacter : public ACharacter
 public:
     ADawsPlayerCharacter();
     void SetCameraFOV(float NewFOV);
+    FText GetTargetInteractionPrompt() const;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
     UDawsHealthComponent* HealthComponent;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
