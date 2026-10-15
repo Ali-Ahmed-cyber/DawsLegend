@@ -41,14 +41,14 @@ void ADawsGameMode::StartPlay()
             Trigger->RefreshMissionMarker();
         }
     }
-    const FVector EnemyPositions[27] = {
+    const FVector EnemyPositions[28] = {
         FVector(-450,450,100), FVector(450,-450,100), FVector(-650,-350,100), FVector(650,350,100),
         FVector(450,1800,100), FVector(-450,2450,100), FVector(500,3150,100), FVector(-500,3850,100),
         FVector(450,4550,100), FVector(-450,5250,100), FVector(500,5950,100), FVector(-500,6650,100),
         FVector(450,7350,100), FVector(-450,8050,100), FVector(500,8750,100), FVector(-500,9450,100),
         FVector(0,1050,100), FVector(0,3850,100), FVector(0,6650,100), FVector(0,8750,100),
         FVector(350,3000,100), FVector(-350,3400,100), FVector(350,7900,100), FVector(-350,8300,100),
-        FVector(350,9200,100), FVector(-350,9600,100), FVector(350,10000,100)
+        FVector(350,9200,100), FVector(-350,9600,100), FVector(350,10000,100), FVector(-350,9800,100)
     };
     for (const FVector& EnemyPosition : EnemyPositions)
         GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPosition, FRotator::ZeroRotator);
