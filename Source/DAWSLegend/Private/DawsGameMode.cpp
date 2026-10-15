@@ -38,6 +38,7 @@ void ADawsGameMode::StartPlay()
         if (Trigger) {
             Trigger->MissionId = FName(MissionNames[Index]);
             Trigger->ObjectiveText = FText::FromString(FString::Printf(TEXT("Continue campaign mission %d of 15"), Index+1));
+            Trigger->RefreshMissionMarker();
         }
     }
     const FVector EnemyPositions[20] = {
