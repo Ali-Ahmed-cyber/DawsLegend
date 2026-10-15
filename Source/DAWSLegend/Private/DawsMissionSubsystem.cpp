@@ -69,11 +69,11 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
     static const TCHAR* TaskTargets[] = { TEXT(""), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""), TEXT(""), TEXT("technician"), TEXT(""), TEXT(""), TEXT(""), TEXT("worker"), TEXT(""), TEXT(""), TEXT(""), TEXT("the_broker") };
     static const int32 RequiredCounts[] = { 0,3,1,1,3,1,1,0,0,0,1,4,1,5,1 };
     static const TCHAR* ObjectivesText[] = {
-        TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Find the survivor near the west street"),
+        TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Speak to Bashir at the workshop"),
         TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
         TEXT("Speak to the technician at the relay"), TEXT("Escort the technician safely"), TEXT("Reach the broadcast station"),
-        TEXT("Scout the broker's industrial yard"), TEXT("Free the detained workers"), TEXT("Secure the river-side route"),
-        TEXT("Recover the last piece of evidence"), TEXT("Defend the central depot"), TEXT("Reach the final broadcast point")
+        TEXT("Scout the broker's industrial yard"), TEXT("Speak to the workers and learn who detained them"), TEXT("Secure the river-side route"),
+        TEXT("Recover the last piece of evidence"), TEXT("Defend the central depot"), TEXT("Confront the Broker before the final broadcast")
     };
     if (MissionIndex < 0 || MissionIndex >= UE_ARRAY_COUNT(Ids)) {
         bCampaignActive = false;
