@@ -156,6 +156,11 @@ void ADawsPlayerController::ApplyCameraFOV()
 
 void ADawsPlayerController::ContinueGame()
 {
+    if (GetGameInstance()) {
+        if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+            if (Missions->GetCurrentMissionId() == TEXT("campaign_complete")) { RestartCampaign(); return; }
+        }
+    }
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) {
         if (UGameplayStatics::DoesSaveGameExist(TEXT("DAWSLegend_Main"), 0)) Player->LoadCheckpoint();
     }
