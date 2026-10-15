@@ -13,6 +13,7 @@ public:
     void ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget = false);
     void ReceiveWeaponDamage(float Amount);
     float GetHealthRatio() const;
+    bool IsSpecialTarget() const { return bIsSpecialTarget; }
 protected:
     virtual void BeginPlay() override;
     virtual void Tick(float DeltaSeconds) override;
