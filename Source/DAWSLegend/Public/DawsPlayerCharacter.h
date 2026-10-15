@@ -19,6 +19,8 @@ public:
     void LoadCheckpoint();
     void ResetForNewCampaign();
     FText GetTargetInteractionPrompt() const;
+    void SetStatusMessage(const FString& Message, float Duration = 2.5f) { StatusMessage = Message; StatusMessageTime = Duration; }
+    FString GetStatusMessage() const { return StatusMessageTime > 0.0f ? StatusMessage : FString(); }
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
     UDawsHealthComponent* HealthComponent;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
@@ -47,6 +49,8 @@ protected:
     FVector InitialSpawnLocation = FVector::ZeroVector;
     float VisualAnimationTime = 0.0f;
     bool bIsAiming = false;
+    FString StatusMessage;
+    float StatusMessageTime = 0.0f;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
     TObjectPtr<USpringArmComponent> CameraBoom;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
