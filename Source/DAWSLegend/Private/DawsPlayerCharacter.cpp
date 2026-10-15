@@ -99,7 +99,13 @@ void ADawsPlayerCharacter::SaveCheckpoint()
     if (!GetGameInstance()) return;
     if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) {
         const float Health = HealthComponent ? HealthComponent->CurrentHealth : 100.0f;
-        Saves->SaveCheckpoint(1, TEXT("manual_checkpoint"), this, Health);
+        FString MissionId = TEXT("chapter01_plaza");
+        int32 Chapter = 1;
+        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+            MissionId = Missions->GetCurrentMissionId();
+            if (MissionId.StartsWith(TEXT("chapter"))) Chapter = FCString::Atoi(*MissionId.Mid(7,2));
+        }
+        Saves->SaveCheckpoint(Chapter, MissionId, this, Health);
     }
 }
 void ADawsPlayerCharacter::LoadCheckpoint()
