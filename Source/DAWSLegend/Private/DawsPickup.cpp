@@ -72,5 +72,11 @@ void ADawsPickup::HandleOverlap(UPrimitiveComponent*, AActor* OtherActor, UPrimi
             }
         }
     }
-    if (bConsumed) Destroy();
+    if (bConsumed) {
+        if (PickupType == EDawsPickupType::Health) Player->SetStatusMessage(TEXT("HEALTH RESTORED"));
+        else if (PickupType == EDawsPickupType::Ammo) Player->SetStatusMessage(TEXT("AMMO COLLECTED"));
+        else if (PickupType == EDawsPickupType::Supplies) Player->SetStatusMessage(TEXT("SUPPLIES RECOVERED"));
+        else if (PickupType == EDawsPickupType::Evidence) Player->SetStatusMessage(TEXT("EVIDENCE RECOVERED"));
+        Destroy();
+    }
 }
