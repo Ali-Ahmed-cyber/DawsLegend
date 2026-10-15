@@ -8,6 +8,7 @@
 #include "DawsSaveSubsystem.h"
 #include "DawsMissionSubsystem.h"
 #include "DawsMissionTrigger.h"
+#include "DawsStoryNPC.h"
 #include "Engine/GameInstance.h"
 #include "EngineUtils.h"
 ADawsPlayerController::ADawsPlayerController()
@@ -156,6 +157,7 @@ void ADawsPlayerController::RestartCampaign()
     if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->DeleteSave();
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->ResetForNewCampaign();
     for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
+    for (TActorIterator<ADawsStoryNPC> It(GetWorld()); It; ++It) It->ResetForNewCampaign();
     bHasStartedGame = true;
     bSettingsMenuOpen = false;
     bDawsPaused = false;
