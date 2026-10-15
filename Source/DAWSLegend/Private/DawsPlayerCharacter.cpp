@@ -108,10 +108,11 @@ void ADawsPlayerCharacter::Tick(float DeltaSeconds)
     Super::Tick(DeltaSeconds);
     VisualAnimationTime += DeltaSeconds;
     StatusMessageTime = FMath::Max(0.0f, StatusMessageTime - DeltaSeconds);
+    RecoilAmount = FMath::FInterpTo(RecoilAmount, 0.0f, DeltaSeconds, 22.0f);
     const float Speed = GetVelocity().Size2D();
     const float Swing = Speed > 12.0f ? FMath::Sin(VisualAnimationTime * (Speed > SprintSpeed ? 13.0f : 9.0f)) * (Speed > SprintSpeed ? 28.0f : 18.0f) : 0.0f;
     if (LeftArmVisual) LeftArmVisual->SetRelativeRotation(FRotator(Swing,0,0));
-    if (RightArmVisual) RightArmVisual->SetRelativeRotation(FRotator(-Swing,0,0));
+    if (RightArmVisual) RightArmVisual->SetRelativeRotation(FRotator(-Swing - RecoilAmount,0,0));
     if (LeftLegVisual) LeftLegVisual->SetRelativeRotation(FRotator(-Swing,0,0));
     if (RightLegVisual) RightLegVisual->SetRelativeRotation(FRotator(Swing,0,0));
     if (BodyVisual) BodyVisual->SetRelativeLocation(FVector(0,0,48.0f + (Speed > 12.0f ? FMath::Abs(FMath::Sin(VisualAnimationTime * 9.0f)) * 2.0f : 0.0f)));
@@ -193,6 +194,7 @@ void ADawsPlayerCharacter::FireWeapon()
     const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
     if (EnemyTarget && (!Missions || Missions->GetCurrentTaskType() != TEXT("defeat"))) return;
     if (!CombatComponent->ConsumeShot()) return;
+    RecoilAmount = 14.0f;
     if (!bHit) return;
     if (EnemyTarget) {
         EnemyTarget->ReceiveWeaponDamage(WeaponDamage);
