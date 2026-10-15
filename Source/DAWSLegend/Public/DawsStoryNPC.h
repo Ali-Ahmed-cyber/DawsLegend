@@ -14,6 +14,7 @@ public:
     void ConfigureNPC(FName NewId, const FText& NewName, const FText& NewDialogue, FLinearColor NewClothingColor);
     virtual FText GetInteractionPrompt_Implementation() const override;
     virtual void Interact_Implementation(AActor* InteractingActor) override;
+    virtual void Tick(float DeltaSeconds) override;
 private:
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<UBoxComponent> InteractionBounds;
