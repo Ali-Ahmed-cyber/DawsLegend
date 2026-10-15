@@ -20,6 +20,7 @@ public:
     EDawsPickupType PickupType = EDawsPickupType::Health;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Pickup", meta=(ClampMin="1.0"))
     float PickupAmount = 35.0f;
+    void ConfigurePickup(EDawsPickupType NewType, float NewAmount);
 protected:
     virtual void BeginPlay() override;
 private:
