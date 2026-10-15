@@ -101,7 +101,7 @@ void ADawsGameMode::SpawnCampaignWorldActors()
 
     const FVector TaskPickupLocations[9] = {
         FVector(-70,1550,75), FVector(70,1730,75), FVector(-70,1910,75),
-        FVector(70,2450,75), FVector(-70,2650,75),
+        FVector(70,2450,75), FVector(-70,7880,75),
         FVector(70,3700,75), FVector(-70,5800,75),
         FVector(70,9900,75), FVector(-70,11900,75)
     };
