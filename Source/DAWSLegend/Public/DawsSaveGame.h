@@ -34,4 +34,6 @@ public:
     float CameraFOV = 90.0f;
     UPROPERTY(BlueprintReadWrite, Category="Settings")
     bool bSubtitlesEnabled = true;
+    UPROPERTY(BlueprintReadWrite, Category="Settings")
+    int32 GraphicsQuality = 1;
 };
