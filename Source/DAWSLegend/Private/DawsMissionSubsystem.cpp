@@ -41,6 +41,23 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
         TEXT("The Broker's Route"), TEXT("Free the Workers"), TEXT("Road to the River"),
         TEXT("Dawn of the City"), TEXT("Hold the Depot"), TEXT("The Final Broadcast")
     };
+    static const TCHAR* DialogueText[] = {
+        TEXT("Hiba (radio): The plaza is not safe. Get to the marker and keep your eyes open."),
+        TEXT("Bashir: These crates were emptied before the convoy arrived. Someone knew the route."),
+        TEXT("Survivor: I heard them say the next shipment goes through the market after dark."),
+        TEXT("Hiba (radio): Smoke is rising over the market. Check the burned store before they clean it up."),
+        TEXT("Fawzi: The clinic needs those supplies. I will move the families while you hold the lane."),
+        TEXT("Bashir: The courier has the transfer code. Stop him before he reaches the bridge."),
+        TEXT("Hiba (radio): The relay went silent. Restore it and I can reach the whole district."),
+        TEXT("Captain Nadir: Keep the technician alive. Without his evidence, the case will collapse."),
+        TEXT("Hiba (radio): I have the transmitter. Send me proof I can verify, not rumours."),
+        TEXT("Captain Nadir: The Broker's yard has three entrances. Choose your approach carefully."),
+        TEXT("Worker: They locked us in after we refused to move the medical cargo."),
+        TEXT("Bashir: The river road is blocked. I can get the truck moving, but you must clear the route."),
+        TEXT("Hiba (radio): One last record remains. Bring it to the depot intact."),
+        TEXT("Fawzi: The depot is holding. People are bringing water and bandages. Do not let them through."),
+        TEXT("Captain Nadir: This is the final broadcast. Once it goes out, there is no turning back.")
+    };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Find the survivor near the west street"),
         TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
@@ -57,6 +74,7 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
     }
     CampaignMissionIndex = MissionIndex;
     FDawsMissionObjective Objective;
+    CurrentDialogue = FText::FromString(DialogueText[MissionIndex]);
     Objective.Id = FString(Ids[MissionIndex]) + TEXT("_reach");
     Objective.Description = FText::FromString(ObjectivesText[MissionIndex]);
     Objective.bCompleted = false;
