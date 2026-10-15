@@ -13,6 +13,8 @@ public:
     UFUNCTION(BlueprintCallable, Category="Save")
     bool SaveCheckpoint(int32 StoryChapter, const FString& MissionId, AActor* PlayerActor, float PlayerHealth);
     UFUNCTION(BlueprintCallable, Category="Save")
+    bool SaveTaskProgress(AActor* PlayerActor, float PlayerHealth);
+    UFUNCTION(BlueprintCallable, Category="Save")
     bool LoadCheckpoint(AActor* PlayerActor, int32& OutStoryChapter, FString& OutMissionId, float& OutPlayerHealth, int32& OutTaskProgress);
     UFUNCTION(BlueprintCallable, Category="Save")
     bool HasSave() const;
