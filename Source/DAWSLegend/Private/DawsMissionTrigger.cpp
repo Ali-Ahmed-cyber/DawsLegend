@@ -1,9 +1,12 @@
 #include "DawsMissionTrigger.h"
 #include "Components/BoxComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/World.h"
 #include "Engine/GameInstance.h"
-#include "GameFramework/Character.h"
+#include "Engine/StaticMesh.h"
+#include "UObject/ConstructorHelpers.h"
+#include "DawsPlayerCharacter.h"
 ADawsMissionTrigger::ADawsMissionTrigger()
 {
     PrimaryActorTick.bCanEverTick = false;
@@ -13,23 +16,29 @@ ADawsMissionTrigger::ADawsMissionTrigger()
     TriggerBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     TriggerBox->SetCollisionResponseToAllChannels(ECR_Ignore);
     TriggerBox->SetCollisionResponseToChannel(ECC_Pawn,ECR_Overlap);
+    MarkerVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MissionMarker"));
+    MarkerVisual->SetupAttachment(TriggerBox);
+    MarkerVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    MarkerVisual->SetRelativeLocation(FVector(0,0,20));
+    MarkerVisual->SetRelativeScale3D(FVector(0.35f,0.35f,1.8f));
+    static ConstructorHelpers::FObjectFinder<UStaticMesh> Cylinder(TEXT("/Engine/BasicShapes/Cylinder.Cylinder"));
+    if (Cylinder.Succeeded()) MarkerVisual->SetStaticMesh(Cylinder.Object);
 }
 void ADawsMissionTrigger::BeginPlay()
 {
     Super::BeginPlay();
-    TriggerBox->OnComponentBeginOverlap.AddDynamic(this, &ADawsMissionTrigger::OnOverlap);
 }
-void ADawsMissionTrigger::OnOverlap(UPrimitiveComponent*, AActor* OtherActor, UPrimitiveComponent*, int32, bool, const FHitResult&)
+FText ADawsMissionTrigger::GetInteractionPrompt_Implementation() const
 {
-    if (!Cast<ACharacter>(OtherActor) || !GetGameInstance()) return;
+    return FText::Format(NSLOCTEXT("DAWS", "MissionPrompt", "Press E: {0}"), ObjectiveText);
+}
+void ADawsMissionTrigger::Interact_Implementation(AActor* InteractingActor)
+{
+    if (!Cast<ADawsPlayerCharacter>(InteractingActor) || !GetGameInstance()) return;
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
-        TArray<FDawsMissionObjective> Objectives;
-        FDawsMissionObjective Objective;
-        Objective.Id = MissionId.ToString() + TEXT("_reach");
-        Objective.Description = ObjectiveText;
-        Objectives.Add(Objective);
         if (Missions->GetCurrentMissionId() != MissionId.ToString()) return;
-        Missions->CompleteObjective(Objective.Id);
+        Missions->CompleteObjective(MissionId.ToString() + TEXT("_reach"));
         SetActorEnableCollision(false);
+        MarkerVisual->SetVisibility(false);
     }
 }
