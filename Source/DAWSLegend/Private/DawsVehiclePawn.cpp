@@ -71,6 +71,8 @@ void ADawsVehiclePawn::Tick(float DeltaSeconds)
     const float Speed = GetVelocity().Size2D();
     if (FMath::Abs(SteeringInput) > 0.01f && Speed > 15.0f)
         AddActorLocalRotation(FRotator(0, SteeringInput * TurnRate * DeltaSeconds * FMath::Clamp(Speed / 450.0f, 0.35f, 1.4f), 0));
+    const float WheelSpin = (ThrottleInput >= 0.0f ? 1.0f : -1.0f) * Speed * DeltaSeconds * 0.42f;
+    for (UStaticMeshComponent* Wheel : WheelVisuals) if (Wheel) Wheel->AddLocalRotation(FRotator(0,WheelSpin,0));
     if (Speed < 5.0f) VehicleMovement->StopMovementImmediately();
 }
 void ADawsVehiclePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
