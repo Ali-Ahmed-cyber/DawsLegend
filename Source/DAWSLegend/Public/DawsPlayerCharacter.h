@@ -7,6 +7,7 @@ class UDawsHealthComponent;
 class UDawsCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
+class UStaticMeshComponent;
 UCLASS()
 class DAWSLEGEND_API ADawsPlayerCharacter : public ACharacter
 {
@@ -39,6 +40,13 @@ protected:
     TObjectPtr<USpringArmComponent> CameraBoom;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
     TObjectPtr<UCameraComponent> FollowCamera;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> BodyVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> HeadVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> LeftArmVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> RightArmVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> LeftLegVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> RightLegVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> WeaponVisual;
     UPROPERTY(EditDefaultsOnly, Category="Movement")
     float WalkSpeed = 430.0f;
     UPROPERTY(EditDefaultsOnly, Category="Movement")
