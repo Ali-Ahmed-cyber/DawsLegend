@@ -2,8 +2,8 @@
 #include "Components/BoxComponent.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/World.h"
+#include "Engine/GameInstance.h"
 #include "GameFramework/Character.h"
-#include "Kismet/GameplayStatics.h"
 ADawsMissionTrigger::ADawsMissionTrigger()
 {
     PrimaryActorTick.bCanEverTick = false;
@@ -21,10 +21,14 @@ void ADawsMissionTrigger::BeginPlay()
 }
 void ADawsMissionTrigger::OnOverlap(UPrimitiveComponent*, AActor* OtherActor, UPrimitiveComponent*, int32, bool, const FHitResult&)
 {
-    if (!Cast<ACharacter>(OtherActor)) return;
-    if (UDawsMissionSubsystem* Missions = GetWorld()->GetSubsystem<UDawsMissionSubsystem>())
-    {
-        Missions->StartMission(MissionId, ObjectiveText.ToString());
+    if (!Cast<ACharacter>(OtherActor) || !GetGameInstance()) return;
+    if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+        TArray<FDawsMissionObjective> Objectives;
+        FDawsMissionObjective Objective;
+        Objective.Id = MissionId.ToString() + TEXT("_reach");
+        Objective.Description = ObjectiveText;
+        Objectives.Add(Objective);
+        Missions->StartMission(MissionId.ToString(), ObjectiveText, Objectives);
         SetActorEnableCollision(false);
     }
 }
