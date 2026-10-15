@@ -25,6 +25,8 @@ void ADawsPlayerController::SetupInputComponent()
     PauseBinding.bExecuteWhenPaused = true;
     FInputActionBinding& StartBinding = InputComponent->BindAction("StartGame", IE_Pressed, this, &ADawsPlayerController::StartGame);
     StartBinding.bExecuteWhenPaused = true;
+    FInputActionBinding& ContinueBinding = InputComponent->BindAction("ContinueGame", IE_Pressed, this, &ADawsPlayerController::ContinueGame);
+    ContinueBinding.bExecuteWhenPaused = true;
     FInputActionBinding& OptionsBinding = InputComponent->BindAction("Options", IE_Pressed, this, &ADawsPlayerController::ToggleSettings);
     OptionsBinding.bExecuteWhenPaused = true;
     FInputActionBinding& UpBinding = InputComponent->BindAction("UIUp", IE_Pressed, this, &ADawsPlayerController::NavigateSettingsUp);
@@ -127,4 +129,12 @@ void ADawsPlayerController::AdjustSettingRight()
 void ADawsPlayerController::ApplyCameraFOV()
 {
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->SetCameraFOV(CameraFOV);
+}
+
+void ADawsPlayerController::ContinueGame()
+{
+    if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) {
+        if (UGameplayStatics::DoesSaveGameExist(TEXT("DAWSLegend_Main"), 0)) Player->LoadCheckpoint();
+    }
+    StartGame();
 }
