@@ -15,6 +15,7 @@ class DAWSLEGEND_API ADawsPlayerCharacter : public ACharacter
 public:
     ADawsPlayerCharacter();
     void SetCameraFOV(float NewFOV);
+    void LoadCheckpoint();
     FText GetTargetInteractionPrompt() const;
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Systems")
     UDawsHealthComponent* HealthComponent;
@@ -34,7 +35,6 @@ protected:
     void ReloadWeapon();
     void InteractWithWorld();
     void SaveCheckpoint();
-    void LoadCheckpoint();
     UFUNCTION() void HandlePlayerDeath();
     void RespawnAtCheckpoint();
     FTimerHandle RespawnTimer;
