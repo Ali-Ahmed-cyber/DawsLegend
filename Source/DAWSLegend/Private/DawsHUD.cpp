@@ -59,7 +59,7 @@ void ADawsHUD::DrawHUD()
             const TArray<FDawsMissionObjective>& Objectives = Missions->GetObjectives();
             if (Objectives.Num() > 0) DrawTextLine(FString::Printf(TEXT("OBJECTIVE: %s"), *Objectives[0].Description.ToString()), 44, H-108, 0.78f, FLinearColor::White);
             if (Missions->GetRequiredTaskProgress() > 0) {
-                const FString TaskLabel = Missions->GetCurrentTaskType() == TEXT("collect") ? TEXT("SUPPLIES") : (Missions->GetCurrentTaskType() == TEXT("evidence") ? TEXT("EVIDENCE") : TEXT("HOSTILES"));
+                const FString TaskLabel = Missions->GetCurrentTaskType() == TEXT("collect") ? TEXT("SUPPLIES") : (Missions->GetCurrentTaskType() == TEXT("evidence") ? TEXT("EVIDENCE") : (Missions->GetCurrentTaskType() == TEXT("talk") ? TEXT("TALK TO CONTACT") : TEXT("HOSTILES")));
                 DrawTextLine(FString::Printf(TEXT("%s: %d / %d"), *TaskLabel, Missions->GetTaskProgress(), Missions->GetRequiredTaskProgress()), 44, H-225, 0.72f, FLinearColor(0.95f,0.78f,0.18f));
             }
             if (const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(GetOwningPlayerController()); !DawsPC || DawsPC->AreSubtitlesEnabled()) DrawTextLine(Missions->GetCurrentDialogue().ToString(), 44, H-185, 0.68f, FLinearColor(0.85f,0.92f,1.0f));
