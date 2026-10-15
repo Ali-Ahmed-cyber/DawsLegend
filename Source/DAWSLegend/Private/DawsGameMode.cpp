@@ -22,29 +22,21 @@ void ADawsGameMode::StartPlay()
     if (!GetWorld()) return;
     GetWorld()->SpawnActor<ADawsWorldBuilder>(FVector::ZeroVector, FRotator::ZeroRotator);
     if (GetGameInstance()) {
-        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
-            TArray<FDawsMissionObjective> InitialObjectives;
-            FDawsMissionObjective InitialObjective;
-            InitialObjective.Id = TEXT("chapter01_plaza_reach");
-            InitialObjective.Description = FText::FromString(TEXT("Reach the plaza and secure the area"));
-            InitialObjectives.Add(InitialObjective);
-            Missions->StartMission(TEXT("chapter01_plaza"), FText::FromString(TEXT("The First Signal")), InitialObjectives);
-        }
+        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->StartCampaign();
     }
-    const FVector MissionPositions[3] = { FVector(0,850,90), FVector(850,0,90), FVector(-850,0,90) };
-    const TCHAR* MissionNames[3] = { TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue") };
-    const TCHAR* MissionDescriptions[3] = {
-        TEXT("Reach the plaza and secure the area"),
-        TEXT("Recover the missing supplies"),
-        TEXT("Find the survivor near the west street")
+    const TCHAR* MissionNames[15] = {
+        TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
+        TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
+        TEXT("chapter03_relay"), TEXT("chapter03_escort"), TEXT("chapter03_broadcast"),
+        TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
+        TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
     };
-    for (int32 Index = 0; Index < 3; ++Index)
-    {
-        ADawsMissionTrigger* Trigger = GetWorld()->SpawnActor<ADawsMissionTrigger>(MissionPositions[Index], FRotator::ZeroRotator);
-        if (Trigger)
-        {
+    const float MissionY[15] = { -4900,-4200,-3500,-2800,-2100,-1400,-700,0,700,1400,2100,2800,3500,4200,4900 };
+    for (int32 Index = 0; Index < 15; ++Index) {
+        ADawsMissionTrigger* Trigger = GetWorld()->SpawnActor<ADawsMissionTrigger>(FVector(0, MissionY[Index], 90), FRotator::ZeroRotator);
+        if (Trigger) {
             Trigger->MissionId = FName(MissionNames[Index]);
-            Trigger->ObjectiveText = FText::FromString(MissionDescriptions[Index]);
+            Trigger->ObjectiveText = FText::FromString(FString::Printf(TEXT("Continue campaign mission %d of 15"), Index+1));
         }
     }
     const FVector EnemyPositions[6] = { FVector(-450,450,100), FVector(450,-450,100), FVector(-650,-350,100), FVector(650,350,100), FVector(0,-750,100), FVector(750,750,100) };
