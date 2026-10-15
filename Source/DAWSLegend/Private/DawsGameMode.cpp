@@ -64,10 +64,10 @@ void ADawsGameMode::StartPlay()
     }
 
     const FVector TaskPickupLocations[9] = {
-        FVector(-220,900,75), FVector(220,1150,75), FVector(-220,1400,75),
-        FVector(350,2500,75), FVector(-350,2750,75),
-        FVector(350,8050,75), FVector(-350,8350,75),
-        FVector(350,8750,75), FVector(-350,9000,75)
+        FVector(-70,900,75), FVector(70,1150,75), FVector(-70,1400,75),
+        FVector(70,2500,75), FVector(-70,2750,75),
+        FVector(70,8050,75), FVector(-70,8350,75),
+        FVector(70,8750,75), FVector(-70,9000,75)
     };
     const EDawsPickupType TaskPickupTypes[9] = {
         EDawsPickupType::Supplies, EDawsPickupType::Supplies, EDawsPickupType::Supplies,
