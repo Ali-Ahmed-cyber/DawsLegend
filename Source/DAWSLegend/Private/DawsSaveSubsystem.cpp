@@ -1,6 +1,8 @@
 #include "DawsSaveSubsystem.h"
 #include "DawsSaveGame.h"
 #include "DawsMissionSubsystem.h"
+#include "DawsPlayerCharacter.h"
+#include "DawsCombatComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& MissionId, AActor* PlayerActor, float PlayerHealth)
@@ -13,6 +15,9 @@ bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& Missi
     Save->PlayerLocation = PlayerActor->GetActorLocation();
     Save->PlayerRotation = PlayerActor->GetActorRotation();
     Save->PlayerHealth = FMath::Clamp(PlayerHealth, 0.0f, 100.0f);
+    if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(PlayerActor)) {
+        if (Player->CombatComponent) { Save->MagazineAmmo = Player->CombatComponent->MagazineAmmo; Save->ReserveAmmo = Player->CombatComponent->ReserveAmmo; }
+    }
     if (GetGameInstance()) {
         if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Save->CurrentTaskProgress = Missions->GetTaskProgress();
     }
@@ -34,6 +39,13 @@ bool UDawsSaveSubsystem::LoadCheckpoint(AActor* PlayerActor, int32& OutStoryChap
     {
         PlayerActor->SetActorLocation(Save->PlayerLocation);
         PlayerActor->SetActorRotation(Save->PlayerRotation);
+        if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(PlayerActor)) {
+            if (Player->CombatComponent) {
+                Player->CombatComponent->MagazineAmmo = FMath::Clamp(Save->MagazineAmmo, 0, Player->CombatComponent->MagazineCapacity);
+                Player->CombatComponent->ReserveAmmo = FMath::Max(0, Save->ReserveAmmo);
+                Player->CombatComponent->OnAmmoChanged.Broadcast(Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo);
+            }
+        }
     }
     return true;
 }
