@@ -1,20 +1,24 @@
-# DAWS LEGEND — Character roster
+# DAWS LEGEND — Character Roster
 
-## Main trio (final likenesses deferred)
-- **Player lead:** the user; white Real Madrid shirt. Nameplate/likeness to be finalized with the user's reference photos.
-- **Tawfiq:** friend in yellow shirt.
-- **Amjad:** friend in black shirt.
+## Three real main-character likenesses (final art stage)
+- **Hero / player:** based on the user wearing the white Real Madrid shirt.
+- **Tawfiq:** based on the user-provided reference wearing yellow. Runtime companion identity: `tawfiq`.
+- **Amjad:** based on the user-provided reference wearing black. Runtime companion identity: `amjad`.
 
-Do not replace these identities. Do not generate their likenesses before the final character-art stage.
+The three reference photos are intentionally not embedded yet. Current runtime models are replaceable procedural stand-ins; when the user later uploads the three images, map each to the identity above without changing mission IDs or story continuity.
 
-## Fictional supporting cast
-- **Hiba:** community radio presenter; provides warnings and optional leads.
-- **Bashir:** mechanic; unlocks vehicle repair and driving side quests.
-- **Captain Nadir:** investigator; mission contact for evidence handoffs.
-- **Fawzi:** shopkeeper whose disappearance drives the opening chapter.
-- **The Broker:** hidden antagonist connected to the smuggling network.
-- **The Survivor:** witness who reveals the convoy route.
-- **The Technician:** helps restore the radio relay.
+## Original supporting cast
+- **Hiba:** community radio presenter; the radio lead who starts the investigation.
+- **Bashir:** mechanic and vehicle contact.
+- **Captain Nadir:** investigator who protects witnesses and verifies evidence.
+- **Fawzi:** neighborhood shopkeeper helping move residents to safety.
+- **The Survivor:** witness who knows the convoy's route.
+- **The Technician:** restores the relay and follows during the escort mission.
 - **The Worker:** explains why the medical cargo was intercepted.
+- **The Broker:** antagonist coordinating the supply theft network.
 
-Supporting character designs, names and dialogue can be revised as the script is developed. Keep the tone grounded and Sudanese, and use original assets and writing.
+## Identity constraints
+- Tawfiq's runtime stand-in uses yellow clothing.
+- Amjad's runtime stand-in uses black clothing.
+- The hero's runtime stand-in uses a white football-style kit; the final likeness and precise Real Madrid details are reserved for the final character-art pass.
+- Do not substitute unrelated people for the three main identities.
