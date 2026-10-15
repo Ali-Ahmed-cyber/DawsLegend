@@ -3,6 +3,7 @@
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
+#include "DawsVehiclePawn.h"
 #include "DawsSaveGame.h"
 ADawsPlayerController::ADawsPlayerController()
 {
@@ -129,6 +130,7 @@ void ADawsPlayerController::AdjustSettingRight()
 void ADawsPlayerController::ApplyCameraFOV()
 {
     if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetPawn())) Player->SetCameraFOV(CameraFOV);
+    else if (ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(GetPawn())) Vehicle->SetCameraFOV(CameraFOV);
 }
 
 void ADawsPlayerController::ContinueGame()
