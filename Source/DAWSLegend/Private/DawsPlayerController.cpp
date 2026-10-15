@@ -11,12 +11,16 @@ void ADawsPlayerController::BeginPlay()
     Super::BeginPlay();
     FInputModeGameOnly Mode;
     SetInputMode(Mode);
+    bDawsPaused = true;
+    SetPause(true);
 }
 void ADawsPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
     FInputActionBinding& PauseBinding = InputComponent->BindAction("Pause", IE_Pressed, this, &ADawsPlayerController::TogglePause);
     PauseBinding.bExecuteWhenPaused = true;
+    FInputActionBinding& StartBinding = InputComponent->BindAction("StartGame", IE_Pressed, this, &ADawsPlayerController::StartGame);
+    StartBinding.bExecuteWhenPaused = true;
 }
 void ADawsPlayerController::TogglePause()
 {
@@ -31,4 +35,15 @@ void ADawsPlayerController::TogglePause()
         FInputModeGameOnly Mode;
         SetInputMode(Mode);
     }
+}
+
+void ADawsPlayerController::StartGame()
+{
+    if (bHasStartedGame) return;
+    bHasStartedGame = true;
+    bDawsPaused = false;
+    SetPause(false);
+    bShowMouseCursor = false;
+    FInputModeGameOnly Mode;
+    SetInputMode(Mode);
 }
