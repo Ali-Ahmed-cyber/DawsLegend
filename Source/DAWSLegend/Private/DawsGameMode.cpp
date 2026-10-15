@@ -100,10 +100,10 @@ void ADawsGameMode::SpawnCampaignWorldActors()
     }
 
     const FVector TaskPickupLocations[9] = {
-        FVector(-70,900,75), FVector(70,1150,75), FVector(-70,1400,75),
-        FVector(70,2500,75), FVector(-70,2750,75),
-        FVector(70,8050,75), FVector(-70,8350,75),
-        FVector(70,8750,75), FVector(-70,9000,75)
+        FVector(-70,1550,75), FVector(70,1730,75), FVector(-70,1910,75),
+        FVector(70,2450,75), FVector(-70,2650,75),
+        FVector(70,3700,75), FVector(-70,5800,75),
+        FVector(70,9900,75), FVector(-70,11900,75)
     };
     const EDawsPickupType TaskPickupTypes[9] = {
         EDawsPickupType::Supplies, EDawsPickupType::Supplies, EDawsPickupType::Supplies,
