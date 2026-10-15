@@ -15,6 +15,9 @@ protected:
 private:
     UPROPERTY()
     TObjectPtr<UStaticMesh> CubeMesh;
+    UPROPERTY() TObjectPtr<UStaticMesh> CylinderMesh;
+    UPROPERTY() TObjectPtr<UStaticMesh> SphereMesh;
     void BuildEnvironment();
+    AActor* AddPrimitive(UStaticMesh* Shape, FVector Location, FVector Scale, FLinearColor Tint, bool bCollision = false);
     AActor* AddBlock(FVector Location, FVector Scale, FLinearColor Tint, bool bCollision = true);
 };
