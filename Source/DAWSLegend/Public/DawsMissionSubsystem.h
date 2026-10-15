@@ -46,6 +46,8 @@ public:
     FText GetCurrentMissionTitle() const { return CurrentMissionTitle; }
     UFUNCTION(BlueprintPure, Category="Dialogue")
     FText GetCurrentDialogue() const { return CurrentDialogue; }
+    UFUNCTION(BlueprintCallable, Category="Dialogue")
+    void SetCurrentDialogue(FText DialogueLine) { CurrentDialogue = MoveTemp(DialogueLine); }
     UFUNCTION(BlueprintPure, Category="Campaign")
     int32 GetCampaignMissionNumber() const { return FMath::Clamp(CampaignMissionIndex + 1, 1, 15); }
     UFUNCTION(BlueprintPure, Category="Missions")
