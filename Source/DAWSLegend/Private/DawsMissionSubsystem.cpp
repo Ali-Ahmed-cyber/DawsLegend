@@ -54,7 +54,7 @@ namespace
         TEXT("talk"), TEXT("reach"), TEXT("talk"), TEXT("collect"), TEXT("defeat"),
         TEXT("evidence"), TEXT("talk"), TEXT("reach"), TEXT("evidence"), TEXT("talk"),
         TEXT("reach"), TEXT("talk"), TEXT("defeat"), TEXT("evidence"), TEXT("talk"),
-        TEXT("talk"), TEXT("reach"), TEXT("reach"), TEXT("evidence"), TEXT("reach"),
+        TEXT("talk"), TEXT("reach"), TEXT("reach"), TEXT("evidence"), TEXT("talk"),
         TEXT("reach"), TEXT("defeat"), TEXT("talk"), TEXT("evidence"), TEXT("talk"),
         TEXT("defeat"), TEXT("reach"), TEXT("defeat"), TEXT("talk"), TEXT("talk")
     };
@@ -67,7 +67,7 @@ namespace
         TEXT(""), TEXT(""), TEXT(""), TEXT("muntasir"), TEXT("the_broker")
     };
     static const int32 RequiredCounts[] = {
-        1,0,1,3,2, 1,1,0,1,1, 0,1,3,1,1, 1,0,0,1,0, 0,4,1,1,1, 4,0,5,1,1
+        1,0,1,3,2, 1,1,0,1,1, 0,1,3,1,1, 1,0,0,1,1, 0,4,1,1,1, 4,0,5,1,1
     };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Meet Tawfiq and Amjad, then listen to Hiba's report"), TEXT("Secure the plaza and inspect the empty crates"),
