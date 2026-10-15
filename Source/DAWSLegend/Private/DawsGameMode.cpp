@@ -41,12 +41,14 @@ void ADawsGameMode::StartPlay()
             Trigger->RefreshMissionMarker();
         }
     }
-    const FVector EnemyPositions[20] = {
+    const FVector EnemyPositions[27] = {
         FVector(-450,450,100), FVector(450,-450,100), FVector(-650,-350,100), FVector(650,350,100),
         FVector(450,1800,100), FVector(-450,2450,100), FVector(500,3150,100), FVector(-500,3850,100),
         FVector(450,4550,100), FVector(-450,5250,100), FVector(500,5950,100), FVector(-500,6650,100),
         FVector(450,7350,100), FVector(-450,8050,100), FVector(500,8750,100), FVector(-500,9450,100),
-        FVector(0,1050,100), FVector(0,3850,100), FVector(0,6650,100), FVector(0,8750,100)
+        FVector(0,1050,100), FVector(0,3850,100), FVector(0,6650,100), FVector(0,8750,100),
+        FVector(350,3000,100), FVector(-350,3400,100), FVector(350,7900,100), FVector(-350,8300,100),
+        FVector(350,9200,100), FVector(-350,9600,100), FVector(350,10000,100)
     };
     for (const FVector& EnemyPosition : EnemyPositions)
         GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPosition, FRotator::ZeroRotator);
@@ -60,4 +62,22 @@ void ADawsGameMode::StartPlay()
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
         if (Pickup) Pickup->ConfigurePickup(EDawsPickupType::Ammo, 24.0f);
     }
+
+    const FVector TaskPickupLocations[9] = {
+        FVector(-220,900,75), FVector(220,1150,75), FVector(-220,1400,75),
+        FVector(350,2500,75), FVector(-350,2750,75),
+        FVector(350,8050,75), FVector(-350,8350,75),
+        FVector(350,8750,75), FVector(-350,9000,75)
+    };
+    const EDawsPickupType TaskPickupTypes[9] = {
+        EDawsPickupType::Supplies, EDawsPickupType::Supplies, EDawsPickupType::Supplies,
+        EDawsPickupType::Evidence, EDawsPickupType::Evidence,
+        EDawsPickupType::Evidence, EDawsPickupType::Evidence,
+        EDawsPickupType::Evidence, EDawsPickupType::Evidence
+    };
+    for (int32 Index = 0; Index < 9; ++Index) {
+        ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(TaskPickupLocations[Index], FRotator::ZeroRotator);
+        if (Pickup) Pickup->ConfigurePickup(TaskPickupTypes[Index], 1.0f);
+    }
+
 }
