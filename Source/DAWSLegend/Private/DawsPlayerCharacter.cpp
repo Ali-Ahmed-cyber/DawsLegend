@@ -20,6 +20,7 @@
 #include "TimerManager.h"
 #include "EngineUtils.h"
 #include "DawsMissionTrigger.h"
+#include "DawsEnemyCharacter.h"
 ADawsPlayerCharacter::ADawsPlayerCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -144,8 +145,14 @@ void ADawsPlayerCharacter::FireWeapon()
     FCollisionQueryParams Params(SCENE_QUERY_STAT(DawsWeaponTrace), true, this);
     if (GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params)) {
         if (AActor* HitActor = Hit.GetActor()) {
-            if (UDawsHealthComponent* TargetHealth = HitActor->FindComponentByClass<UDawsHealthComponent>())
+            if (ADawsEnemyCharacter* Enemy = Cast<ADawsEnemyCharacter>(HitActor)) {
+                const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
+                if (Missions && Missions->GetCurrentTaskType() == TEXT("defeat")) {
+                    if (Enemy->HealthComponent) Enemy->HealthComponent->ApplyDamage(WeaponDamage);
+                }
+            } else if (UDawsHealthComponent* TargetHealth = HitActor->FindComponentByClass<UDawsHealthComponent>()) {
                 TargetHealth->ApplyDamage(WeaponDamage);
+            }
         }
     }
 }
