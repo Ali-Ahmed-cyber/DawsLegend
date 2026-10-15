@@ -103,6 +103,7 @@ jobs:
           assert "SaveTaskProgress" in save_code and "SaveTaskProgress" in (source / "Private/DawsPickup.cpp").read_text() and "SaveTaskProgress" in (source / "Private/DawsEnemyCharacter.cpp").read_text()
           assert "RestoreTaskProgress" in player
           assert "EDawsPickupType::Supplies" in pickup and "EDawsPickupType::Evidence" in pickup
+          assert "SUPPLIES RECOVERED" in pickup and "EVIDENCE RECOVERED" in pickup
           assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
           def delimiters_balanced(path):
               text = path.read_text()
