@@ -5,6 +5,8 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "UObject/ConstructorHelpers.h"
 #include "DawsPlayerCharacter.h"
+#include "DawsEnemyCharacter.h"
+#include "EngineUtils.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/GameInstance.h"
 #include "Kismet/GameplayStatics.h"
@@ -168,12 +170,28 @@ void ADawsStoryNPC::ApplyClothingColor()
 }
 FText ADawsStoryNPC::GetInteractionPrompt_Implementation() const
 {
+    if (NPCId == FName(TEXT("the_broker")) && GetGameInstance()) {
+        const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
+        if (Missions && Missions->GetCurrentMissionId() == TEXT("chapter05_finale")) {
+            for (TActorIterator<ADawsEnemyCharacter> It(GetWorld()); It; ++It)
+                if (It->IsSpecialTarget() && It->GetHealthRatio() > 0.0f)
+                    return FText::FromString(TEXT("Defeat the Broker enforcer before confronting him"));
+        }
+    }
     return FText::Format(NSLOCTEXT("DAWS", "TalkPrompt", "Press E to talk to {0}"), DisplayName);
 }
 void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
 {
     if (!Cast<ADawsPlayerCharacter>(InteractingActor) || !GetGameInstance()) return;
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+        if (NPCId == FName(TEXT("the_broker")) && Missions->GetCurrentMissionId() == TEXT("chapter05_finale")) {
+            for (TActorIterator<ADawsEnemyCharacter> It(GetWorld()); It; ++It) {
+                if (It->IsSpecialTarget() && It->GetHealthRatio() > 0.0f) {
+                    Missions->SetCurrentDialogue(FText::FromString(TEXT("The Broker: You cannot reach me while my enforcer stands. Take him down first.")));
+                    return;
+                }
+            }
+        }
         FText SpokenLine = DialogueLine;
         const FString ActiveMission = Missions->GetCurrentMissionId();
         if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter03_escort")) {
