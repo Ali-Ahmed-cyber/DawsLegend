@@ -39,32 +39,32 @@ void ADawsMissionTrigger::BeginPlay()
 }
 void ADawsMissionTrigger::RefreshMissionMarker()
 {
-    if (bMissionCompleted) { MarkerVisual->SetVisibility(false); SetActorEnableCollision(false); return; }
-    bool bActive = false;
+    FString CurrentId;
     if (GetGameInstance()) {
-        if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
-            const FString CurrentId = Missions->GetCurrentMissionId();
-            static const TCHAR* MissionOrder[] = {
-                TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
-                TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
-                TEXT("chapter03_relay"), TEXT("chapter03_escort"), TEXT("chapter03_broadcast"),
-                TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
-                TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
-            };
-            int32 MyIndex = INDEX_NONE, ActiveIndex = INDEX_NONE;
-            for (int32 Index = 0; Index < UE_ARRAY_COUNT(MissionOrder); ++Index) {
-                if (MissionId.ToString() == MissionOrder[Index]) MyIndex = Index;
-                if (CurrentId == MissionOrder[Index]) ActiveIndex = Index;
-            }
-            if (CurrentId == TEXT("campaign_complete") || (MyIndex != INDEX_NONE && ActiveIndex != INDEX_NONE && MyIndex < ActiveIndex)) {
-                bMissionCompleted = true;
-                MarkerVisual->SetVisibility(false);
-                SetActorEnableCollision(false);
-                return;
-            }
-            bActive = CurrentId == MissionId.ToString();
-        }
+        if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>())
+            CurrentId = Missions->GetCurrentMissionId();
     }
+    static const TCHAR* MissionOrder[] = {
+        TEXT("chapter01_plaza"), TEXT("chapter01_supply"), TEXT("chapter01_rescue"),
+        TEXT("chapter02_market"), TEXT("chapter02_clinic"), TEXT("chapter02_courier"),
+        TEXT("chapter03_relay"), TEXT("chapter03_escort"), TEXT("chapter03_broadcast"),
+        TEXT("chapter04_yard"), TEXT("chapter04_workers"), TEXT("chapter04_escape"),
+        TEXT("chapter05_evidence"), TEXT("chapter05_depot"), TEXT("chapter05_finale")
+    };
+    int32 MyIndex = INDEX_NONE, ActiveIndex = INDEX_NONE;
+    for (int32 Index = 0; Index < UE_ARRAY_COUNT(MissionOrder); ++Index) {
+        if (MissionId.ToString() == MissionOrder[Index]) MyIndex = Index;
+        if (CurrentId == MissionOrder[Index]) ActiveIndex = Index;
+    }
+    if (CurrentId == TEXT("campaign_complete") || (MyIndex != INDEX_NONE && ActiveIndex != INDEX_NONE && MyIndex < ActiveIndex)) {
+        bMissionCompleted = true;
+        MarkerVisual->SetVisibility(false);
+        SetActorEnableCollision(false);
+        return;
+    }
+    bMissionCompleted = false;
+    SetActorEnableCollision(true);
+    const bool bActive = CurrentId == MissionId.ToString();
     MarkerVisual->SetVisibility(true);
     if (UMaterialInstanceDynamic* MarkerMat = UMaterialInstanceDynamic::Create(MarkerVisual->GetMaterial(0), this)) {
         MarkerMat->SetVectorParameterValue(TEXT("Color"), bActive ? FLinearColor(0.04f,0.95f,0.70f) : FLinearColor(0.18f,0.22f,0.23f));
