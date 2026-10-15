@@ -26,10 +26,12 @@ void ADawsHUD::DrawOptionsPanel(float W, float H, const ADawsPlayerController* D
 {
     if (!DawsPC) return;
     DrawTextLine(TEXT("OPTIONS"), W*0.5f-85.0f, H*0.27f, 1.7f, FLinearColor(0.15f,0.95f,0.78f));
-    DrawTextLine(FString::Printf(TEXT("%s Mouse sensitivity: %.1f"), DawsPC->GetSelectedSetting()==0 ? TEXT(">") : TEXT(" "), DawsPC->GetMouseSensitivity()), W*0.5f-180.0f, H*0.40f, 0.95f, FLinearColor::White);
-    DrawTextLine(FString::Printf(TEXT("%s Camera FOV: %.0f"), DawsPC->GetSelectedSetting()==1 ? TEXT(">") : TEXT(" "), DawsPC->GetCameraFOV()), W*0.5f-180.0f, H*0.47f, 0.95f, FLinearColor::White);
-    DrawTextLine(FString::Printf(TEXT("%s Subtitles: %s"), DawsPC->GetSelectedSetting()==2 ? TEXT(">") : TEXT(" "), DawsPC->AreSubtitlesEnabled() ? TEXT("ON") : TEXT("OFF")), W*0.5f-180.0f, H*0.54f, 0.95f, FLinearColor::White);
-    DrawTextLine(TEXT("UP/DOWN SELECT   LEFT/RIGHT CHANGE   F1 CLOSE   ESC RESUME"), W*0.5f-255.0f, H*0.68f, 0.75f, FLinearColor::White);
+    DrawTextLine(FString::Printf(TEXT("%s Mouse sensitivity: %.1f"), DawsPC->GetSelectedSetting()==0 ? TEXT(">") : TEXT(" "), DawsPC->GetMouseSensitivity()), W*0.5f-180.0f, H*0.38f, 0.95f, FLinearColor::White);
+    DrawTextLine(FString::Printf(TEXT("%s Camera FOV: %.0f"), DawsPC->GetSelectedSetting()==1 ? TEXT(">") : TEXT(" "), DawsPC->GetCameraFOV()), W*0.5f-180.0f, H*0.44f, 0.95f, FLinearColor::White);
+    DrawTextLine(FString::Printf(TEXT("%s Subtitles: %s"), DawsPC->GetSelectedSetting()==2 ? TEXT(">") : TEXT(" "), DawsPC->AreSubtitlesEnabled() ? TEXT("ON") : TEXT("OFF")), W*0.5f-180.0f, H*0.50f, 0.95f, FLinearColor::White);
+    const TCHAR* QualityLabel = DawsPC->GetGraphicsQuality() == 0 ? TEXT("LOW") : (DawsPC->GetGraphicsQuality() == 1 ? TEXT("MEDIUM") : TEXT("HIGH"));
+    DrawTextLine(FString::Printf(TEXT("%s Graphics quality: %s"), DawsPC->GetSelectedSetting()==3 ? TEXT(">") : TEXT(" "), QualityLabel), W*0.5f-180.0f, H*0.56f, 0.95f, FLinearColor::White);
+    DrawTextLine(TEXT("UP/DOWN SELECT   LEFT/RIGHT CHANGE   F1 CLOSE   ESC RESUME"), W*0.5f-255.0f, H*0.70f, 0.75f, FLinearColor::White);
 }
 void ADawsHUD::DrawHUD()
 {
