@@ -32,7 +32,7 @@
 - F9: load checkpoint
 - F10: restart the campaign after the final mission
 - Esc: pause/resume
-- F1: options (mouse sensitivity, camera field of view, subtitles)
+- F1: options (mouse sensitivity, camera field of view, subtitles, low/medium/high graphics)
 - Arrow keys: navigate and change options
 - Gamepad: left stick move/steer, right stick camera, left trigger aim, right trigger fire, face buttons interact/jump/reload, left shoulder sprint
 
