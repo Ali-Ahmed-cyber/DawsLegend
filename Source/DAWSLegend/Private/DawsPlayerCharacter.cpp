@@ -256,3 +256,22 @@ void ADawsPlayerCharacter::RespawnAtCheckpoint()
     GetCharacterMovement()->SetMovementMode(MOVE_Walking);
     if (APlayerController* PC = Cast<APlayerController>(Controller)) EnableInput(PC);
 }
+
+void ADawsPlayerCharacter::ResetForNewCampaign()
+{
+    if (GetWorld()) GetWorld()->GetTimerManager().ClearTimer(RespawnTimer);
+    SetActorLocation(InitialSpawnLocation, false, nullptr, ETeleportType::TeleportPhysics);
+    SetActorRotation(FRotator::ZeroRotator);
+    GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+    if (HealthComponent) {
+        HealthComponent->CurrentHealth = HealthComponent->MaxHealth;
+        HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
+    }
+    if (CombatComponent) {
+        CombatComponent->MagazineAmmo = CombatComponent->MagazineCapacity;
+        CombatComponent->ReserveAmmo = 72;
+        CombatComponent->OnAmmoChanged.Broadcast(CombatComponent->MagazineAmmo, CombatComponent->ReserveAmmo);
+    }
+    EnableInput(Cast<APlayerController>(Controller));
+}
