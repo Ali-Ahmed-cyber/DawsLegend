@@ -9,11 +9,11 @@
 - Third-person character with a white-kit silhouette, shoulder trim, chest crest, backpack, belt, boots, animated limbs, plus movement, jump, sprint, aim zoom, weapon trace fire, magazine and reload logic.
 - Player and enemy health components with damage/death events.
 - Runtime-generated city environment with an extended road, building blocks, cover, streetlights, market stalls, tea-corner seating, palm trees, rooftop tanks, a clinic cross, radio relay mast, industrial-yard fencing, a river-side route, cargo containers, the final depot district and mission beacons.
-- A title screen and start flow; a 15-step sequential campaign across five chapters; mission-specific supply/evidence/hostile-count and named-NPC conversation tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; task-progress autosaves and collected-pickup persistence that avoid mission softlocks after death or restart; and persistent options.
+- A title screen and start flow; a 30-mission sequential campaign across six acts; mission-specific supply/evidence/hostile-count and named-NPC conversation tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; task-progress autosaves and collected-pickup persistence that avoid mission softlocks after death or restart; and persistent options.
 - Four enemy archetypes with different health, movement speed and damage; mission-gated combat; ranged pressure, close-range attacks, moving player/enemy shot tracers, hit-marker feedback, death handling, and checkpoint respawn.
 - Live objective waypoint distance/direction, named district labels, health/ammo/vehicle durability bars, and a restartable campaign world.
 - Arcade driving with enter/exit interaction, speed-based wheel rotation and a chase camera.
-- Eight original supporting characters plus Tawfiq and Amjad as persistent yellow-kit and black-kit companions with follow movement and contextual dialogue; campaign story bible and character roster.
+- Eleven original supporting characters plus Tawfiq and Amjad as persistent yellow-kit and black-kit companions with follow movement and contextual dialogue; campaign story bible and character roster.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
 
 ## Local build and package (Windows + Unreal Engine 5.4)
