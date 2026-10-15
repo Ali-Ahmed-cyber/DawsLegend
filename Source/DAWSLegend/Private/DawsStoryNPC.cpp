@@ -210,6 +210,14 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
             else if (ActiveMission == TEXT("chapter04_escort")) SpokenLine = FText::FromString(TEXT("I'll cover the rear. Keep the technician close and move toward the broadcast marker."));
             else if (ActiveMission == TEXT("chapter06_river_road")) SpokenLine = FText::FromString(TEXT("The river road is exposed. Use the truck if the route gets too hot."));
             else if (ActiveMission == TEXT("chapter06_depot")) SpokenLine = FText::FromString(TEXT("This is the last stronghold. Stay mobile and use the cover around the depot."));
+            else if (ActiveMission == TEXT("chapter01_driver")) SpokenLine = FText::FromString(TEXT("That pickup is flying, ya zalameh! Watch the carts and don't let the guards box us in."));
+            else if (ActiveMission == TEXT("chapter02_sami")) SpokenLine = FText::FromString(TEXT("Sami looks scared, not proud. Give him a chance to explain himself."));
+            else if (ActiveMission == TEXT("chapter03_tawfiq")) SpokenLine = FText::FromString(TEXT("Okay, the shortcut was my idea. If we get out of this, I owe Bashir a proper apology."));
+            else if (ActiveMission == TEXT("chapter03_bashir")) SpokenLine = FText::FromString(TEXT("Nobody leaves Bashir behind. He'd charge us for the rescue if he wasn't stuck in there."));
+            else if (ActiveMission == TEXT("chapter04_charity")) SpokenLine = FText::FromString(TEXT("Look at all these cameras. The Broker wants the city to see his good side."));
+            else if (ActiveMission == TEXT("chapter05_roadblocks")) SpokenLine = FText::FromString(TEXT("Fake roadblocks, real trouble. Idris, call us the safe turn!"));
+            else if (ActiveMission == TEXT("chapter05_tawfiq_debt")) SpokenLine = FText::FromString(TEXT("I messed up, brother. I won't hide behind a joke this time."));
+            else if (ActiveMission == TEXT("chapter06_witness_run")) SpokenLine = FText::FromString(TEXT("Getting the witnesses home matters more than looking brave."));
             else SpokenLine = FText::FromString(TEXT("We started this together. Keep checking the evidence and don't trust the Broker's promises."));
         } else if (NPCId == FName(TEXT("amjad"))) {
             if (ActiveMission == TEXT("chapter01_plaza")) SpokenLine = FText::FromString(TEXT("I checked the side streets. The convoy trail leads away from the main road."));
@@ -218,6 +226,16 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
             else if (ActiveMission == TEXT("chapter04_relay")) SpokenLine = FText::FromString(TEXT("The relay is quiet. Find the technician and get the signal moving again."));
             else if (ActiveMission == TEXT("chapter05_workers")) SpokenLine = FText::FromString(TEXT("Listen to the workers. Their account could connect the yard to the missing cargo."));
             else if (ActiveMission == TEXT("chapter06_dawn")) SpokenLine = FText::FromString(TEXT("Make the Broker answer for this. Then get the verified evidence to Hiba."));
+            else if (ActiveMission == TEXT("chapter01_radio")) SpokenLine = FText::FromString(TEXT("Hiba's voice is steady, but that recording shook her. Let's not waste the lead."));
+            else if (ActiveMission == TEXT("chapter01_driver")) SpokenLine = FText::FromString(TEXT("The token has a depot code. This driver didn't pick it up from the street."));
+            else if (ActiveMission == TEXT("chapter02_convoy")) SpokenLine = FText::FromString(TEXT("The recorder time stamp proves the convoy changed direction before the blackout."));
+            else if (ActiveMission == TEXT("chapter03_clinic")) SpokenLine = FText::FromString(TEXT("The attack began when the generator failed. The timing was planned."));
+            else if (ActiveMission == TEXT("chapter03_bashir")) SpokenLine = FText::FromString(TEXT("The ledger's torn edge is clean. They removed a page carefully, not in a panic."));
+            else if (ActiveMission == TEXT("chapter04_ferry")) SpokenLine = FText::FromString(TEXT("These parcel numbers match the depot ledger. The land deal and missing cargo are connected."));
+            else if (ActiveMission == TEXT("chapter04_charity")) SpokenLine = FText::FromString(TEXT("That handoff looked rehearsed. Watch Muntasir's hands, not the cameras."));
+            else if (ActiveMission == TEXT("chapter05_ledger")) SpokenLine = FText::FromString(TEXT("The carbon copy can prove who changed the order. Keep it flat and dry."));
+            else if (ActiveMission == TEXT("chapter06_witness_run")) SpokenLine = FText::FromString(TEXT("The recordings are copies. The witnesses are people. We protect the people first."));
+            else if (ActiveMission == TEXT("chapter06_depot")) SpokenLine = FText::FromString(TEXT("The neighborhood is bringing water and bandages. We're holding this depot together."));
             else SpokenLine = FText::FromString(TEXT("Keep your eyes open. The route changes, but the clues are all connected."));
         }
         Missions->SetCurrentDialogue(SpokenLine);
