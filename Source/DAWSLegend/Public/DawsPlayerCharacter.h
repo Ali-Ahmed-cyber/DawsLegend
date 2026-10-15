@@ -31,6 +31,7 @@ protected:
     void FireWeapon();
     void ReloadWeapon();
     void InteractWithWorld();
+    void SetCameraFOV(float NewFOV);
     void SaveCheckpoint();
     void LoadCheckpoint();
     UFUNCTION() void HandlePlayerDeath();
