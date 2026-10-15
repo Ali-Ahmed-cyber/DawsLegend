@@ -7,6 +7,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "DawsPlayerCharacter.h"
+#include "DawsMissionSubsystem.h"
+#include "Engine/GameInstance.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
 ADawsEnemyCharacter::ADawsEnemyCharacter()
@@ -64,6 +66,9 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
 }
 void ADawsEnemyCharacter::HandleDeath()
 {
+    if (GetGameInstance()) {
+        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RegisterTaskProgress(TEXT("defeat"));
+    }
     SetActorEnableCollision(false);
     SetLifeSpan(0.2f);
 }
