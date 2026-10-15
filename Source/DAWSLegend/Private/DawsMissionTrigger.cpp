@@ -53,7 +53,7 @@ void ADawsMissionTrigger::RefreshMissionMarker()
             };
             int32 MyIndex = INDEX_NONE, ActiveIndex = INDEX_NONE;
             for (int32 Index = 0; Index < UE_ARRAY_COUNT(MissionOrder); ++Index) {
-                if (MissionId == MissionOrder[Index]) MyIndex = Index;
+                if (MissionId.ToString() == MissionOrder[Index]) MyIndex = Index;
                 if (CurrentId == MissionOrder[Index]) ActiveIndex = Index;
             }
             if (CurrentId == TEXT("campaign_complete") || (MyIndex != INDEX_NONE && ActiveIndex != INDEX_NONE && MyIndex < ActiveIndex)) {
