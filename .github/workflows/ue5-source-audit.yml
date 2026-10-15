@@ -79,6 +79,7 @@ jobs:
           assert "SetStatusMessage" in player and "CHECKPOINT SAVED" in player and "MISSION COMPLETE" in (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert "BindAction(\"Jump\", IE_Pressed" in player and "StartJump" in player
           assert "BindAction(\"Aim\", IE_Pressed" in player and "IsAiming" in hud
+          assert "RecoilAmount" in player and "ConsumeShot()) return" in player
           assert "StartGame" in controller and "ContinueGame" in controller and "F2 CONTINUE" in hud
           assert "RestartCampaign" in controller and "ResetForNewCampaign" in player
           assert "RestartCampaignWorld" in controller and "SpawnCampaignWorldActors" in (source / "Private/DawsGameMode.cpp").read_text()
