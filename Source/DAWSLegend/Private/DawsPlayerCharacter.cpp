@@ -18,6 +18,8 @@
 #include "GameFramework/PlayerController.h"
 #include "DawsPlayerController.h"
 #include "TimerManager.h"
+#include "EngineUtils.h"
+#include "DawsMissionTrigger.h"
 ADawsPlayerCharacter::ADawsPlayerCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -171,6 +173,8 @@ void ADawsPlayerCharacter::LoadCheckpoint()
         float SavedHealth = 100.0f;
         if (Saves->LoadCheckpoint(this, Chapter, Mission, SavedHealth)) {
             if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RestoreCampaignAtMission(Mission);
+                for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
+            for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) It->RefreshMissionMarker();
             if (!HealthComponent) return;
             HealthComponent->CurrentHealth = FMath::Clamp(SavedHealth, 1.0f, HealthComponent->MaxHealth);
             HealthComponent->OnHealthChanged.Broadcast(HealthComponent->CurrentHealth, HealthComponent->MaxHealth);
