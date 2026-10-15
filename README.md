@@ -8,7 +8,7 @@
 - UE5 C++ runtime module, game mode, player controller setup and custom HUD.
 - Third-person character with a white-kit silhouette, shoulder trim, chest crest, backpack, belt, boots, animated limbs, plus movement, jump, sprint, aim zoom, weapon trace fire, magazine and reload logic.
 - Player and enemy health components with damage/death events.
-- Runtime-generated city environment with an extended road, building blocks, cover, streetlights, market stalls, palm trees, rooftop tanks and mission beacons.
+- Runtime-generated city environment with an extended road, building blocks, cover, streetlights, market stalls, palm trees, rooftop tanks, cargo containers, the final depot district, a broadcast mast and mission beacons.
 - A title screen and start flow; a 15-step sequential campaign across five chapters; mission-specific supply/evidence/hostile-count and named-NPC conversation tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; task-progress autosaves that avoid mission softlocks after death; and persistent options.
 - Four enemy archetypes with different health, movement speed and damage; mission-gated combat; ranged pressure, close-range attacks, death handling, and checkpoint respawn.
 - Live objective waypoint distance and direction, health/ammo/vehicle durability bars, and a restartable campaign world.
@@ -34,7 +34,7 @@
 - Esc: pause/resume
 - F1: options (mouse sensitivity, camera field of view, subtitles)
 - Arrow keys: navigate and change options
-- Gamepad: left stick move/steer, right stick camera, face buttons interact/jump/reload, shoulders sprint
+- Gamepad: left stick move/steer, right stick camera, left trigger aim, right trigger fire, face buttons interact/jump/reload, left shoulder sprint
 
 ## Final character-photo rule
 - DINRITO: user photo wearing the white Real Madrid shirt.
