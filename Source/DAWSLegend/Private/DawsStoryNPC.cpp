@@ -67,6 +67,7 @@ void ADawsStoryNPC::Interact_Implementation(AActor* InteractingActor)
     if (!Cast<ADawsPlayerCharacter>(InteractingActor) || !GetGameInstance()) return;
     if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
         Missions->SetCurrentDialogue(DialogueLine);
+        Missions->RegisterNPCInteraction(NPCId.ToString());
         bHasTalked = true;
     }
 }
