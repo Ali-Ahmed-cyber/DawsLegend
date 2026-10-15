@@ -110,6 +110,7 @@ void ADawsPlayerCharacter::Tick(float DeltaSeconds)
     VisualAnimationTime += DeltaSeconds;
     StatusMessageTime = FMath::Max(0.0f, StatusMessageTime - DeltaSeconds);
     RecoilAmount = FMath::FInterpTo(RecoilAmount, 0.0f, DeltaSeconds, 22.0f);
+    HitMarkerTime = FMath::Max(0.0f, HitMarkerTime - DeltaSeconds);
     const float Speed = GetVelocity().Size2D();
     const float Swing = Speed > 12.0f ? FMath::Sin(VisualAnimationTime * (Speed > SprintSpeed ? 13.0f : 9.0f)) * (Speed > SprintSpeed ? 28.0f : 18.0f) : 0.0f;
     if (LeftArmVisual) LeftArmVisual->SetRelativeRotation(FRotator(Swing,0,0));
@@ -200,6 +201,7 @@ void ADawsPlayerCharacter::FireWeapon()
     if (!bHit) return;
     if (EnemyTarget) {
         EnemyTarget->ReceiveWeaponDamage(WeaponDamage);
+        HitMarkerTime = 0.16f;
         return;
     }
     if (AActor* HitActor = Hit.GetActor()) {
