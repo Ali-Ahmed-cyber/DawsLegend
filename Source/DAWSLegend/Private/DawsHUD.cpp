@@ -121,7 +121,8 @@ void ADawsHUD::DrawHUD()
             DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
             const float HealthRatio = Player->HealthComponent->MaxHealth > 0.0f ? FMath::Clamp(Player->HealthComponent->CurrentHealth/Player->HealthComponent->MaxHealth,0.0f,1.0f) : 0.0f;
             Canvas->K2_DrawLine(FVector2D(W-245,58), FVector2D(W-35,58), 8.0f, FLinearColor(0.12f,0.12f,0.12f));
-            Canvas->K2_DrawLine(FVector2D(W-245,58), FVector2D(W-245+210.0f*HealthRatio,58), 5.0f, FLinearColor(0.20f,0.90f,0.42f));
+            const FLinearColor HealthBarColor = HealthRatio < 0.25f ? FLinearColor(0.95f,0.12f,0.10f) : (HealthRatio < 0.5f ? FLinearColor(0.98f,0.62f,0.12f) : FLinearColor(0.20f,0.90f,0.42f));
+            Canvas->K2_DrawLine(FVector2D(W-245,58), FVector2D(W-245+210.0f*HealthRatio,58), 5.0f, HealthBarColor);
             if (Player->HealthComponent->CurrentHealth <= 0.0f) DrawTextLine(TEXT("DOWN — RESPAWNING"), W*0.5f-125.0f, H*0.42f, 1.25f, FLinearColor(1.0f,0.18f,0.12f));
         }
         if (Player->CombatComponent) {
