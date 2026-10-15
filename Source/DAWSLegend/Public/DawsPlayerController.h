@@ -14,6 +14,7 @@ public:
     float GetCameraFOV() const { return CameraFOV; }
     bool AreSubtitlesEnabled() const { return bSubtitlesEnabled; }
     int32 GetSelectedSetting() const { return SelectedSetting; }
+    int32 GetGraphicsQuality() const { return GraphicsQuality; }
 protected:
     virtual void BeginPlay() override;
     virtual void SetupInputComponent() override;
@@ -25,6 +26,7 @@ private:
     float CameraFOV = 90.0f;
     bool bSubtitlesEnabled = true;
     int32 SelectedSetting = 0;
+    int32 GraphicsQuality = 1;
     void TogglePause();
     void StartGame();
     void StartNewCampaign();
@@ -36,6 +38,7 @@ private:
     void AdjustSettingLeft();
     void AdjustSettingRight();
     void ApplyCameraFOV();
+    void ApplyGraphicsQuality();
     void LoadOptions();
     void SaveOptions();
 };
