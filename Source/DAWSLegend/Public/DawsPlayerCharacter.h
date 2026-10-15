@@ -27,6 +27,7 @@ protected:
     void StopSprint();
     void FireWeapon();
     void ReloadWeapon();
+    void InteractWithWorld();
     void SaveCheckpoint();
     void LoadCheckpoint();
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Camera")
