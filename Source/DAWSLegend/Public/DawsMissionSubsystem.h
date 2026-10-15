@@ -37,7 +37,7 @@ public:
     UFUNCTION(BlueprintPure, Category="Dialogue")
     FText GetCurrentDialogue() const { return CurrentDialogue; }
     UFUNCTION(BlueprintPure, Category="Missions")
-    const TArray<FDawsMissionObjective>& GetObjectives() const { return CurrentObjectives; }
+    TArray<FDawsMissionObjective> GetObjectives() const { return CurrentObjectives; }
     UFUNCTION(BlueprintPure, Category="Missions")
     bool IsMissionComplete() const;
 private:
