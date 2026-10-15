@@ -86,6 +86,7 @@ jobs:
           assert "RegisterNPCInteraction" in mission and "RegisterNPCInteraction" in story_npc
           assert "chapter03_escort" in story_npc and "VInterpTo" in story_npc
           assert "LeftArmVisual" in story_npc and "RightLegVisual" in story_npc
+          assert "IdleBob" in story_npc and "VisualAnimationTime" in story_npc
           assert "IsEscortReady" in (source / "Private/DawsMissionTrigger.cpp").read_text()
           assert "BindAxis(\"Turn\", this, &ADawsVehiclePawn::TurnCamera)" in (source / "Private/DawsVehiclePawn.cpp").read_text()
           assert "SetCurrentDialogue" in (source / "Public/DawsMissionSubsystem.h").read_text()
