@@ -1,5 +1,6 @@
 #include "DawsSaveSubsystem.h"
 #include "DawsSaveGame.h"
+#include "DawsMissionSubsystem.h"
 #include "Kismet/GameplayStatics.h"
 
 bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& MissionId, AActor* PlayerActor, float PlayerHealth)
@@ -12,11 +13,14 @@ bool UDawsSaveSubsystem::SaveCheckpoint(int32 StoryChapter, const FString& Missi
     Save->PlayerLocation = PlayerActor->GetActorLocation();
     Save->PlayerRotation = PlayerActor->GetActorRotation();
     Save->PlayerHealth = FMath::Clamp(PlayerHealth, 0.0f, 100.0f);
+    if (GetGameInstance()) {
+        if (const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Save->CurrentTaskProgress = Missions->GetTaskProgress();
+    }
     if (!UGameplayStatics::SaveGameToSlot(Save, SaveSlotName, UserIndex)) return false;
     CachedSave = Save;
     return true;
 }
-bool UDawsSaveSubsystem::LoadCheckpoint(AActor* PlayerActor, int32& OutStoryChapter, FString& OutMissionId, float& OutPlayerHealth)
+bool UDawsSaveSubsystem::LoadCheckpoint(AActor* PlayerActor, int32& OutStoryChapter, FString& OutMissionId, float& OutPlayerHealth, int32& OutTaskProgress)
 {
     if (!UGameplayStatics::DoesSaveGameExist(SaveSlotName, UserIndex)) return false;
     UDawsSaveGame* Save = Cast<UDawsSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, UserIndex));
@@ -25,6 +29,7 @@ bool UDawsSaveSubsystem::LoadCheckpoint(AActor* PlayerActor, int32& OutStoryChap
     OutStoryChapter = Save->StoryChapter;
     OutMissionId = Save->CurrentMissionId;
     OutPlayerHealth = Save->PlayerHealth;
+    OutTaskProgress = Save->CurrentTaskProgress;
     if (PlayerActor)
     {
         PlayerActor->SetActorLocation(Save->PlayerLocation);
