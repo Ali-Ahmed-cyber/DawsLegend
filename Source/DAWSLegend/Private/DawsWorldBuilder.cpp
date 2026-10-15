@@ -104,6 +104,22 @@ void ADawsWorldBuilder::BuildEnvironment()
         AddBlock(FVector(650,Y+650.0f,50.0f), FVector(1.1f,0.7f,0.5f), FLinearColor(0.32f,0.22f,0.14f));
     }
 
+    // Final depot district: warehouses, cargo containers and a broadcast mast.
+    AddBlock(FVector(-1280,9520,245), FVector(6.5f,6.0f,4.8f), FLinearColor(0.48f,0.37f,0.25f));
+    AddBlock(FVector(1280,9960,275), FVector(6.8f,6.5f,5.4f), FLinearColor(0.38f,0.42f,0.40f));
+    AddBlock(FVector(-1280,9520,490), FVector(5.2f,4.8f,0.22f), FLinearColor(0.15f,0.17f,0.17f), false);
+    AddBlock(FVector(1280,9960,520), FVector(5.4f,5.2f,0.22f), FLinearColor(0.15f,0.17f,0.17f), false);
+    const FVector ContainerLocations[6] = {
+        FVector(-650,9250,75), FVector(650,9250,75), FVector(-650,9700,75),
+        FVector(650,9700,75), FVector(-650,10150,75), FVector(650,10150,75)
+    };
+    const FLinearColor ContainerColors[3] = {
+        FLinearColor(0.12f,0.26f,0.34f), FLinearColor(0.35f,0.18f,0.12f), FLinearColor(0.18f,0.30f,0.22f)
+    };
+    for (int32 Index = 0; Index < UE_ARRAY_COUNT(ContainerLocations); ++Index)
+        AddBlock(ContainerLocations[Index], FVector(1.25f,2.0f,0.7f), ContainerColors[Index%3]);
+    AddPrimitive(CylinderMesh, FVector(780,10400,340), FVector(0.14f,0.14f,6.8f), FLinearColor(0.14f,0.16f,0.17f), false);
+    AddPrimitive(SphereMesh, FVector(780,10400,685), FVector(0.42f,0.42f,0.42f), FLinearColor(0.95f,0.68f,0.20f), false);
     // Street furniture and local character details along the whole route.
     for (int32 I = 0; I < 8; ++I) {
         const float Y = 350.0f + I * 1350.0f;
