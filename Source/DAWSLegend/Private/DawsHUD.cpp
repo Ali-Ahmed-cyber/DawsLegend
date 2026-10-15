@@ -5,6 +5,8 @@
 #include "DawsPlayerCharacter.h"
 #include "DawsHealthComponent.h"
 #include "DawsCombatComponent.h"
+#include "DawsMissionSubsystem.h"
+#include "Engine/GameInstance.h"
 void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color)
 {
     if (!Canvas || !GEngine) return;
@@ -22,7 +24,13 @@ void ADawsHUD::DrawHUD()
     DrawTextLine(TEXT("DAWS LEGEND"), 42, 32, 1.25f, FLinearColor(0.15f,0.95f,0.78f));
     DrawTextLine(TEXT("STORY CAMPAIGN  |  CHAPTER 01"), 44, 68, 0.78f, FLinearColor::White);
     DrawTextLine(TEXT("WASD MOVE   SHIFT SPRINT   SPACE JUMP"), 44, H-72, 0.78f, FLinearColor::White);
-    DrawTextLine(TEXT("OBJECTIVE: SECURE THE PLAZA"), 44, H-108, 0.86f, FLinearColor(1.0f,0.72f,0.25f));
+    if (GetWorld() && GetWorld()->GetGameInstance()) {
+        if (const UDawsMissionSubsystem* Missions = GetWorld()->GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+            DrawTextLine(FString::Printf(TEXT("MISSION: %s"), *Missions->GetCurrentMissionTitle().ToString()), 44, H-145, 0.84f, FLinearColor(1.0f,0.72f,0.25f));
+            const TArray<FDawsMissionObjective>& Objectives = Missions->GetObjectives();
+            if (Objectives.Num() > 0) DrawTextLine(FString::Printf(TEXT("OBJECTIVE: %s"), *Objectives[0].Description.ToString()), 44, H-108, 0.78f, FLinearColor::White);
+        }
+    }
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
         if (Player->HealthComponent) DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
         if (Player->CombatComponent) DrawTextLine(FString::Printf(TEXT("AMMO  %d / %d"), Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo), W-245, 68, 0.9f, FLinearColor::White);
