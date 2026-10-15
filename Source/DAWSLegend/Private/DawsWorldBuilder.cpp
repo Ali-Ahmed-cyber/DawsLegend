@@ -178,6 +178,20 @@ void ADawsWorldBuilder::BuildEnvironment()
         AddBlock(ContainerLocations[Index], FVector(1.25f,2.0f,0.7f), ContainerColors[Index%3]);
     AddPrimitive(CylinderMesh, FVector(780,10400,340), FVector(0.14f,0.14f,6.8f), FLinearColor(0.14f,0.16f,0.17f), false);
     AddPrimitive(SphereMesh, FVector(780,10400,685), FVector(0.42f,0.42f,0.42f), FLinearColor(0.95f,0.68f,0.20f), false);
+    // Final riverfront district: a ferry landing, a small customs office and floodlights for the last chase.
+    AddBlock(FVector(0,12100,-8), FVector(14.0f,8.0f,0.10f), FLinearColor(0.12f,0.19f,0.20f), false);
+    AddBlock(FVector(-1180,11920,190), FVector(4.8f,3.8f,3.8f), FLinearColor(0.62f,0.49f,0.32f));
+    AddBlock(FVector(1180,12250,220), FVector(5.2f,4.0f,4.4f), FLinearColor(0.37f,0.42f,0.40f));
+    AddBlock(FVector(-1180,11920,390), FVector(4.0f,3.1f,0.18f), FLinearColor(0.12f,0.18f,0.18f), false);
+    AddBlock(FVector(1180,12250,440), FVector(4.4f,3.4f,0.18f), FLinearColor(0.12f,0.18f,0.18f), false);
+    for (int32 Floodlight = 0; Floodlight < 4; ++Floodlight) {
+        const float X = Floodlight < 2 ? -850.0f : 850.0f;
+        const float Y = 11750.0f + (Floodlight % 2) * 950.0f;
+        AddPrimitive(CylinderMesh, FVector(X,Y,250), FVector(0.10f,0.10f,2.5f), FLinearColor(0.16f,0.18f,0.18f), false);
+        AddBlock(FVector(X,Y,505), FVector(0.48f,0.22f,0.12f), FLinearColor(0.96f,0.78f,0.42f), false);
+    }
+    AddBlock(FVector(0,12400,90), FVector(4.2f,0.12f,0.12f), FLinearColor(0.82f,0.70f,0.44f), false);
+
     // Street furniture and local character details along the whole route.
     for (int32 I = 0; I < 8; ++I) {
         const float Y = 350.0f + I * 1350.0f;
