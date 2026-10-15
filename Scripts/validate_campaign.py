@@ -54,6 +54,7 @@ assert "FObjectFinder<UStaticMesh> Cylinder" in npc_cpp and "Cylinder.Succeeded(
 assert "SetOverallScalabilityLevel" in controller and "GraphicsQuality" in controller, "Graphics quality setting must be connected"
 vehicle_code = read("Source/DAWSLegend/Private/DawsVehiclePawn.cpp")
 assert "WheelSpin" in vehicle_code and "Wheel->AddLocalRotation" in vehicle_code, "Vehicle wheels must animate while driving"
+assert "HeadlightsVisual" in vehicle_code and "TailLightsVisual" in vehicle_code, "Vehicle front/rear lights are missing"
 save_code = read("Source/DAWSLegend/Private/DawsSaveSubsystem.cpp")
 game_mode = read("Source/DAWSLegend/Private/DawsGameMode.cpp")
 assert "CollectedPickupIds" in save_code and "IsPickupCollected" in save_code, "Collected mission pickups must persist"
