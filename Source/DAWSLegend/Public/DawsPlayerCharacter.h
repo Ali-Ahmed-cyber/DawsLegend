@@ -16,6 +16,7 @@ public:
     ADawsPlayerCharacter();
     void SetCameraFOV(float NewFOV);
     bool IsAiming() const { return bIsAiming; }
+    bool IsHitMarkerVisible() const { return HitMarkerTime > 0.0f; }
     void LoadCheckpoint();
     void ResetForNewCampaign();
     FText GetTargetInteractionPrompt() const;
@@ -49,6 +50,7 @@ protected:
     FVector InitialSpawnLocation = FVector::ZeroVector;
     float VisualAnimationTime = 0.0f;
     float RecoilAmount = 0.0f;
+    float HitMarkerTime = 0.0f;
     bool bIsAiming = false;
     FString StatusMessage;
     float StatusMessageTime = 0.0f;
