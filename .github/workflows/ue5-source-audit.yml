@@ -65,6 +65,7 @@ jobs:
           controller = (source / "Private/DawsPlayerController.cpp").read_text()
           hud = (source / "Private/DawsHUD.cpp").read_text()
           assert "InteractWithWorld" in player and "FireWeapon" in player
+          assert "BindAction(\"Jump\", IE_Pressed" in player and "StartJump" in player
           assert "StartGame" in controller and "ContinueGame" in controller and "F2 CONTINUE" in hud
           assert "AdjustSettingRight" in controller and "MouseSensitivity" in controller
           assert "bSubtitlesEnabled" in controller and "Camera FOV" in hud
