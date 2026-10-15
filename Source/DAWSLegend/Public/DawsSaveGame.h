@@ -22,6 +22,8 @@ public:
     float PlayerHealth = 100.0f;
     UPROPERTY(BlueprintReadWrite, Category="Progress")
     int32 CurrentTaskProgress = 0;
+    UPROPERTY(BlueprintReadWrite, Category="Progress")
+    TArray<FString> CollectedPickupIds;
     UPROPERTY(BlueprintReadWrite, Category="Player")
     int32 MagazineAmmo = 12;
     UPROPERTY(BlueprintReadWrite, Category="Player")
