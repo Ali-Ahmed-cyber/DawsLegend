@@ -59,6 +59,8 @@ jobs:
           world_builder = (source / "Private/DawsWorldBuilder.cpp").read_text()
           assert "AddPrimitive" in world_builder and "Street furniture" in world_builder
           assert "SpawnActor<ADawsEnemyCharacter>" in game_mode
+          enemy_code = (source / "Private/DawsEnemyCharacter.cpp").read_text()
+          assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
           assert "SpawnActor<ADawsPickup>" in game_mode
           assert "SpawnActor<ADawsStoryNPC>" in game_mode
           assert "SpawnActor<ADawsVehiclePawn>" in game_mode
