@@ -10,6 +10,7 @@
 #include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
 #include "DawsPickup.h"
+#include "DawsSaveSubsystem.h"
 #include "Engine/GameInstance.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
@@ -100,7 +101,15 @@ void ADawsEnemyCharacter::ReceiveWeaponDamage(float Amount)
 void ADawsEnemyCharacter::HandleDeath()
 {
     if (GetGameInstance()) {
-        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) Missions->RegisterTaskProgress(TEXT("defeat"));
+        if (UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
+            if (Missions->GetCurrentTaskType() == TEXT("defeat")) {
+                Missions->RegisterTaskProgress(TEXT("defeat"));
+                if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(this, 0))) {
+                    const float PlayerHealth = Player->HealthComponent ? Player->HealthComponent->CurrentHealth : 100.0f;
+                    if (UDawsSaveSubsystem* Saves = GetGameInstance()->GetSubsystem<UDawsSaveSubsystem>()) Saves->SaveTaskProgress(Player, PlayerHealth);
+                }
+            }
+        }
     }
     if (GetWorld()) {
         const int32 LootRoll = FMath::RandRange(0, 99);
