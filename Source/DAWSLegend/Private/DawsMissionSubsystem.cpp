@@ -63,10 +63,10 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
         TEXT("reach"), TEXT("collect"), TEXT("reach"),
         TEXT("evidence"), TEXT("defeat"), TEXT("defeat"),
         TEXT("reach"), TEXT("reach"), TEXT("reach"),
-        TEXT("reach"), TEXT("evidence"), TEXT("defeat"),
+        TEXT("reach"), TEXT("reach"), TEXT("defeat"),
         TEXT("evidence"), TEXT("defeat"), TEXT("reach")
     };
-    static const int32 RequiredCounts[] = { 0,3,0,1,3,1,0,0,0,0,2,4,1,5,0 };
+    static const int32 RequiredCounts[] = { 0,3,0,1,3,1,0,0,0,0,0,4,1,5,0 };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Find the survivor near the west street"),
         TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
