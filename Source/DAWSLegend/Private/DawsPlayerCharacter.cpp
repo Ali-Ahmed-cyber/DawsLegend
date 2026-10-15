@@ -95,6 +95,8 @@ void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
     PlayerInputComponent->BindAxis("LookUp", this, &ADawsPlayerCharacter::LookUp);
     PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
     PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+    PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ADawsPlayerCharacter::StartJump);
+    PlayerInputComponent->BindAction("Jump", IE_Released, this, &ADawsPlayerCharacter::StopJump);
     PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ADawsPlayerCharacter::StartSprint);
     PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ADawsPlayerCharacter::StopSprint);
     PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ADawsPlayerCharacter::FireWeapon);
@@ -129,6 +131,8 @@ void ADawsPlayerCharacter::SetCameraFOV(float NewFOV)
 {
     if (FollowCamera) FollowCamera->SetFieldOfView(FMath::Clamp(NewFOV, 75.0f, 110.0f));
 }
+void ADawsPlayerCharacter::StartJump() { Jump(); }
+void ADawsPlayerCharacter::StopJump() { StopJumping(); }
 void ADawsPlayerCharacter::StartSprint() { GetCharacterMovement()->MaxWalkSpeed = SprintSpeed; }
 void ADawsPlayerCharacter::StopSprint() { GetCharacterMovement()->MaxWalkSpeed = WalkSpeed; }
 void ADawsPlayerCharacter::FireWeapon()
