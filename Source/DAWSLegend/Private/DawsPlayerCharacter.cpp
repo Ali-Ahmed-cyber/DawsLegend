@@ -195,7 +195,7 @@ void ADawsPlayerCharacter::FireWeapon()
     const bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params);
     ADawsEnemyCharacter* EnemyTarget = bHit ? Cast<ADawsEnemyCharacter>(Hit.GetActor()) : nullptr;
     const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
-    if (EnemyTarget && (!Missions || (Missions->GetCurrentTaskType() != TEXT("defeat") && !(Missions->GetCurrentMissionId() == TEXT("chapter05_finale") && EnemyTarget->GetHealthRatio() > 0.0f)))) return;
+    if (EnemyTarget && (!Missions || (Missions->GetCurrentTaskType() != TEXT("defeat") && !(Missions->GetCurrentMissionId() == TEXT("chapter06_dawn") && EnemyTarget->GetHealthRatio() > 0.0f)))) return;
     if (EnemyTarget && FVector::Dist2D(GetActorLocation(), EnemyTarget->GetActorLocation()) > 1400.0f) return;
     if (!CombatComponent->ConsumeShot()) return;
     const FVector TracerEnd = bHit ? Hit.ImpactPoint : End;
@@ -268,7 +268,7 @@ FText ADawsPlayerCharacter::GetTargetInteractionPrompt() const
     AActor* Target = Hit.GetActor();
     if (ADawsEnemyCharacter* Enemy = Cast<ADawsEnemyCharacter>(Target)) {
         const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
-        if (!Missions || (Missions->GetCurrentTaskType() != TEXT("defeat") && Missions->GetCurrentMissionId() != TEXT("chapter05_finale"))) return FText::FromString(TEXT("Combat is locked until a hostile objective is active"));
+        if (!Missions || (Missions->GetCurrentTaskType() != TEXT("defeat") && Missions->GetCurrentMissionId() != TEXT("chapter06_dawn"))) return FText::FromString(TEXT("Combat is locked until a hostile objective is active"));
         if (FVector::Dist2D(GetActorLocation(), Enemy->GetActorLocation()) > 1400.0f) return FText::FromString(TEXT("Move closer to engage this hostile"));
         return FText::FromString(FString::Printf(TEXT("HOSTILE  |  %.0f%% HEALTH"), Enemy->GetHealthRatio() * 100.0f));
     }
