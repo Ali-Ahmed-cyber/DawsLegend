@@ -58,6 +58,7 @@ jobs:
           assert "RestoreCampaignAtMission" in mission and "StartCampaignMission" in mission
           world_builder = (source / "Private/DawsWorldBuilder.cpp").read_text()
           assert "AddPrimitive" in world_builder and "Street furniture" in world_builder
+          assert "Final depot district" in world_builder and "ContainerLocations" in world_builder
           assert "SpawnActor<ADawsEnemyCharacter>" in game_mode
           enemy_code = (source / "Private/DawsEnemyCharacter.cpp").read_text()
           assert "ConfigureEnemy" in enemy_code and "RangedDamage" in enemy_code and "MeleeDamage" in enemy_code
