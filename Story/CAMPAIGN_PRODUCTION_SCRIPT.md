@@ -94,8 +94,8 @@ A grounded third-person action story set in an original Sudanese city. The hero 
 - Fawzi reports that residents are bringing water and bandages to the depot.
 
 ### Mission 15 — The Final Broadcast
-- Confront the Broker and hear his final argument.
-- Speak to the Broker, then activate the final broadcast waypoint.
+- Defeat the Broker’s elite enforcer guarding the depot.
+- Speak to the Broker after the enforcer falls, then activate the final broadcast waypoint.
 - The campaign concludes with the verified evidence reaching the city.
 
 ## Supporting cast
