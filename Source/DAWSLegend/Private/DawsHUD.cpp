@@ -103,14 +103,24 @@ void ADawsHUD::DrawHUD()
     }
     if (const ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(GetOwningPawn())) {
         DrawTextLine(FString::Printf(TEXT("VEHICLE HEALTH  %.0f / 250"), Vehicle->GetVehicleHealth()), W-285, 34, 0.9f, FLinearColor(0.95f,0.78f,0.18f));
+        Canvas->K2_DrawLine(FVector2D(W-285,58), FVector2D(W-65,58), 8.0f, FLinearColor(0.12f,0.12f,0.12f));
+        Canvas->K2_DrawLine(FVector2D(W-285,58), FVector2D(W-285+220.0f*FMath::Clamp(Vehicle->GetVehicleHealth()/250.0f,0.0f,1.0f),58), 5.0f, FLinearColor(0.95f,0.65f,0.12f));
         DrawTextLine(TEXT("W/S DRIVE   A/D STEER   E EXIT VEHICLE"), 44, H-72, 0.78f, FLinearColor::White);
         if (Vehicle->IsVehicleDisabled()) DrawTextLine(TEXT("VEHICLE DISABLED — PRESS E TO EXIT"), W*0.5f-190.0f, H*0.42f, 1.0f, FLinearColor(1.0f,0.2f,0.12f));
     } else if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
         if (Player->HealthComponent) {
             DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
+            const float HealthRatio = Player->HealthComponent->MaxHealth > 0.0f ? FMath::Clamp(Player->HealthComponent->CurrentHealth/Player->HealthComponent->MaxHealth,0.0f,1.0f) : 0.0f;
+            Canvas->K2_DrawLine(FVector2D(W-245,58), FVector2D(W-35,58), 8.0f, FLinearColor(0.12f,0.12f,0.12f));
+            Canvas->K2_DrawLine(FVector2D(W-245,58), FVector2D(W-245+210.0f*HealthRatio,58), 5.0f, FLinearColor(0.20f,0.90f,0.42f));
             if (Player->HealthComponent->CurrentHealth <= 0.0f) DrawTextLine(TEXT("DOWN — RESPAWNING"), W*0.5f-125.0f, H*0.42f, 1.25f, FLinearColor(1.0f,0.18f,0.12f));
         }
-        if (Player->CombatComponent) DrawTextLine(FString::Printf(TEXT("AMMO  %d / %d"), Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo), W-245, 68, 0.9f, FLinearColor::White);
+        if (Player->CombatComponent) {
+            DrawTextLine(FString::Printf(TEXT("AMMO  %d / %d"), Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo), W-245, 68, 0.9f, FLinearColor::White);
+            const float AmmoRatio = Player->CombatComponent->MagazineCapacity > 0 ? FMath::Clamp(static_cast<float>(Player->CombatComponent->MagazineAmmo)/Player->CombatComponent->MagazineCapacity,0.0f,1.0f) : 0.0f;
+            Canvas->K2_DrawLine(FVector2D(W-245,92), FVector2D(W-35,92), 6.0f, FLinearColor(0.12f,0.12f,0.12f));
+            Canvas->K2_DrawLine(FVector2D(W-245,92), FVector2D(W-245+210.0f*AmmoRatio,92), 4.0f, FLinearColor(0.95f,0.78f,0.18f));
+        }
     }
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
         const FText Prompt = Player->GetTargetInteractionPrompt();
