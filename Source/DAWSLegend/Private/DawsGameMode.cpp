@@ -56,8 +56,13 @@ void ADawsGameMode::SpawnCampaignWorldActors()
         FVector(350,3000,100), FVector(-350,3400,100), FVector(350,7900,100), FVector(-350,8300,100),
         FVector(350,9200,100), FVector(-350,9600,100), FVector(350,10000,100), FVector(-350,9800,100)
     };
-    for (const FVector& EnemyPosition : EnemyPositions)
-        GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPosition, FRotator::ZeroRotator);
+    for (int32 EnemyIndex = 0; EnemyIndex < UE_ARRAY_COUNT(EnemyPositions); ++EnemyIndex) {
+        ADawsEnemyCharacter* Enemy = GetWorld()->SpawnActor<ADawsEnemyCharacter>(EnemyPositions[EnemyIndex], FRotator::ZeroRotator);
+        if (Enemy) {
+            const TCHAR* EnemyTypes[] = { TEXT("scout"), TEXT("guard"), TEXT("marksman"), TEXT("enforcer") };
+            Enemy->ConfigureEnemy(FName(EnemyTypes[EnemyIndex % 4]), EnemyIndex == UE_ARRAY_COUNT(EnemyPositions)-1);
+        }
+    }
     const FVector HealthLocations[8] = { FVector(-900,300,75), FVector(300,900,75), FVector(1200,-200,75), FVector(-900,2600,75), FVector(900,4000,75), FVector(-900,5400,75), FVector(900,6900,75), FVector(-900,8300,75) };
     for (const FVector& Location : HealthLocations) {
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
