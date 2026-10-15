@@ -58,6 +58,15 @@ protected:
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> LeftLegVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> RightLegVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> WeaponVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> NeckVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> HairVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> BackpackVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> BeltVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> ChestCrestVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> LeftShoulderStripe;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> RightShoulderStripe;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> LeftBootVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> RightBootVisual;
     UPROPERTY(EditDefaultsOnly, Category="Movement")
     float WalkSpeed = 430.0f;
     UPROPERTY(EditDefaultsOnly, Category="Movement")
