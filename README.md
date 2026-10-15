@@ -26,6 +26,8 @@
 - F5: save checkpoint
 - F9: load checkpoint
 - Esc: pause/resume
+- F1: options (mouse sensitivity, camera field of view, subtitles)
+- Arrow keys: navigate and change options
 
 ## Final character-photo rule
 - DINRITO: user photo wearing the white Real Madrid shirt.
