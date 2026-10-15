@@ -60,6 +60,10 @@ protected:
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> WeaponVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> NeckVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> HairVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> LeftEyeVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> RightEyeVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> NoseVisual;
+    UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> MouthVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> BackpackVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> BeltVisual;
     UPROPERTY(VisibleAnywhere, Category="Visual") TObjectPtr<UStaticMeshComponent> ChestCrestVisual;
