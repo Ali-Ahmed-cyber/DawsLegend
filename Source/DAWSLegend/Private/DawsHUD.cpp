@@ -134,9 +134,10 @@ void ADawsHUD::DrawHUD()
         }
     }
     if (const ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(GetOwningPawn())) {
-        DrawTextLine(FString::Printf(TEXT("VEHICLE HEALTH  %.0f / 250"), Vehicle->GetVehicleHealth()), W-285, 34, 0.9f, FLinearColor(0.95f,0.78f,0.18f));
-        Canvas->K2_DrawLine(FVector2D(W-285,58), FVector2D(W-65,58), 8.0f, FLinearColor(0.12f,0.12f,0.12f));
-        Canvas->K2_DrawLine(FVector2D(W-285,58), FVector2D(W-285+220.0f*FMath::Clamp(Vehicle->GetVehicleHealth()/250.0f,0.0f,1.0f),58), 5.0f, FLinearColor(0.95f,0.65f,0.12f));
+        DrawTextLine(FString::Printf(TEXT("SPEED  %03.0f km/h"), Vehicle->GetSpeedKPH()), W-285, 28, 0.9f, FLinearColor::White);
+        DrawTextLine(FString::Printf(TEXT("VEHICLE HEALTH  %.0f / 250"), Vehicle->GetVehicleHealth()), W-285, 58, 0.9f, FLinearColor(0.95f,0.78f,0.18f));
+        Canvas->K2_DrawLine(FVector2D(W-285,82), FVector2D(W-65,82), 8.0f, FLinearColor(0.12f,0.12f,0.12f));
+        Canvas->K2_DrawLine(FVector2D(W-285,82), FVector2D(W-285+220.0f*FMath::Clamp(Vehicle->GetVehicleHealth()/250.0f,0.0f,1.0f),82), 5.0f, FLinearColor(0.95f,0.65f,0.12f));
         DrawTextLine(TEXT("W/S DRIVE   A/D STEER   E EXIT VEHICLE"), 44, H-72, 0.78f, FLinearColor::White);
         if (Vehicle->IsVehicleDisabled()) DrawTextLine(TEXT("VEHICLE DISABLED — PRESS E TO EXIT"), W*0.5f-190.0f, H*0.42f, 1.0f, FLinearColor(1.0f,0.2f,0.12f));
     } else if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
