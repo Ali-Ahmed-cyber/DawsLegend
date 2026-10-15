@@ -17,6 +17,10 @@ This checklist separates source systems already authored from the work that stil
 - [x] Title screen, fresh-campaign start, continue when a save exists, pause/options, persistent sensitivity/FOV/subtitle settings, conflict-free gamepad continue/restart routing, and campaign restart.
 - [x] Low-to-mid scalability defaults, Windows Unreal build/package helper, and automated source/campaign consistency checks.
 
+## Authored but not yet runtime-playable
+- [x] Ten detailed optional Sudanese side-story scripts with clear beats, rewards, continuity safeguards and a proposed implementation order in `Story/SIDE_MISSION_SCRIPT_PACK.md`.
+- [ ] Implement side-story state, start/finish markers, objectives, rewards and save-safe progress in C++ before describing these optional stories as playable.
+
 ## Remaining production work
 
 - [ ] Build the C++ project in the selected Unreal Engine 5.4 toolchain; fix all compile and runtime errors.
