@@ -37,6 +37,22 @@ ADawsEnemyCharacter::ADawsEnemyCharacter()
     HeadVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     if (UMaterialInstanceDynamic* HeadMat = UMaterialInstanceDynamic::Create(HeadVisual->GetMaterial(0), this)) { HeadMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.18f,0.12f,0.10f)); HeadVisual->SetMaterial(0, HeadMat); }
 }
+void ADawsEnemyCharacter::ConfigureEnemy(FName NewEnemyId, bool bSpecialTarget)
+{
+    EnemyId = NewEnemyId;
+    FLinearColor BodyColor(0.42f,0.08f,0.07f);
+    float MaxHealth = 100.0f;
+    RangedDamage = 8.0f;
+    MeleeDamage = 12.0f;
+    GetCharacterMovement()->MaxWalkSpeed = 245.0f;
+    if (EnemyId == FName(TEXT("scout"))) { BodyColor = FLinearColor(0.38f,0.16f,0.08f); GetCharacterMovement()->MaxWalkSpeed = 310.0f; MaxHealth = 80.0f; RangedDamage = 6.0f; MeleeDamage = 9.0f; }
+    else if (EnemyId == FName(TEXT("marksman"))) { BodyColor = FLinearColor(0.68f,0.42f,0.10f); GetCharacterMovement()->MaxWalkSpeed = 185.0f; MaxHealth = 90.0f; RangedDamage = 13.0f; MeleeDamage = 7.0f; }
+    else if (EnemyId == FName(TEXT("guard"))) { BodyColor = FLinearColor(0.18f,0.27f,0.31f); MaxHealth = 130.0f; RangedDamage = 9.0f; MeleeDamage = 15.0f; }
+    else if (EnemyId == FName(TEXT("enforcer")) || bSpecialTarget) { BodyColor = FLinearColor(0.24f,0.06f,0.18f); MaxHealth = 180.0f; GetCharacterMovement()->MaxWalkSpeed = 210.0f; RangedDamage = 12.0f; MeleeDamage = 22.0f; }
+    if (HealthComponent) { HealthComponent->MaxHealth = MaxHealth; HealthComponent->CurrentHealth = MaxHealth; }
+    if (BodyVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(BodyVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), BodyColor); BodyVisual->SetMaterial(0, Mat); }
+    if (HeadVisual) if (UMaterialInstanceDynamic* Mat = UMaterialInstanceDynamic::Create(HeadVisual->GetMaterial(0), this)) { Mat->SetVectorParameterValue(TEXT("Color"), bSpecialTarget ? FLinearColor(0.08f,0.05f,0.08f) : FLinearColor(0.18f,0.12f,0.10f)); HeadVisual->SetMaterial(0, Mat); }
+}
 void ADawsEnemyCharacter::BeginPlay()
 {
     Super::BeginPlay();
@@ -61,17 +77,17 @@ void ADawsEnemyCharacter::Tick(float DeltaSeconds)
         const FVector ShotEnd = TargetPawn->GetActorLocation() + FVector(0,0,45);
         if (GetWorld()->LineTraceSingleByChannel(ShotHit, ShotStart, ShotEnd, ECC_Visibility, ShotParams) && ShotHit.GetActor() == TargetPawn) {
             if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(TargetPawn)) {
-                if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(8.0f);
+                if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(RangedDamage);
             } else if (ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(TargetPawn)) {
-                Vehicle->ApplyVehicleDamage(14.0f);
+                Vehicle->ApplyVehicleDamage(RangedDamage * 1.5f);
             }
         }
         AttackCooldown = 1.8f;
     } else if (Distance <= 170.0f && AttackCooldown <= 0.0f) {
         if (ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(TargetPawn)) {
-            if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(12.0f);
+            if (Player->HealthComponent) Player->HealthComponent->ApplyDamage(MeleeDamage);
         } else if (ADawsVehiclePawn* Vehicle = Cast<ADawsVehiclePawn>(TargetPawn)) {
-            Vehicle->ApplyVehicleDamage(20.0f);
+            Vehicle->ApplyVehicleDamage(MeleeDamage * 1.5f);
         }
         AttackCooldown = 1.25f;
     }
