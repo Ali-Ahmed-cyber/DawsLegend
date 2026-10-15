@@ -107,6 +107,7 @@ jobs:
           assert "RegisterNPCInteraction" in mission and "RegisterNPCInteraction" in story_npc
           assert "chapter03_escort" in story_npc and "VInterpTo" in story_npc
           assert "bIsMainCompanion" in story_npc and "SideOffset" in story_npc
+          assert "FollowDistance > 1600.0f" in story_npc
           assert "TEXT(\"tawfiq\")" in game_mode and "TEXT(\"amjad\")" in game_mode
           assert "LeftArmVisual" in story_npc and "RightLegVisual" in story_npc
           assert "LeftEyeVisual" in story_npc and "NoseVisual" in story_npc
