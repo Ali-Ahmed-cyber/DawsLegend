@@ -42,6 +42,7 @@ AActor* ADawsWorldBuilder::AddPrimitive(UStaticMesh* Shape, FVector Location, FV
         Mat->SetVectorParameterValue(TEXT("Color"), Tint);
         Mesh->SetMaterial(0, Mat);
     }
+    GeneratedActors.Add(Block);
     return Block;
 }
 AActor* ADawsWorldBuilder::AddBlock(FVector Location, FVector Scale, FLinearColor Tint, bool bCollision)
@@ -129,6 +130,7 @@ void ADawsWorldBuilder::BuildEnvironment()
     // Balanced warm daylight and ambient fill so shaded alleys remain readable.
     ASkyLight* AmbientSky = GetWorld()->SpawnActor<ASkyLight>(FVector(0,0,1200), FRotator::ZeroRotator);
     if (AmbientSky) {
+        GeneratedActors.Add(AmbientSky);
         AmbientSky->GetLightComponent()->SetMobility(EComponentMobility::Movable);
         AmbientSky->GetLightComponent()->SetIntensity(1.15f);
         AmbientSky->GetLightComponent()->RecaptureSky();
@@ -136,7 +138,16 @@ void ADawsWorldBuilder::BuildEnvironment()
     // Simple sun lighting.
     ADirectionalLight* Sun = GetWorld()->SpawnActor<ADirectionalLight>(FVector(0,0,1600), FRotator(-42,-28,0));
     if (Sun) {
+        GeneratedActors.Add(Sun);
         Sun->GetLightComponent()->SetIntensity(100000.0f);
         Sun->GetLightComponent()->SetLightColor(FLinearColor(1.0f,0.84f,0.65f));
     }
+}
+void ADawsWorldBuilder::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    for (AActor* Generated : GeneratedActors) {
+        if (IsValid(Generated) && Generated != this) Generated->Destroy();
+    }
+    GeneratedActors.Reset();
+    Super::EndPlay(EndPlayReason);
 }
