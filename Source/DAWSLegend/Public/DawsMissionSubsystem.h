@@ -24,6 +24,8 @@ public:
     void StartMission(FString MissionId, FText MissionTitle, const TArray<FDawsMissionObjective>& Objectives);
     UFUNCTION(BlueprintCallable, Category="Campaign")
     void StartCampaign();
+    UFUNCTION(BlueprintCallable, Category="Campaign")
+    bool RestoreCampaignAtMission(const FString& MissionId);
     UFUNCTION(BlueprintCallable, Category="Missions")
     bool CompleteObjective(FString ObjectiveId);
     UFUNCTION(BlueprintCallable, Category="Missions")
