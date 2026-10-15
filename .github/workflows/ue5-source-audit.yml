@@ -70,6 +70,7 @@ jobs:
           assert "BindAction(\"Jump\", IE_Pressed" in player and "StartJump" in player
           assert "StartGame" in controller and "ContinueGame" in controller and "F2 CONTINUE" in hud
           assert "RestartCampaign" in controller and "ResetForNewCampaign" in player
+          assert "RestartCampaignWorld" in controller and "SpawnCampaignWorldActors" in (source / "Private/DawsGameMode.cpp").read_text()
           assert "StartNewCampaign" in controller and "DeleteSave" in controller
           assert "AdjustSettingRight" in controller and "MouseSensitivity" in controller
           assert "bSubtitlesEnabled" in controller and "Camera FOV" in hud
