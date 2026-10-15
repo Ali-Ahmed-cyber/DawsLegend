@@ -48,8 +48,8 @@ void ADawsWorldBuilder::BuildEnvironment()
     for (int32 I=-9; I<=9; ++I) AddBlock(FVector(0,I*1000.0f,3), FVector(1.6f,1.4f,0.025f), FLinearColor(0.88f,0.82f,0.61f), false);
     // Distinct buildings frame a broad mission plaza.
     const FVector BuildingLocations[] = {
-        FVector(-1050,-1050,260), FVector(-1050,1050,340), FVector(1050,-1050,300),
-        FVector(1050,1050,390), FVector(-1900,0,210), FVector(1900,0,250),
+        FVector(-1300,-1050,260), FVector(-1300,1050,340), FVector(1300,-1050,300),
+        FVector(1300,1050,390), FVector(-1900,0,210), FVector(1900,0,250),
         FVector(-1300,-1900,300), FVector(1300,1900,230)
     };
     const FVector BuildingScales[] = {
