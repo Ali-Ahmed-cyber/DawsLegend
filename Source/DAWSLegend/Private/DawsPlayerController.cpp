@@ -15,7 +15,8 @@ void ADawsPlayerController::BeginPlay()
 void ADawsPlayerController::SetupInputComponent()
 {
     Super::SetupInputComponent();
-    InputComponent->BindAction("Pause", IE_Pressed, this, &ADawsPlayerController::TogglePause);
+    FInputActionBinding& PauseBinding = InputComponent->BindAction("Pause", IE_Pressed, this, &ADawsPlayerController::TogglePause);
+    PauseBinding.bExecuteWhenPaused = true;
 }
 void ADawsPlayerController::TogglePause()
 {
