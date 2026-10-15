@@ -24,4 +24,6 @@ public:
     virtual void Interact_Implementation(AActor* InteractingActor) override;
 protected:
     virtual void BeginPlay() override;
+private:
+    bool bMissionCompleted = false;
 };
