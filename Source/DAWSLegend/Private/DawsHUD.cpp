@@ -2,6 +2,9 @@
 #include "Engine/Canvas.h"
 #include "Engine/Engine.h"
 #include "GameFramework/PlayerController.h"
+#include "DawsPlayerCharacter.h"
+#include "DawsHealthComponent.h"
+#include "DawsCombatComponent.h"
 void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color)
 {
     if (!Canvas || !GEngine) return;
@@ -20,6 +23,10 @@ void ADawsHUD::DrawHUD()
     DrawTextLine(TEXT("STORY CAMPAIGN  |  CHAPTER 01"), 44, 68, 0.78f, FLinearColor::White);
     DrawTextLine(TEXT("WASD MOVE   SHIFT SPRINT   SPACE JUMP"), 44, H-72, 0.78f, FLinearColor::White);
     DrawTextLine(TEXT("OBJECTIVE: SECURE THE PLAZA"), 44, H-108, 0.86f, FLinearColor(1.0f,0.72f,0.25f));
+    if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
+        if (Player->HealthComponent) DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
+        if (Player->CombatComponent) DrawTextLine(FString::Printf(TEXT("AMMO  %d / %d"), Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo), W-245, 68, 0.9f, FLinearColor::White);
+    }
     // Subtle centre reticle.
     Canvas->K2_DrawLine(FVector2D(W*0.5f-8,H*0.5f), FVector2D(W*0.5f+8,H*0.5f), 1.5f, FLinearColor::White);
     Canvas->K2_DrawLine(FVector2D(W*0.5f,H*0.5f-8), FVector2D(W*0.5f,H*0.5f+8), 1.5f, FLinearColor::White);
