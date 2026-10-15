@@ -86,6 +86,7 @@ jobs:
           assert "SpawnActor<ADawsVehiclePawn>" in game_mode
           vehicle = (source / "Private/DawsVehiclePawn.cpp").read_text()
           assert "ExitVehicle" in vehicle and "UFloatingPawnMovement" in vehicle
+          assert "WheelSpin" in vehicle and "Wheel->AddLocalRotation" in vehicle
           controller = (source / "Private/DawsPlayerController.cpp").read_text()
           hud = (source / "Private/DawsHUD.cpp").read_text()
           assert "HitMarkerTime" in player and "IsHitMarkerVisible" in hud and "bHitConfirmed" in hud
