@@ -69,6 +69,27 @@ ADawsStoryNPC::ADawsStoryNPC()
     HairVisual->SetRelativeLocation(FVector(-0.1f,0,0.18f));
     HairVisual->SetRelativeScale3D(FVector(0.95f,0.95f,0.32f));
     HairVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    LeftEyeVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftEyeVisual"));
+    LeftEyeVisual->SetupAttachment(InteractionBounds);
+    if (Sphere.Succeeded()) LeftEyeVisual->SetStaticMesh(Sphere.Object);
+    LeftEyeVisual->SetRelativeLocation(FVector(12,-4,95));
+    LeftEyeVisual->SetRelativeScale3D(FVector(0.026f,0.026f,0.026f));
+    LeftEyeVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    RightEyeVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightEyeVisual"));
+    RightEyeVisual->SetupAttachment(InteractionBounds);
+    if (Sphere.Succeeded()) RightEyeVisual->SetStaticMesh(Sphere.Object);
+    RightEyeVisual->SetRelativeLocation(FVector(12,4,95));
+    RightEyeVisual->SetRelativeScale3D(FVector(0.026f,0.026f,0.026f));
+    RightEyeVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    NoseVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NoseVisual"));
+    NoseVisual->SetupAttachment(InteractionBounds);
+    if (Sphere.Succeeded()) NoseVisual->SetStaticMesh(Sphere.Object);
+    NoseVisual->SetRelativeLocation(FVector(14,0,90));
+    NoseVisual->SetRelativeScale3D(FVector(0.032f,0.032f,0.04f));
+    NoseVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    LeftEyeVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
+    RightEyeVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
+    NoseVisual->AttachToComponent(HeadVisual, FAttachmentTransformRules::KeepWorldTransform);
 }
 void ADawsStoryNPC::Tick(float DeltaSeconds)
 {
@@ -120,6 +141,9 @@ void ADawsStoryNPC::ApplyClothingColor()
     if (UMaterialInstanceDynamic* LeftLegMat = UMaterialInstanceDynamic::Create(LeftLegVisual->GetMaterial(0), this)) { LeftLegMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.08f,0.09f,0.10f)); LeftLegVisual->SetMaterial(0, LeftLegMat); }
     if (UMaterialInstanceDynamic* RightLegMat = UMaterialInstanceDynamic::Create(RightLegVisual->GetMaterial(0), this)) { RightLegMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.08f,0.09f,0.10f)); RightLegVisual->SetMaterial(0, RightLegMat); }
     if (UMaterialInstanceDynamic* HairMat = UMaterialInstanceDynamic::Create(HairVisual->GetMaterial(0), this)) { HairMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.035f,0.028f,0.025f)); HairVisual->SetMaterial(0, HairMat); }
+    if (UMaterialInstanceDynamic* EyeMat = UMaterialInstanceDynamic::Create(LeftEyeVisual->GetMaterial(0), this)) { EyeMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.025f,0.02f,0.018f)); LeftEyeVisual->SetMaterial(0, EyeMat); }
+    if (UMaterialInstanceDynamic* EyeMat = UMaterialInstanceDynamic::Create(RightEyeVisual->GetMaterial(0), this)) { EyeMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.025f,0.02f,0.018f)); RightEyeVisual->SetMaterial(0, EyeMat); }
+    if (UMaterialInstanceDynamic* NoseMat = UMaterialInstanceDynamic::Create(NoseVisual->GetMaterial(0), this)) { NoseMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.45f,0.29f,0.21f)); NoseVisual->SetMaterial(0, NoseMat); }
     if (UMaterialInstanceDynamic* AccessoryMat = UMaterialInstanceDynamic::Create(AccessoryVisual->GetMaterial(0), this)) {
         AccessoryMat->SetVectorParameterValue(TEXT("Color"), FLinearColor(0.08f,0.09f,0.10f));
         AccessoryVisual->SetMaterial(0, AccessoryMat);
