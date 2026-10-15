@@ -111,6 +111,11 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
             if (FVector::DistSquared2D(GetActorLocation(), EventLocation) > 2500.0f)
                 SetActorLocation(EventLocation, false, nullptr, ETeleportType::TeleportPhysics);
         }
+        if (NPCId == FName(TEXT("hiba"))) {
+            const FVector StudioLocation = ActiveMission == TEXT("chapter04_broadcast") ? FVector(-650,7470,0) : FVector(-650,300,0);
+            if (FVector::DistSquared2D(GetActorLocation(), StudioLocation) > 2500.0f)
+                SetActorLocation(StudioLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        }
         if (NPCId == FName(TEXT("muntasir"))) {
             const FVector RecordOfficeLocation = ActiveMission == TEXT("chapter04_charity") ? FVector(650,8090,0) : FVector(650,11900,0);
             if (FVector::DistSquared2D(GetActorLocation(), RecordOfficeLocation) > 2500.0f)
