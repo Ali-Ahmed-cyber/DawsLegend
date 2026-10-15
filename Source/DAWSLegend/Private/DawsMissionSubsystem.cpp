@@ -62,12 +62,12 @@ void UDawsMissionSubsystem::StartCampaignMission(int32 MissionIndex)
     static const TCHAR* TaskTypes[] = {
         TEXT("reach"), TEXT("collect"), TEXT("talk"),
         TEXT("evidence"), TEXT("defeat"), TEXT("defeat"),
-        TEXT("talk"), TEXT("reach"), TEXT("reach"),
+        TEXT("talk"), TEXT("talk"), TEXT("reach"),
         TEXT("reach"), TEXT("talk"), TEXT("defeat"),
         TEXT("evidence"), TEXT("defeat"), TEXT("talk")
     };
-    static const TCHAR* TaskTargets[] = { TEXT(""), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""), TEXT(""), TEXT("technician"), TEXT(""), TEXT(""), TEXT(""), TEXT("worker"), TEXT(""), TEXT(""), TEXT(""), TEXT("the_broker") };
-    static const int32 RequiredCounts[] = { 0,3,1,1,3,1,1,0,0,0,1,4,1,5,1 };
+    static const TCHAR* TaskTargets[] = { TEXT(""), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""), TEXT(""), TEXT("technician"), TEXT("technician"), TEXT(""), TEXT(""), TEXT("worker"), TEXT(""), TEXT(""), TEXT(""), TEXT("the_broker") };
+    static const int32 RequiredCounts[] = { 0,3,1,1,3,1,1,1,0,0,1,4,1,5,1 };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Reach the plaza and secure the area"), TEXT("Recover the missing supplies"), TEXT("Speak to Bashir at the workshop"),
         TEXT("Investigate the burned market store"), TEXT("Protect the clinic supply route"), TEXT("Intercept the courier"),
