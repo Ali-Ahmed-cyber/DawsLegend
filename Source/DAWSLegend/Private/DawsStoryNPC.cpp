@@ -98,24 +98,37 @@ void ADawsStoryNPC::Tick(float DeltaSeconds)
     const float IdleBob = FMath::Abs(FMath::Sin(VisualAnimationTime * 2.0f)) * 1.4f;
     if (BodyVisual) BodyVisual->SetRelativeLocation(FVector(0,0,48.0f + IdleBob));
     if (HeadVisual) HeadVisual->SetRelativeLocation(FVector(0,0,91.0f + IdleBob));
-    bool bEscorting = false;
+    bool bShouldFollow = false;
+    bool bIsMainCompanion = false;
     APawn* PlayerPawn = nullptr;
-    if (NPCId == FName(TEXT("technician")) && GetGameInstance()) {
+    if (GetGameInstance()) {
         const UDawsMissionSubsystem* Missions = GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>();
-        if (Missions && Missions->GetCurrentMissionId() == TEXT("chapter03_escort")) {
+        const FString ActiveMission = Missions ? Missions->GetCurrentMissionId() : FString();
+        bIsMainCompanion = NPCId == FName(TEXT("tawfiq")) || NPCId == FName(TEXT("amjad"));
+        if (bIsMainCompanion && Missions && ActiveMission != TEXT("campaign_complete")) {
             PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
-            bEscorting = PlayerPawn != nullptr;
+            bShouldFollow = PlayerPawn != nullptr;
+        } else if (NPCId == FName(TEXT("technician")) && ActiveMission == TEXT("chapter03_escort")) {
+            PlayerPawn = UGameplayStatics::GetPlayerPawn(this, 0);
+            bShouldFollow = PlayerPawn != nullptr;
         }
     }
     float Swing = FMath::Sin(VisualAnimationTime * 1.8f) * 2.0f;
-    if (bEscorting && PlayerPawn) {
-        const FVector DesiredLocation = PlayerPawn->GetActorLocation() - PlayerPawn->GetActorForwardVector() * 190.0f;
+    if (bShouldFollow && PlayerPawn) {
+        FVector DesiredLocation;
+        if (bIsMainCompanion) {
+            const float SideOffset = NPCId == FName(TEXT("tawfiq")) ? -115.0f : 115.0f;
+            DesiredLocation = PlayerPawn->GetActorLocation() - PlayerPawn->GetActorForwardVector() * 210.0f
+                + PlayerPawn->GetActorRightVector() * SideOffset;
+        } else {
+            DesiredLocation = PlayerPawn->GetActorLocation() - PlayerPawn->GetActorForwardVector() * 190.0f;
+        }
         const float FollowDistance = FVector::Dist2D(GetActorLocation(), DesiredLocation);
         if (FollowDistance > 95.0f) Swing = FMath::Sin(VisualAnimationTime * 8.5f) * 17.0f;
-        const FVector SmoothedLocation = FMath::VInterpTo(GetActorLocation(), DesiredLocation, DeltaSeconds, 2.8f);
+        const FVector SmoothedLocation = FMath::VInterpTo(GetActorLocation(), DesiredLocation, DeltaSeconds, bIsMainCompanion ? 3.4f : 2.8f);
         SetActorLocation(SmoothedLocation, true);
-        const FVector ToPlayer = PlayerPawn->GetActorLocation() - GetActorLocation();
-        if (!ToPlayer.IsNearlyZero()) SetActorRotation(FMath::RInterpTo(GetActorRotation(), ToPlayer.Rotation(), DeltaSeconds, 4.0f));
+        const FRotator DesiredRotation = bIsMainCompanion ? PlayerPawn->GetActorRotation() : (PlayerPawn->GetActorLocation() - GetActorLocation()).Rotation();
+        SetActorRotation(FMath::RInterpTo(GetActorRotation(), DesiredRotation, DeltaSeconds, 4.0f));
     }
     if (LeftArmVisual) LeftArmVisual->SetRelativeRotation(FRotator(Swing,0,0));
     if (RightArmVisual) RightArmVisual->SetRelativeRotation(FRotator(-Swing,0,0));
