@@ -108,6 +108,7 @@ jobs:
           assert "RestoreTaskProgress" in player
           assert "EDawsPickupType::Supplies" in pickup and "EDawsPickupType::Evidence" in pickup
           assert "SUPPLIES RECOVERED" in pickup and "EVIDENCE RECOVERED" in pickup
+          assert "GetOverlappingActors" in pickup and "SetActorTickEnabled" in pickup
           assert "CompleteObjective" in trigger and "GetInteractionPrompt_Implementation" in trigger
           def delimiters_balanced(path):
               text = path.read_text()
