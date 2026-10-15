@@ -29,6 +29,16 @@ public:
     UFUNCTION(BlueprintCallable, Category="Missions")
     bool CompleteObjective(FString ObjectiveId);
     UFUNCTION(BlueprintCallable, Category="Missions")
+    void RegisterTaskProgress(const FString& TaskType, int32 Amount = 1);
+    UFUNCTION(BlueprintPure, Category="Missions")
+    bool CanCompleteCurrentMission() const;
+    UFUNCTION(BlueprintPure, Category="Missions")
+    FString GetCurrentTaskType() const { return CurrentTaskType; }
+    UFUNCTION(BlueprintPure, Category="Missions")
+    int32 GetTaskProgress() const { return CurrentTaskProgress; }
+    UFUNCTION(BlueprintPure, Category="Missions")
+    int32 GetRequiredTaskProgress() const { return RequiredTaskProgress; }
+    UFUNCTION(BlueprintCallable, Category="Missions")
     void ResetCurrentMission();
     UFUNCTION(BlueprintPure, Category="Missions")
     FString GetCurrentMissionId() const { return CurrentMissionId; }
@@ -46,6 +56,9 @@ private:
     void StartCampaignMission(int32 MissionIndex);
     int32 CampaignMissionIndex = 0;
     bool bCampaignActive = false;
+    FString CurrentTaskType = TEXT("reach");
+    int32 CurrentTaskProgress = 0;
+    int32 RequiredTaskProgress = 0;
     UPROPERTY()
     FString CurrentMissionId;
     UPROPERTY()
