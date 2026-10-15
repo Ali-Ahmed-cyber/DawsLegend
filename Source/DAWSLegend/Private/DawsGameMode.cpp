@@ -6,6 +6,7 @@
 #include "DawsHUD.h"
 #include "DawsEnemyCharacter.h"
 #include "DawsPickup.h"
+#include "DawsStoryNPC.h"
 #include "DawsMissionSubsystem.h"
 #include "Engine/GameInstance.h"
 #include "GameFramework/PlayerController.h"
@@ -78,6 +79,20 @@ void ADawsGameMode::StartPlay()
     for (int32 Index = 0; Index < 9; ++Index) {
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(TaskPickupLocations[Index], FRotator::ZeroRotator);
         if (Pickup) Pickup->ConfigurePickup(TaskPickupTypes[Index], 1.0f);
+    }
+
+
+    struct FStoryNPCSetup { const TCHAR* Id; const TCHAR* Name; const TCHAR* Dialogue; FVector Location; FLinearColor Color; };
+    const FStoryNPCSetup StoryNPCs[5] = {
+        { TEXT("hiba"), TEXT("Hiba"), TEXT("The radio reports missing medical cargo. Secure the plaza, then follow the supply trail."), FVector(-650,300,0), FLinearColor(0.06f,0.28f,0.46f) },
+        { TEXT("bashir"), TEXT("Bashir"), TEXT("These crates were emptied before the convoy arrived. Someone knew the route in advance."), FVector(650,1900,0), FLinearColor(0.45f,0.24f,0.08f) },
+        { TEXT("fawzi"), TEXT("Fawzi"), TEXT("The clinic needs these supplies. I will move the families while you keep the road clear."), FVector(-650,3300,0), FLinearColor(0.12f,0.40f,0.20f) },
+        { TEXT("captain_nadir"), TEXT("Captain Nadir"), TEXT("Keep the evidence intact. Rumours will not hold up when the Broker denies everything."), FVector(650,5400,0), FLinearColor(0.22f,0.24f,0.28f) },
+        { TEXT("the_broker"), TEXT("The Broker"), TEXT("You think one ledger can stop me? The whole route belongs to people you have never met."), FVector(-650,10100,0), FLinearColor(0.35f,0.08f,0.12f) }
+    };
+    for (const FStoryNPCSetup& Setup : StoryNPCs) {
+        ADawsStoryNPC* NPC = GetWorld()->SpawnActor<ADawsStoryNPC>(Setup.Location, FRotator::ZeroRotator);
+        if (NPC) NPC->ConfigureNPC(FName(Setup.Id), FText::FromString(Setup.Name), FText::FromString(Setup.Dialogue), Setup.Color);
     }
 
 }
