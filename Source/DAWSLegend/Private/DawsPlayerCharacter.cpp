@@ -19,7 +19,7 @@
 #include "TimerManager.h"
 ADawsPlayerCharacter::ADawsPlayerCharacter()
 {
-    PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = true;
     bUseControllerRotationPitch = false;
     bUseControllerRotationYaw = false;
     bUseControllerRotationRoll = false;
@@ -70,6 +70,18 @@ void ADawsPlayerCharacter::BeginPlay()
 {
     Super::BeginPlay();
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+void ADawsPlayerCharacter::Tick(float DeltaSeconds)
+{
+    Super::Tick(DeltaSeconds);
+    VisualAnimationTime += DeltaSeconds;
+    const float Speed = GetVelocity().Size2D();
+    const float Swing = Speed > 12.0f ? FMath::Sin(VisualAnimationTime * (Speed > SprintSpeed ? 13.0f : 9.0f)) * (Speed > SprintSpeed ? 28.0f : 18.0f) : 0.0f;
+    if (LeftArmVisual) LeftArmVisual->SetRelativeRotation(FRotator(Swing,0,0));
+    if (RightArmVisual) RightArmVisual->SetRelativeRotation(FRotator(-Swing,0,0));
+    if (LeftLegVisual) LeftLegVisual->SetRelativeRotation(FRotator(-Swing,0,0));
+    if (RightLegVisual) RightLegVisual->SetRelativeRotation(FRotator(Swing,0,0));
+    if (BodyVisual) BodyVisual->SetRelativeLocation(FVector(0,0,48.0f + (Speed > 12.0f ? FMath::Abs(FMath::Sin(VisualAnimationTime * 9.0f)) * 2.0f : 0.0f));
 }
 void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
