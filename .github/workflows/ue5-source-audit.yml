@@ -1,0 +1,31 @@
+name: DAWS LEGEND UE5 source audit
+
+on:
+  push:
+    branches: [ue5-clean-rebuild]
+  pull_request:
+    branches: [ue5-clean-rebuild]
+  workflow_dispatch:
+
+jobs:
+  source-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Unreal project descriptor
+        run: python3 -m json.tool DAWSLegend.uproject > /dev/null
+      - name: Verify required gameplay source files
+        run: |
+          test -f Source/DAWSLegend/DAWSLegend.Build.cs
+          test -f Source/DAWSLegend/Private/DawsGameMode.cpp
+          test -f Source/DAWSLegend/Private/DawsPlayerCharacter.cpp
+          test -f Source/DAWSLegend/Private/DawsWorldBuilder.cpp
+          test -f Source/DAWSLegend/Private/DawsEnemyCharacter.cpp
+          test -f Source/DAWSLegend/Private/DawsMissionSubsystem.cpp
+          test -f Source/DAWSLegend/Private/DawsSaveSubsystem.cpp
+          test -f Source/DAWSLegend/Private/DawsHUD.cpp
+      - name: Ensure the UE5 branch has no old Godot project entry points
+        run: |
+          test ! -f project.godot
+          test ! -f export_presets.cfg
+          test ! -f .github/workflows/godot-check.yml
