@@ -52,35 +52,35 @@ namespace
     };
     static const TCHAR* TaskTypes[] = {
         TEXT("talk"), TEXT("reach"), TEXT("talk"), TEXT("collect"), TEXT("defeat"),
-        TEXT("evidence"), TEXT("talk"), TEXT("reach"), TEXT("evidence"), TEXT("talk"),
+        TEXT("evidence"), TEXT("talk"), TEXT("talk"), TEXT("evidence"), TEXT("talk"),
         TEXT("reach"), TEXT("talk"), TEXT("defeat"), TEXT("evidence"), TEXT("talk"),
-        TEXT("talk"), TEXT("reach"), TEXT("reach"), TEXT("evidence"), TEXT("talk"),
+        TEXT("talk"), TEXT("reach"), TEXT("talk"), TEXT("evidence"), TEXT("talk"),
         TEXT("reach"), TEXT("defeat"), TEXT("talk"), TEXT("evidence"), TEXT("talk"),
         TEXT("defeat"), TEXT("reach"), TEXT("defeat"), TEXT("talk"), TEXT("talk")
     };
     static const TCHAR* TaskTargets[] = {
         TEXT("hiba"), TEXT(""), TEXT("bashir"), TEXT(""), TEXT(""),
-        TEXT(""), TEXT("salwa"), TEXT(""), TEXT(""), TEXT("sami"),
+        TEXT(""), TEXT("salwa"), TEXT("idris"), TEXT(""), TEXT("sami"),
         TEXT(""), TEXT("amjad"), TEXT(""), TEXT(""), TEXT("bashir"),
-        TEXT("technician"), TEXT(""), TEXT(""), TEXT(""), TEXT("the_broker"),
+        TEXT("technician"), TEXT(""), TEXT("hiba"), TEXT(""), TEXT("the_broker"),
         TEXT(""), TEXT(""), TEXT("tawfiq"), TEXT(""), TEXT("amjad"),
         TEXT(""), TEXT(""), TEXT(""), TEXT("muntasir"), TEXT("the_broker")
     };
     static const int32 RequiredCounts[] = {
-        1,0,1,3,2, 1,1,0,1,1, 0,1,3,1,1, 1,0,0,1,1, 0,4,1,1,1, 4,0,5,1,1
+        1,0,1,3,2, 1,1,1,1,1, 0,1,3,1,1, 1,0,1,1,1, 0,4,1,1,1, 4,0,5,1,1
     };
     static const TCHAR* ObjectivesText[] = {
         TEXT("Meet Tawfiq and Amjad, then listen to Hiba's report"), TEXT("Secure the plaza and inspect the empty crates"),
         TEXT("Reach Bashir's workshop and save his ledger"), TEXT("Recover three supply bundles and compare their tags"),
         TEXT("Intercept the fleeing driver and recover his delivery token"),
         TEXT("Search the burned market store"), TEXT("Show Salwa the counterfeit medical seal"),
-        TEXT("Ride with Idris and visit the witness stops"), TEXT("Recover the night convoy recorder"),
+        TEXT("Speak to Idris and confirm the river-road route"), TEXT("Recover the night convoy recorder"),
         TEXT("Speak to Sami and get him safely to Captain Nadir"),
         TEXT("Reach the pickup and regroup after the shortcut"), TEXT("Speak to Amjad about the missing hours"),
         TEXT("Protect the clinic supply route"), TEXT("Recover the coded radio frequency list"),
         TEXT("Reach Bashir and rescue him from the workshop"),
         TEXT("Speak to the Technician and restore the relay"), TEXT("Escort the Technician to the broadcast room"),
-        TEXT("Reach Hiba's studio and protect the verified broadcast"), TEXT("Recover the waterproof case at the ferry landing"),
+        TEXT("Speak to Hiba and secure the verified broadcast"), TEXT("Recover the waterproof case at the ferry landing"),
         TEXT("Reach the charity event and identify Muntasir's handoff"),
         TEXT("Reopen the safe route through the false roadblocks"), TEXT("Defeat the guards and free the depot workers"),
         TEXT("Find Tawfiq and bring him back safely"), TEXT("Recover the missing ledger page"),
