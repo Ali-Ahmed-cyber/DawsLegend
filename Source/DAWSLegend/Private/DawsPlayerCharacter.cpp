@@ -21,6 +21,7 @@
 #include "EngineUtils.h"
 #include "DawsMissionTrigger.h"
 #include "DawsEnemyCharacter.h"
+#include "DawsBulletTracer.h"
 ADawsPlayerCharacter::ADawsPlayerCharacter()
 {
     PrimaryActorTick.bCanEverTick = true;
@@ -188,6 +189,9 @@ void ADawsPlayerCharacter::FireWeapon()
     FHitResult Hit;
     FCollisionQueryParams Params(SCENE_QUERY_STAT(DawsWeaponTrace), true, this);
     const bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, Params);
+    const FVector TracerEnd = bHit ? Hit.ImpactPoint : End;
+    if (ADawsBulletTracer* Tracer = GetWorld()->SpawnActor<ADawsBulletTracer>(Start, FollowCamera->GetComponentRotation()))
+        Tracer->InitializeTracer(Start, TracerEnd, FLinearColor(1.0f,0.72f,0.22f), 18000.0f);
     ADawsEnemyCharacter* EnemyTarget = bHit ? Cast<ADawsEnemyCharacter>(Hit.GetActor()) : nullptr;
     const UDawsMissionSubsystem* Missions = GetGameInstance() ? GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>() : nullptr;
     if (EnemyTarget && (!Missions || (Missions->GetCurrentTaskType() != TEXT("defeat") && !(Missions->GetCurrentMissionId() == TEXT("chapter05_finale") && EnemyTarget->GetHealthRatio() > 0.0f)))) return;
