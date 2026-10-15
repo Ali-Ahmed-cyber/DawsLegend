@@ -1,32 +1,31 @@
-# DAWS LEGEND — أسطورة دؤوس
+# DAWS LEGEND
 
-مشروع لعبة أكشن ثلاثية الأبعاد يعمل على Godot 4، بعالم شوارع مفتوح قابل للاستكشاف، وشخصيات عربية ومهمات قصة.
+Unreal Engine 5 C++ project foundation for a Sudan-inspired open-world story action game.
 
-## الشخصيات
-- البطل: قميص كرة قدم أبيض مستوحى من زي ريال مدريد.
-- توفيق: قميص أصفر.
-- أمجد: قميص أسود.
+## Included
+- UE5 C++ project/module and game/editor targets.
+- Third-person player character with camera, walking, jumping and sprinting.
+- Keyboard and mouse input mappings.
+- Performance-friendly renderer defaults for constrained development hardware.
+- The three main character likenesses are deferred to the final art phase.
 
-## الأنظمة الموجودة في المستودع
-- عالم ثلاثي الأبعاد مولّد برمجياً: طرق، مبانٍ، سوق، أشجار وإضاءة.
-- حركة شخصية بمنظور الشخص الثالث وكاميرا متابعة.
-- أعداء يلاحقون اللاعب، قتال قريب، صحة ونقاط.
-- خمسة فصول/أهداف، زعيم نهائي، ونهاية قصة.
-- توفيق وأمجد يرافقان اللاعب.
-- واجهة عربية وأزرار لمس للحركة والضرب والقفز.
-- حفظ محلي للتقدم وإعادة بدء اللعبة.
-- GitHub Actions لفحص استيراد مشروع Godot.
+## Current status
+This repository is being rebuilt as a UE5 project. It is not yet a finished AAA game, and no successful Unreal compile or gameplay test is claimed. Unreal Editor is required to compile, launch, author maps, create Blueprint assets and validate gameplay. UE-generated maps, materials, meshes, animation and audio assets must be authored or imported through Unreal Editor; plain C++ files cannot replace these.
 
-## التشغيل
-1. نزّل Godot 4.3 أو إصدار Godot 4.x متوافق.
-2. افتح `project.godot`.
-3. شغّل المشروع عبر F6/F5.
+## Next production stages
+1. Compile and fix any engine/version issues.
+2. Author the playable world and level streaming.
+3. Implement story missions, objectives, checkpoints and save/load.
+4. Add secondary story characters, dialogue and AI.
+5. Add vehicles, combat and interaction systems.
+6. Build UI, audio, accessibility and performance settings.
+7. Finish environments, animation and final character likenesses.
 
-## التحكم
-- WASD: الحركة على الكمبيوتر.
-- Space: الضرب.
-- J: القفز.
-- على شاشة اللمس: لوحة الحركة وأزرار الضرب والقفز، مع زر الحفظ وإعادة البدء.
+## Controls
+- W/A/S/D: move
+- Mouse: camera
+- Space: jump
+- Left Shift: sprint
 
-## حالة البناء
-المستودع يحتوي الآن على ملفات مشروع Godot الفعلية. لم يُثبت بعد نجاح تشغيل اللعبة على جهاز Android أو وجود APK جاهز؛ يلزم أن تنجح عملية Godot CI ثم إعداد Android export templates/SDK وبناء APK واختباره على جهاز فعلي. الشخصيات الحالية مجسّمات بدائية مولّدة برمجياً وليست نماذج بشرية نهائية أو صوراً مطابقة للأشخاص.
+## Hardware
+UE5 is demanding. With 8 GB RAM and integrated graphics, use low scalability and avoid optional high-resolution content until the project is validated.
