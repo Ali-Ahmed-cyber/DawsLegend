@@ -73,6 +73,7 @@ jobs:
           story_npc = (source / "Private/DawsStoryNPC.cpp").read_text()
           assert "RegisterTaskProgress" in mission and "CanCompleteCurrentMission" in trigger
           assert "RegisterNPCInteraction" in mission and "RegisterNPCInteraction" in story_npc
+          assert "chapter03_escort" in story_npc and "VInterpTo" in story_npc
           assert "SetCurrentDialogue" in (source / "Public/DawsMissionSubsystem.h").read_text()
           save_data = (source / "Public/DawsSaveGame.h").read_text()
           save_code = (source / "Private/DawsSaveSubsystem.cpp").read_text()
