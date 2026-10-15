@@ -11,6 +11,7 @@
 #include "DawsSaveSubsystem.h"
 #include "DawsMissionTrigger.h"
 #include "DawsStoryNPC.h"
+#include "DawsEnemyCharacter.h"
 #include "EngineUtils.h"
 #include "Engine/GameInstance.h"
 void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color)
@@ -84,6 +85,16 @@ void ADawsHUD::DrawHUD()
     if (GetWorld() && GetWorld()->GetGameInstance()) {
         if (const UDawsMissionSubsystem* Missions = GetWorld()->GetGameInstance()->GetSubsystem<UDawsMissionSubsystem>()) {
             DrawTextLine(FString::Printf(TEXT("MISSION %02d / 15  |  %s"), Missions->GetCampaignMissionNumber(), *Missions->GetCurrentMissionTitle().ToString()), 44, H-145, 0.84f, FLinearColor(1.0f,0.72f,0.25f));
+            if (Missions->GetCurrentMissionId() == TEXT("chapter05_finale")) {
+                for (TActorIterator<ADawsEnemyCharacter> BossIt(GetWorld()); BossIt; ++BossIt) {
+                    if (!BossIt->IsSpecialTarget() || BossIt->GetHealthRatio() <= 0.0f) continue;
+                    const float BossHealth = FMath::Clamp(BossIt->GetHealthRatio(), 0.0f, 1.0f);
+                    DrawTextLine(TEXT("BROKER ENFORCER"), W*0.5f-92.0f, 88.0f, 0.82f, FLinearColor(1.0f,0.30f,0.20f));
+                    Canvas->K2_DrawLine(FVector2D(W*0.5f-145.0f,110.0f), FVector2D(W*0.5f+145.0f,110.0f), 8.0f, FLinearColor(0.12f,0.10f,0.11f));
+                    Canvas->K2_DrawLine(FVector2D(W*0.5f-145.0f,110.0f), FVector2D(W*0.5f-145.0f+290.0f*BossHealth,110.0f), 5.0f, FLinearColor(0.92f,0.16f,0.12f));
+                    break;
+                }
+            }
             const TArray<FDawsMissionObjective>& Objectives = Missions->GetObjectives();
             if (Objectives.Num() > 0) DrawTextLine(FString::Printf(TEXT("OBJECTIVE: %s"), *Objectives[0].Description.ToString()), 44, H-108, 0.78f, FLinearColor::White);
             APawn* CurrentPawn = GetOwningPawn();
