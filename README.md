@@ -9,7 +9,7 @@
 - Third-person camera, movement, jump, sprint, weapon trace fire, magazine and reload logic.
 - Player and enemy health components with damage/death events.
 - Runtime-generated city-street environment with road, building blocks, cover and mission beacons.
-- A title screen and start flow; a 15-step sequential campaign across five chapters; interactive mission markers; story dialogue subtitles; mission objective state; and save/load checkpoints.
+- A title screen and start flow; a 15-step sequential campaign across five chapters; mission-specific supply/evidence/hostile-count tasks; interactive mission markers; story dialogue subtitles; mission objective state; save/load checkpoints; and persistent options.
 - Enemy pursuit, ranged pressure, close-range attacks, death handling, and checkpoint respawn.
 - Story bible, secondary character roster and production notes.
 - Performance-oriented renderer defaults and keyboard/mouse bindings.
