@@ -51,11 +51,11 @@ void ADawsGameMode::StartPlay()
     const FVector HealthLocations[8] = { FVector(-900,300,75), FVector(300,900,75), FVector(1200,-200,75), FVector(-900,2600,75), FVector(900,4000,75), FVector(-900,5400,75), FVector(900,6900,75), FVector(-900,8300,75) };
     for (const FVector& Location : HealthLocations) {
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
-        if (Pickup) { Pickup->PickupType = EDawsPickupType::Health; Pickup->PickupAmount = 35.0f; }
+        if (Pickup) Pickup->ConfigurePickup(EDawsPickupType::Health, 35.0f);
     }
     const FVector AmmoLocations[8] = { FVector(600,600,75), FVector(-600,-600,75), FVector(1200,600,75), FVector(600,2100,75), FVector(-600,3500,75), FVector(600,4900,75), FVector(-600,6300,75), FVector(600,9100,75) };
     for (const FVector& Location : AmmoLocations) {
         ADawsPickup* Pickup = GetWorld()->SpawnActor<ADawsPickup>(Location, FRotator::ZeroRotator);
-        if (Pickup) { Pickup->PickupType = EDawsPickupType::Ammo; Pickup->PickupAmount = 24.0f; }
+        if (Pickup) Pickup->ConfigurePickup(EDawsPickupType::Ammo, 24.0f);
     }
 }
