@@ -101,6 +101,8 @@ void ADawsPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
     PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ADawsPlayerCharacter::StartSprint);
     PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ADawsPlayerCharacter::StopSprint);
     PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &ADawsPlayerCharacter::FireWeapon);
+    PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &ADawsPlayerCharacter::StartAim);
+    PlayerInputComponent->BindAction("Aim", IE_Released, this, &ADawsPlayerCharacter::StopAim);
     PlayerInputComponent->BindAction("Reload", IE_Pressed, this, &ADawsPlayerCharacter::ReloadWeapon);
     PlayerInputComponent->BindAction("Interact", IE_Pressed, this, &ADawsPlayerCharacter::InteractWithWorld);
     PlayerInputComponent->BindAction("SaveGame", IE_Pressed, this, &ADawsPlayerCharacter::SaveCheckpoint);
@@ -130,12 +132,26 @@ void ADawsPlayerCharacter::LookUp(float Value)
 }
 void ADawsPlayerCharacter::SetCameraFOV(float NewFOV)
 {
-    if (FollowCamera) FollowCamera->SetFieldOfView(FMath::Clamp(NewFOV, 75.0f, 110.0f));
+    if (FollowCamera) FollowCamera->SetFieldOfView(FMath::Clamp(NewFOV - (bIsAiming ? 18.0f : 0.0f), 60.0f, 110.0f));
 }
 void ADawsPlayerCharacter::StartJump() { Jump(); }
 void ADawsPlayerCharacter::StopJump() { StopJumping(); }
 void ADawsPlayerCharacter::StartSprint() { GetCharacterMovement()->MaxWalkSpeed = SprintSpeed; }
 void ADawsPlayerCharacter::StopSprint() { GetCharacterMovement()->MaxWalkSpeed = WalkSpeed; }
+void ADawsPlayerCharacter::StartAim()
+{
+    if (bIsAiming) return;
+    bIsAiming = true;
+    const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(Controller);
+    SetCameraFOV(DawsPC ? DawsPC->GetCameraFOV() : 90.0f);
+}
+void ADawsPlayerCharacter::StopAim()
+{
+    if (!bIsAiming) return;
+    bIsAiming = false;
+    const ADawsPlayerController* DawsPC = Cast<ADawsPlayerController>(Controller);
+    SetCameraFOV(DawsPC ? DawsPC->GetCameraFOV() : 90.0f);
+}
 void ADawsPlayerCharacter::FireWeapon()
 {
     if (!CombatComponent || !FollowCamera || !GetWorld()) return;
