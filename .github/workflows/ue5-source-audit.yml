@@ -27,6 +27,7 @@ jobs:
           test -f Source/DAWSLegend/Private/DawsPickup.cpp
           test -f Source/DAWSLegend/Private/DawsPlayerController.cpp
           test -f Source/DAWSLegend/Private/DawsStoryNPC.cpp
+          test -f Source/DAWSLegend/Private/DawsVehiclePawn.cpp
           test -f Source/DAWSLegend/Private/DawsMissionTrigger.cpp
           test -f Source/DAWSLegend/Public/DawsPickup.h
           test -f Source/DAWSLegend/Public/DawsMissionSubsystem.h
@@ -54,6 +55,9 @@ jobs:
           assert "SpawnActor<ADawsEnemyCharacter>" in game_mode
           assert "SpawnActor<ADawsPickup>" in game_mode
           assert "SpawnActor<ADawsStoryNPC>" in game_mode
+          assert "SpawnActor<ADawsVehiclePawn>" in game_mode
+          vehicle = (source / "Private/DawsVehiclePawn.cpp").read_text()
+          assert "ExitVehicle" in vehicle and "UFloatingPawnMovement" in vehicle
           controller = (source / "Private/DawsPlayerController.cpp").read_text()
           hud = (source / "Private/DawsHUD.cpp").read_text()
           assert "InteractWithWorld" in player and "FireWeapon" in player
