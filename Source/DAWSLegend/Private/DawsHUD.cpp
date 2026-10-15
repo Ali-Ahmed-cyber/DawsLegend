@@ -63,7 +63,10 @@ void ADawsHUD::DrawHUD()
         }
     }
     if (const ADawsPlayerCharacter* Player = Cast<ADawsPlayerCharacter>(GetOwningPawn())) {
-        if (Player->HealthComponent) DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
+        if (Player->HealthComponent) {
+            DrawTextLine(FString::Printf(TEXT("HEALTH  %.0f / %.0f"), Player->HealthComponent->CurrentHealth, Player->HealthComponent->MaxHealth), W-245, 34, 0.9f, FLinearColor(0.25f,0.95f,0.55f));
+            if (Player->HealthComponent->CurrentHealth <= 0.0f) DrawTextLine(TEXT("DOWN — RESPAWNING"), W*0.5f-125.0f, H*0.42f, 1.25f, FLinearColor(1.0f,0.18f,0.12f));
+        }
         if (Player->CombatComponent) DrawTextLine(FString::Printf(TEXT("AMMO  %d / %d"), Player->CombatComponent->MagazineAmmo, Player->CombatComponent->ReserveAmmo), W-245, 68, 0.9f, FLinearColor::White);
     }
     // Subtle centre reticle.
