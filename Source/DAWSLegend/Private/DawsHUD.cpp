@@ -8,6 +8,8 @@
 #include "DawsPlayerController.h"
 #include "DawsVehiclePawn.h"
 #include "DawsMissionSubsystem.h"
+#include "DawsMissionTrigger.h"
+#include "EngineUtils.h"
 #include "Engine/GameInstance.h"
 void ADawsHUD::DrawTextLine(const FString& Text, float X, float Y, float Scale, FLinearColor Color)
 {
@@ -67,6 +69,20 @@ void ADawsHUD::DrawHUD()
             DrawTextLine(FString::Printf(TEXT("MISSION %02d / 15  |  %s"), Missions->GetCampaignMissionNumber(), *Missions->GetCurrentMissionTitle().ToString()), 44, H-145, 0.84f, FLinearColor(1.0f,0.72f,0.25f));
             const TArray<FDawsMissionObjective>& Objectives = Missions->GetObjectives();
             if (Objectives.Num() > 0) DrawTextLine(FString::Printf(TEXT("OBJECTIVE: %s"), *Objectives[0].Description.ToString()), 44, H-108, 0.78f, FLinearColor::White);
+            if (APawn* CurrentPawn = GetOwningPawn()) {
+                for (TActorIterator<ADawsMissionTrigger> It(GetWorld()); It; ++It) {
+                    if (It->MissionId.ToString() != Missions->GetCurrentMissionId()) continue;
+                    const FVector Delta = It->GetActorLocation() - CurrentPawn->GetActorLocation();
+                    const float DistanceMeters = Delta.Size2D() / 100.0f;
+                    const FVector Direction = Delta.GetSafeNormal2D();
+                    const float ForwardDot = FVector::DotProduct(CurrentPawn->GetActorForwardVector().GetSafeNormal2D(), Direction);
+                    const float RightDot = FVector::DotProduct(CurrentPawn->GetActorRightVector().GetSafeNormal2D(), Direction);
+                    const TCHAR* Bearing = ForwardDot > 0.65f ? TEXT("AHEAD") : (ForwardDot < -0.65f ? TEXT("BEHIND") : (RightDot > 0.0f ? TEXT("RIGHT") : TEXT("LEFT")));
+                    DrawTextLine(FString::Printf(TEXT("OBJECTIVE WAYPOINT  |  %.0f m  |  %s"), DistanceMeters, Bearing), W*0.5f-185.0f, 34, 0.9f, FLinearColor(0.95f,0.78f,0.18f));
+                    break;
+                }
+            }
+
             if (Missions->GetRequiredTaskProgress() > 0) {
                 const FString TaskLabel = Missions->GetCurrentTaskType() == TEXT("collect") ? TEXT("SUPPLIES") : (Missions->GetCurrentTaskType() == TEXT("evidence") ? TEXT("EVIDENCE") : (Missions->GetCurrentTaskType() == TEXT("talk") ? TEXT("TALK TO CONTACT") : TEXT("HOSTILES")));
                 DrawTextLine(FString::Printf(TEXT("%s: %d / %d"), *TaskLabel, Missions->GetTaskProgress(), Missions->GetRequiredTaskProgress()), 44, H-225, 0.72f, FLinearColor(0.95f,0.78f,0.18f));
