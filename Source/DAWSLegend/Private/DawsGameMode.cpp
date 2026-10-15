@@ -64,7 +64,7 @@ void ADawsGameMode::SpawnCampaignWorldActors()
     };
     for (int32 Index = 0; Index < 30; ++Index) {
         const float MissionY = 500.0f + Index * 410.0f;
-        const FVector MarkerLocation = Index == 0 ? FVector(500,0,90) : FVector(0, MissionY, 90);
+        const FVector MarkerLocation = Index == 0 ? FVector(-900,300,90) : FVector(0, MissionY, 90);
         ADawsMissionTrigger* Trigger = GetWorld()->SpawnActor<ADawsMissionTrigger>(MarkerLocation, FRotator::ZeroRotator);
         if (Trigger) {
             Trigger->MissionId = FName(MissionNames[Index]);
